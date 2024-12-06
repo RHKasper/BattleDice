@@ -4,9 +4,17 @@ namespace BattleDataModel
 {
     public class MapNode
     {
-        internal List<MapNode> AdjacentMapNodes = new();
-        internal int OwnerPlayerId;
-        internal int NumDice;
-        internal int NodeId;
+        internal readonly List<MapNode> AdjacentMapNodes = new();
+
+        public int NodeId {get; internal set;}
+        public int OwnerPlayerId { get; internal set; } = -1;
+        public int NumDice { get; internal set; } = 0;
+
+        public MapNode(int nodeId)
+        {
+            NodeId = nodeId;
+        }
+        
+        public IReadOnlyList<MapNode> GetAdjacentMapNodes() => AdjacentMapNodes.AsReadOnly();
     }
 }

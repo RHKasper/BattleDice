@@ -8,6 +8,8 @@ namespace BattleDataModel
     {
         private Dictionary<int, MapNode> _nodes;
 
+        public IReadOnlyDictionary<int, MapNode> Nodes => _nodes;
+
         public Map(MapNode rootNode)
         {
             Stack<MapNode> nodesToProcess = new();
