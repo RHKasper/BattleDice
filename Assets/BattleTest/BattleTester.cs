@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using BattleDataModel;
 using UnityEngine;
 
@@ -13,8 +14,28 @@ namespace BattleTest
         [SerializeField] private Transform nodesParent;
 
         private readonly Dictionary<MapNode, MapNodeVisualController> _instantiatedMapNodeVisuals = new();
+
+        private Battle _battle;
     
-        private IEnumerator Start()
+        private async void Start()
+        {
+             //await InitializeBattleWith3Players();
+        }
+
+        public async void InitializeBattleWith3Players()
+        {
+            Player p0 = new Player(0);
+            Player p1 = new Player(1);
+            Player p2 = new Player(2);
+
+            var players = new List<Player>{p0, p1, p2};
+            var map = await InitMap();
+            Battle battle = new Battle(map, players);
+
+            _battle = battle;
+        }
+
+        private async Task<Map> InitMap()
         {
             var map = MapGenUtil.GenerateSimpleMap_LineOfLength4();
 
@@ -24,8 +45,8 @@ namespace BattleTest
                 mapNodeVisual.Initialize(mapNode);
                 _instantiatedMapNodeVisuals.Add(mapNode, mapNodeVisual);
             }
-            
-            yield return new WaitForEndOfFrame();
+
+            await Task.Delay(100);
             
             foreach (var mapNode in map.Nodes.Values)
             {
@@ -34,6 +55,8 @@ namespace BattleTest
                     Instantiate(mapEdgeVisualPrefab, edgesParent).Initialize(_instantiatedMapNodeVisuals[mapNode], _instantiatedMapNodeVisuals[adjacentNode]);
                 }
             }
+
+            return map;
         }
     }
 }
