@@ -40,11 +40,6 @@ namespace BattleTest.Scripts
             activePlayerText.text = "Active Player: " + _battle.ActivePlayer.PlayerID;
         }
 
-        public async void InitializeBattleWith3Players()
-        {
-            await InitializeBattle(3);
-        }
-
         public void OnClickReshuffle()
         {
             _battle.RandomlyAssignTerritories();
