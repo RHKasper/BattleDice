@@ -40,21 +40,19 @@ namespace BattleTest.Scripts
         private async Task InitializeBattle(int playerCount)
         {
             var players = new List<Player>();
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < playerCount; i++)
             {
                 players.Add(new Player(i));    
             }
             
-            var map = await InitMap();
-            Battle battle = new Battle(map, players, 190);
+            var map = MapGenUtil.GenerateSimpleMapAsLine(7);
+            _battle = new Battle(map, players, 190);
             
-            _battle = battle;
+            await GenerateMapVisuals(map);
         }
         
-        private async Task<Map> InitMap()
+        private async Task<Map> GenerateMapVisuals(Map map)
         {
-            var map = MapGenUtil.GenerateSimpleMapAsLine(7);
-
             foreach (var mapNode in map.Nodes.Values)
             {
                 var mapNodeVisual = Instantiate(mapNodeVisualPrefab, nodesParent);
