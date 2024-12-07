@@ -79,11 +79,6 @@ namespace BattleDataModel
             }
         }
 
-        public void Reinforce(int playerId)
-        {
-            
-        }
-
         public void Attack(int attackingSpaceId, int defendingSpaceId)
         {
             
@@ -91,7 +86,18 @@ namespace BattleDataModel
 
         public void EndTurn()
         {
+            Reinforce(_activePlayerIndex);
             _activePlayerIndex = (_activePlayerIndex + 1) % Players.Count;
+        }
+        
+        /// <summary>
+        /// Called at the end of a turn, this method randomly distributes a number of reinforcement dice equal to
+        /// the size of the largest contiguous number of nodes owned by the given <see cref="playerId"/>
+        /// </summary>
+        private void Reinforce(int playerId)
+        {
+            HashSet<MapNode> largestContiguousTerritory = Map.GetLargestContiguousTerritory(playerId);
+            Debug.Log("Largest contiguous territory for player " + playerId + ": " + largestContiguousTerritory.Count);
         }
     }
 }

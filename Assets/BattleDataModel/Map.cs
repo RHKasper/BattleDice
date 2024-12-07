@@ -33,5 +33,43 @@ namespace BattleDataModel
 
             Debug.Log("Nodes processed: " + _nodes.Values.Count);
         }
+        
+        public HashSet<MapNode> GetLargestContiguousTerritory(int owningPlayerId)
+        {
+            HashSet<MapNode> largestYet = new();
+
+            foreach (var node in _nodes.Values)
+            {
+                if (node.OwnerPlayerId == owningPlayerId && !largestYet.Contains(node))
+                {
+                    HashSet<MapNode> connectedNodes = new();
+                    Stack<MapNode> frontierNodes = new Stack<MapNode>();
+                    frontierNodes.Push(node);
+
+                    while (frontierNodes.Count != 0)
+                    {
+                        var tempNode = frontierNodes.Pop();
+                        connectedNodes.Add(tempNode);
+                        
+                        foreach (var adjacentNode in tempNode.AdjacentMapNodes)
+                        {
+                            if (adjacentNode.OwnerPlayerId == owningPlayerId && !connectedNodes.Contains(adjacentNode))
+                            {
+                                frontierNodes.Push(adjacentNode);
+                            }
+                        }
+                    }
+                    
+                    Debug.Log("Contiguous group size: " + connectedNodes.Count);
+                    if (connectedNodes.Count > largestYet.Count)
+                    {
+                        largestYet = connectedNodes;
+                    }
+                    
+                }
+            }
+
+            return largestYet;
+        }
     }
 }

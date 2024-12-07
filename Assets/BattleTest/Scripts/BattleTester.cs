@@ -2,17 +2,24 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BattleDataModel;
+using TMPro;
 using UnityEngine;
 
 namespace BattleTest.Scripts
 {
     public class BattleTester : MonoBehaviour
     {
+        [Header("Settings")]
         [SerializeField] private bool quickInit = true;
+        
+        [Header("Prefab References")]
         [SerializeField] private MapNodeVisualController mapNodeVisualPrefab;
         [SerializeField] private MapEdgeVisualController mapEdgeVisualPrefab;
+        
+        [Header("Scene Object References")]
         [SerializeField] private Transform edgesParent;
         [SerializeField] private Transform nodesParent;
+        [SerializeField] private TextMeshProUGUI activePlayerText;
 
         private readonly Dictionary<MapNode, MapNodeVisualController> _instantiatedMapNodeVisuals = new();
 
@@ -28,6 +35,11 @@ namespace BattleTest.Scripts
             }
         }
 
+        private void Update()
+        {
+            activePlayerText.text = "Active Player: " + _battle.ActivePlayer.PlayerID;
+        }
+
         public async void InitializeBattleWith3Players()
         {
             await InitializeBattle(3);
@@ -36,6 +48,11 @@ namespace BattleTest.Scripts
         public void RandomlyAssignTerritories() => _battle.RandomlyAssignTerritories();
 
         public void RandomlyAllocateStartingReinforcements() => _battle.RandomlyAllocateStartingReinforcements(3);
+
+        public void OnClickEndTurn()
+        {
+            _battle.EndTurn();
+        }
 
         private async Task InitializeBattle(int playerCount)
         {
@@ -64,7 +81,7 @@ namespace BattleTest.Scripts
             
             foreach (var mapNode in map.Nodes.Values)
             {
-                foreach (MapNode adjacentNode in mapNode.GetAdjacentMapNodes())
+                foreach (MapNode adjacentNode in mapNode.AdjacentNodes)
                 {
                     Instantiate(mapEdgeVisualPrefab, edgesParent).Initialize(_instantiatedMapNodeVisuals[mapNode], _instantiatedMapNodeVisuals[adjacentNode]);
                 }

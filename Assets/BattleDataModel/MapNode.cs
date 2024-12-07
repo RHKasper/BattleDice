@@ -14,7 +14,7 @@ namespace BattleDataModel
         {
             NodeId = nodeId;
         }
-        
-        public IReadOnlyList<MapNode> GetAdjacentMapNodes() => AdjacentMapNodes.AsReadOnly();
+
+        public IReadOnlyList<MapNode> AdjacentNodes => AdjacentMapNodes;
     }
 }
