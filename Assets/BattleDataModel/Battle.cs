@@ -8,8 +8,9 @@ namespace BattleDataModel
     public class Battle
     {
         private readonly List<Player> _players;
+        private int _activePlayerIndex = 0;
 
-        public int ActivePlayerIndex { get; private set; }
+        public Player ActivePlayer => _players[_activePlayerIndex];
         public Map Map { get; }
         public IReadOnlyList<Player> Players => _players;
         internal Random Rng { get; private set; }
@@ -89,7 +90,7 @@ namespace BattleDataModel
 
         public void EndTurn()
         {
-            ActivePlayerIndex = (ActivePlayerIndex + 1) % Players.Count;
+            _activePlayerIndex = (_activePlayerIndex + 1) % Players.Count;
         }
     }
 }
