@@ -16,11 +16,6 @@ namespace BattleTest
         private readonly Dictionary<MapNode, MapNodeVisualController> _instantiatedMapNodeVisuals = new();
 
         private Battle _battle;
-    
-        private async void Start()
-        {
-             //await InitializeBattleWith3Players();
-        }
 
         public async void InitializeBattleWith3Players()
         {
@@ -30,7 +25,7 @@ namespace BattleTest
 
             var players = new List<Player>{p0, p1, p2};
             var map = await InitMap();
-            Battle battle = new Battle(map, players);
+            Battle battle = new Battle(map, players, 190);
             
             _battle = battle;
         }
