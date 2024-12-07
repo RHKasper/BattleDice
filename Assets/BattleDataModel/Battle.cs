@@ -97,7 +97,32 @@ namespace BattleDataModel
         private void Reinforce(int playerId)
         {
             HashSet<MapNode> largestContiguousTerritory = Map.GetLargestContiguousTerritory(playerId);
-            Debug.Log("Largest contiguous territory for player " + playerId + ": " + largestContiguousTerritory.Count);
+            int reinforcementsCount = largestContiguousTerritory.Count;
+            List<MapNode> ownedNodes = Map.GetNodesOwnedByPlayer(playerId);
+            List<MapNode> ownedNodesWithRoomForReinforcements = ownedNodes.Where(n => n.NumDice < Constants.MaxDiceInTerritory).ToList();
+
+            for (int i = 0; i < reinforcementsCount; i++)
+            {
+                if (ownedNodesWithRoomForReinforcements.Count == 0)
+                {
+                    HandleNoRoomForReinforcements(reinforcementsCount - i);
+                    break;    
+                }
+                
+                int randomTerritoryIndex = Rng.Next(0, ownedNodesWithRoomForReinforcements.Count);
+                MapNode randomTerritory = ownedNodesWithRoomForReinforcements[randomTerritoryIndex];
+                randomTerritory.NumDice++;
+                
+                if (randomTerritory.NumDice == Constants.MaxDiceInTerritory)
+                {
+                    ownedNodesWithRoomForReinforcements.RemoveAt(randomTerritoryIndex);
+                }
+            }
+        }
+
+        private void HandleNoRoomForReinforcements(int extraReinforcementsAmount)
+        {
+            Debug.Log("No room for " + extraReinforcementsAmount + " extra reinforcements");
         }
     }
 }

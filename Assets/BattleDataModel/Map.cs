@@ -71,5 +71,10 @@ namespace BattleDataModel
 
             return largestYet;
         }
+
+        public List<MapNode> GetNodesOwnedByPlayer(int owningPlayerId)
+        {
+            return _nodes.Values.Where(n => n.OwnerPlayerId == owningPlayerId).ToList();
+        }
     }
 }
