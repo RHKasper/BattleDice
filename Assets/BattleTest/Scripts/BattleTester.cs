@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BattleDataModel;
@@ -7,6 +8,7 @@ namespace BattleTest.Scripts
 {
     public class BattleTester : MonoBehaviour
     {
+        [SerializeField] private bool quickInit = true;
         [SerializeField] private MapNodeVisualController mapNodeVisualPrefab;
         [SerializeField] private MapEdgeVisualController mapEdgeVisualPrefab;
         [SerializeField] private Transform edgesParent;
@@ -16,23 +18,39 @@ namespace BattleTest.Scripts
 
         private Battle _battle;
 
+        private async void Start()
+        {
+            if (quickInit)
+            {
+                await InitializeBattle(3);
+                RandomlyAssignTerritories();
+                RandomlyAllocateStartingReinforcements();
+            }
+        }
+
         public async void InitializeBattleWith3Players()
         {
-            Player p0 = new Player(0);
-            Player p1 = new Player(1);
-            Player p2 = new Player(2);
-
-            var players = new List<Player>{p0, p1, p2};
-            var map = await InitMap();
-            Battle battle = new Battle(map, players, 190);
-            
-            _battle = battle;
+            await InitializeBattle(3);
         }
 
         public void RandomlyAssignTerritories() => _battle.RandomlyAssignTerritories();
 
         public void RandomlyAllocateStartingReinforcements() => _battle.RandomlyAllocateStartingReinforcements(3);
 
+        private async Task InitializeBattle(int playerCount)
+        {
+            var players = new List<Player>();
+            for (int i = 0; i < 3; i++)
+            {
+                players.Add(new Player(i));    
+            }
+            
+            var map = await InitMap();
+            Battle battle = new Battle(map, players, 190);
+            
+            _battle = battle;
+        }
+        
         private async Task<Map> InitMap()
         {
             var map = MapGenUtil.GenerateSimpleMapAsLine(7);
