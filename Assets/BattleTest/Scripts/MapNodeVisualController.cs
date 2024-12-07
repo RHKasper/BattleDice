@@ -8,7 +8,8 @@ namespace BattleTest
 {
     public class MapNodeVisualController : MonoBehaviour
     {
-        [SerializeField] private Image image;
+        [SerializeField] private Image background;
+        [SerializeField] private Image diceFill;
         [SerializeField] private TextMeshProUGUI text;
 
         private MapNode _mapNode;
@@ -16,10 +17,11 @@ namespace BattleTest
         private void Update()
         {
             text.text = $"ID: {_mapNode.NodeId}\nOwnerID: {_mapNode.OwnerPlayerId}\nDice: {_mapNode.NumDice}";
+            diceFill.fillAmount = _mapNode.NumDice / 8f;
 
             if (_mapNode.OwnerPlayerId != -1)
             {
-                image.color = PlayerColors.Colors[_mapNode.OwnerPlayerId];
+                background.color = PlayerColors.Colors[_mapNode.OwnerPlayerId];
             }
         }
 
