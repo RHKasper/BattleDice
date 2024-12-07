@@ -30,8 +30,8 @@ namespace BattleTest.Scripts
             if (quickInit)
             {
                 await InitializeBattle(3);
-                RandomlyAssignTerritories();
-                RandomlyAllocateStartingReinforcements();
+                _battle.RandomlyAssignTerritories();
+                _battle.RandomlyAllocateStartingReinforcements(3);
             }
         }
 
@@ -45,10 +45,12 @@ namespace BattleTest.Scripts
             await InitializeBattle(3);
         }
 
-        public void RandomlyAssignTerritories() => _battle.RandomlyAssignTerritories();
-
-        public void RandomlyAllocateStartingReinforcements() => _battle.RandomlyAllocateStartingReinforcements(3);
-
+        public void OnClickReshuffle()
+        {
+            _battle.RandomlyAssignTerritories();
+            _battle.RandomlyAllocateStartingReinforcements(3);
+        }
+        
         public void OnClickEndTurn()
         {
             _battle.EndTurn();
@@ -62,7 +64,7 @@ namespace BattleTest.Scripts
                 players.Add(new Player(i));    
             }
             
-            var map = MapGenUtil.GenerateSimpleMapAsLine(7);
+            var map = MapGenUtil.GenerateSimpleMapAsLine(20);
             _battle = new Battle(map, players, 190);
             
             await GenerateMapVisuals(map);
