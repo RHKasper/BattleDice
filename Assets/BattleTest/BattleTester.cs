@@ -31,6 +31,7 @@ namespace BattleTest
             var players = new List<Player>{p0, p1, p2};
             var map = await InitMap();
             Battle battle = new Battle(map, players);
+            battle.RandomlyAssignTerritories();
 
             _battle = battle;
         }
