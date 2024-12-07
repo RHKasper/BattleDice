@@ -1,6 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
+using Random = System.Random;
 
 namespace BattleDataModel
 {
@@ -9,7 +10,7 @@ namespace BattleDataModel
         private readonly List<Player> _players;
 
         public int ActivePlayerIndex { get; private set; }
-        public Map Map { get; private set; }
+        public Map Map { get; }
         public IReadOnlyList<Player> Players => _players;
 
         public Battle(Map map, List<Player> players)
@@ -45,6 +46,16 @@ namespace BattleDataModel
                     shuffledNodes[i].NumDice = 1;
                 }
             }
+        }
+
+        public void RandomlyAllocateStartingReinforcements(int startingReinforcements)
+        {
+            if (Map.Nodes.Values.Any(n => n.OwnerPlayerId == -1))
+            {
+                Debug.Log("All map territories (nodes) must belong to a player before starting reinforcements are applied");
+            }
+            
+            //todo
         }
 
         public void Reinforce(int playerId)

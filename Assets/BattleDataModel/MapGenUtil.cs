@@ -4,17 +4,20 @@ namespace BattleDataModel
 {
     public static class MapGenUtil
     {
-        public static Map GenerateSimpleMap_LineOfLength4()
+        public static Map GenerateSimpleMapAsLine(int numNodes)
         {
             int idCount = -1;
-            MapNode node0 = new MapNode(++idCount);
-            MapNode node1 = new MapNode(++idCount);
-            MapNode node2 = new MapNode(++idCount);
-            MapNode node3 = new MapNode(++idCount);
+            var nodes = new List<MapNode>();
 
-            LinkAsLine(new List<MapNode> { node0, node1, node2, node3 });
+            for (int i = 0; i < numNodes; i++)
+            {
+                MapNode node = new MapNode(++idCount);
+                nodes.Add(node);
+            }
+            
+            LinkAsLine(nodes);
 
-            return new Map(node0);
+            return new Map(nodes[0]);
         }
 
         private static void LinkAsLine(List<MapNode> mapNodes)

@@ -31,14 +31,17 @@ namespace BattleTest
             var players = new List<Player>{p0, p1, p2};
             var map = await InitMap();
             Battle battle = new Battle(map, players);
-            battle.RandomlyAssignTerritories();
-
+            
             _battle = battle;
         }
 
+        public void RandomlyAssignTerritories() => _battle.RandomlyAssignTerritories();
+
+        public void RandomlyAllocateStartingReinforcements() => _battle.RandomlyAllocateStartingReinforcements(3);
+
         private async Task<Map> InitMap()
         {
-            var map = MapGenUtil.GenerateSimpleMap_LineOfLength4();
+            var map = MapGenUtil.GenerateSimpleMapAsLine(7);
 
             foreach (var mapNode in map.Nodes.Values)
             {
