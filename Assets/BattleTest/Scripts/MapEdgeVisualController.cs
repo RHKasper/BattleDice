@@ -1,7 +1,6 @@
-using System;
 using UnityEngine;
 
-namespace BattleTest
+namespace BattleTest.Scripts
 {
     public class MapEdgeVisualController : MonoBehaviour
     {

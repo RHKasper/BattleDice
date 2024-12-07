@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BattleTest
+namespace BattleTest.Scripts
 {
     public static class PlayerColors
     {

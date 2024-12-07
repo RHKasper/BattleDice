@@ -1,10 +1,9 @@
-using System;
 using BattleDataModel;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace BattleTest
+namespace BattleTest.Scripts
 {
     public class MapNodeVisualController : MonoBehaviour
     {

@@ -1,10 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BattleDataModel;
 using UnityEngine;
 
-namespace BattleTest
+namespace BattleTest.Scripts
 {
     public class BattleTester : MonoBehaviour
     {

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -50,7 +51,7 @@ namespace BattleDataModel
         {
             if (Map.Nodes.Values.Any(n => n.OwnerPlayerId == -1))
             {
-                Debug.Log("All map territories (nodes) must belong to a player before starting reinforcements are applied");
+                throw new Exception("All map territories (nodes) must belong to a player before starting reinforcements are applied");
             }
 
             Dictionary<int, List<MapNode>> playerNodes = new();
