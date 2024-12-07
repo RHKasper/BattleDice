@@ -51,7 +51,7 @@ namespace BattleTest.Scripts
             await GenerateMapVisuals(map);
         }
         
-        private async Task<Map> GenerateMapVisuals(Map map)
+        private async Task GenerateMapVisuals(Map map)
         {
             foreach (var mapNode in map.Nodes.Values)
             {
@@ -69,8 +69,6 @@ namespace BattleTest.Scripts
                     Instantiate(mapEdgeVisualPrefab, edgesParent).Initialize(_instantiatedMapNodeVisuals[mapNode], _instantiatedMapNodeVisuals[adjacentNode]);
                 }
             }
-
-            return map;
         }
     }
 }
