@@ -61,7 +61,7 @@ namespace BattleDataModel
                         }
                     }
                     
-                    Debug.Log("Contiguous Area: " + connectedNodes.Count);
+                    //Debug.Log("Contiguous Area: " + connectedNodes.Count);
                     
                     if (connectedNodes.Count > largestYet.Count)
                     {

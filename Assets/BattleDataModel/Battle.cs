@@ -122,6 +122,8 @@ namespace BattleDataModel
             List<MapNode> ownedNodes = Map.GetNodesOwnedByPlayer(playerId);
             List<MapNode> ownedNodesWithRoomForReinforcements = ownedNodes.Where(n => n.NumDice < Constants.MaxDiceInTerritory).ToList();
 
+            Debug.Log("Adding " + reinforcementsCount + " reinforcements for player " + playerId);
+            
             for (int i = 0; i < reinforcementsCount; i++)
             {
                 if (ownedNodesWithRoomForReinforcements.Count == 0)
