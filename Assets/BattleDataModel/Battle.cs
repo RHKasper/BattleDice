@@ -89,17 +89,18 @@ namespace BattleDataModel
             int defenseRollSum = defendingRoll.Sum();
 
             bool attackerWins = attackRollSum > defenseRollSum;
+            string resultsString = attackRollSum + " vs " + defenseRollSum + " ([" + string.Join(", ", attackingRoll) + "] vs [" + string.Join(", ", defendingRoll) + "]";
 
             if (attackerWins)
             {
-                Debug.Log("Attacker wins: " + attackRollSum + " vs " + defenseRollSum);
+                Debug.Log("Attacker wins: " + resultsString);
                 defendingSpace.NumDice = attackingSpace.NumDice - 1;
                 attackingSpace.NumDice = 1;
                 defendingSpace.OwnerPlayerId = attackingSpace.OwnerPlayerId;
             }
             else
             {
-                Debug.Log("Defender wins: " + attackRollSum + " vs " + defenseRollSum);
+                Debug.Log("Defender wins: " + resultsString);
 
                 attackingSpace.NumDice = 1;
             }

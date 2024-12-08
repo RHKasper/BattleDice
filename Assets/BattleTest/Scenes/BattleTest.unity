@@ -537,7 +537,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1186872495}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
   m_Name: 
@@ -770,6 +770,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   quickInit: 1
+  playerCount: 7
+  startingReinforcements: 6
   mapNodeVisualPrefab: {fileID: 2796633796793049055, guid: c02daca0e1557fd4393bae9801382c37, type: 3}
   mapEdgeVisualPrefab: {fileID: 3612468435193083318, guid: 4afcb01d31fafba40a1feabdc965eb0e, type: 3}
   edgesParent: {fileID: 1854552852}

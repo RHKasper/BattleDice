@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BattleDataModel;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace BattleTest.Scripts
 {
@@ -12,6 +13,9 @@ namespace BattleTest.Scripts
     {
         [Header("Settings")]
         [SerializeField] private bool quickInit = true;
+        [SerializeField] private int playerCount = 3;
+        [SerializeField] private int startingReinforcements = 3;
+        
         
         [Header("Prefab References")]
         [SerializeField] private MapNodeVisualController mapNodeVisualPrefab;
@@ -49,9 +53,9 @@ namespace BattleTest.Scripts
         {
             if (quickInit)
             {
-                await InitializeBattle(3);
+                await InitializeBattle(playerCount);
                 Battle.RandomlyAssignTerritories();
-                Battle.RandomlyAllocateStartingReinforcements(3);
+                Battle.RandomlyAllocateStartingReinforcements(startingReinforcements);
             }
         }
 
@@ -66,7 +70,7 @@ namespace BattleTest.Scripts
         public void OnClickReshuffle()
         {
             Battle.RandomlyAssignTerritories();
-            Battle.RandomlyAllocateStartingReinforcements(3);
+            Battle.RandomlyAllocateStartingReinforcements(startingReinforcements);
         }
         
         public void OnClickEndTurn()
