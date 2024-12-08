@@ -22,33 +22,52 @@ namespace BattleTest.Scripts
         [SerializeField] private TextMeshProUGUI activePlayerText;
 
         private readonly Dictionary<MapNode, MapNodeVisualController> _instantiatedMapNodeVisuals = new();
+        private MapNodeVisualController _selectedNode;
+        
+        internal Battle Battle { get; private set; }
+        public MapNodeVisualController SelectedNode
+        {
+            get => _selectedNode;
+            set
+            {
+                if (_selectedNode)
+                {
+                    _selectedNode.OnDeselected();
+                }
+                
+                _selectedNode = value;
 
-        private Battle _battle;
+                if (_selectedNode)
+                {
+                    _selectedNode.OnSelected();
+                }
+            }
+        }
 
         private async void Start()
         {
             if (quickInit)
             {
                 await InitializeBattle(3);
-                _battle.RandomlyAssignTerritories();
-                _battle.RandomlyAllocateStartingReinforcements(3);
+                Battle.RandomlyAssignTerritories();
+                Battle.RandomlyAllocateStartingReinforcements(3);
             }
         }
 
         private void Update()
         {
-            activePlayerText.text = "Active Player: " + _battle.ActivePlayer.PlayerID;
+            activePlayerText.text = "Active Player: " + Battle.ActivePlayer.PlayerID;
         }
 
         public void OnClickReshuffle()
         {
-            _battle.RandomlyAssignTerritories();
-            _battle.RandomlyAllocateStartingReinforcements(3);
+            Battle.RandomlyAssignTerritories();
+            Battle.RandomlyAllocateStartingReinforcements(3);
         }
         
         public void OnClickEndTurn()
         {
-            _battle.EndTurn();
+            Battle.EndTurn();
         }
 
         private async Task InitializeBattle(int playerCount)
@@ -60,7 +79,7 @@ namespace BattleTest.Scripts
             }
             
             var map = MapGenUtil.GenerateSimpleMapAsLine(20);
-            _battle = new Battle(map, players, 190);
+            Battle = new Battle(map, players, 190);
             
             await GenerateMapVisuals(map);
         }
@@ -70,7 +89,7 @@ namespace BattleTest.Scripts
             foreach (var mapNode in map.Nodes.Values)
             {
                 var mapNodeVisual = Instantiate(mapNodeVisualPrefab, nodesParent);
-                mapNodeVisual.Initialize(mapNode);
+                mapNodeVisual.Initialize(mapNode, this);
                 _instantiatedMapNodeVisuals.Add(mapNode, mapNodeVisual);
             }
 
