@@ -3,6 +3,7 @@ using BattleDataModel;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace BattleTest.Scripts
@@ -11,7 +12,8 @@ namespace BattleTest.Scripts
     {
         [SerializeField] private Texture2D defaultCursor;
         [SerializeField] private Texture2D interactableCursor;
-        
+
+        [SerializeField] public RectTransform rectTransform;
         [SerializeField] private Image background;
         [SerializeField] private Image diceFill;
         [SerializeField] private Image selectionHighlight;

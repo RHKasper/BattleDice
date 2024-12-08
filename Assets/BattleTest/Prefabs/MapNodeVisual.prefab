@@ -407,7 +407,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 200}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7359688180790753872
 CanvasRenderer:
@@ -431,6 +431,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultCursor: {fileID: 2800000, guid: 1e5528ce82b8e5d4ca23cb162ed90bfe, type: 3}
   interactableCursor: {fileID: 2800000, guid: c1f9872ee9e3b5f45b0bbeb924b7aa38, type: 3}
+  rectTransform: {fileID: 6656609668107616177}
   background: {fileID: 7007968496434971849}
   diceFill: {fileID: 1486244626554627143}
   selectionHighlight: {fileID: 1145453025706460843}

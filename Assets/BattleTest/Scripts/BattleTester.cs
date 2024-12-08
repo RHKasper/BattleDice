@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using BattleDataModel;
 using TMPro;
@@ -56,7 +57,10 @@ namespace BattleTest.Scripts
 
         private void Update()
         {
-            activePlayerText.text = "Active Player: " + Battle.ActivePlayer.PlayerID;
+            if (Battle != null)
+            {
+                activePlayerText.text = "Active Player: " + Battle.ActivePlayer.PlayerID;
+            }
         }
 
         public void OnClickReshuffle()
@@ -78,7 +82,8 @@ namespace BattleTest.Scripts
                 players.Add(new Player(i));    
             }
             
-            var map = MapGenUtil.GenerateSimpleMapAsLine(20);
+            //var map = MapGenUtil.GenerateSimpleMapAsLine(20);
+            var map = MapGenUtil.GenerateCircleMap(25);
             Battle = new Battle(map, players, 190);
             
             await GenerateMapVisuals(map);
@@ -86,13 +91,7 @@ namespace BattleTest.Scripts
         
         private async Task GenerateMapVisuals(Map map)
         {
-            foreach (var mapNode in map.Nodes.Values)
-            {
-                var mapNodeVisual = Instantiate(mapNodeVisualPrefab, nodesParent);
-                mapNodeVisual.Initialize(mapNode, this);
-                _instantiatedMapNodeVisuals.Add(mapNode, mapNodeVisual);
-            }
-
+            await GenerateNodeVisualsInConcentricCircles(map);
             await Task.Delay(100);
             
             foreach (var mapNode in map.Nodes.Values)
@@ -102,6 +101,65 @@ namespace BattleTest.Scripts
                     Instantiate(mapEdgeVisualPrefab, edgesParent).Initialize(_instantiatedMapNodeVisuals[mapNode], _instantiatedMapNodeVisuals[adjacentNode]);
                 }
             }
+        }
+
+        private async Task GenerateNodeVisualsInConcentricCircles(Map map)
+        {
+            var rootNode = map.Nodes.Values.First();
+            HashSet<MapNode> discoveredNodes = new HashSet<MapNode>();
+            Queue<MapNode> frontierNodesPastCurrentDepth = new Queue<MapNode>();
+            Queue<MapNode> frontierNodesAtCurrentDepth = new Queue<MapNode>();
+            int depth = 0;
+            
+            frontierNodesAtCurrentDepth.Enqueue(rootNode);
+
+            while (frontierNodesPastCurrentDepth.Any() || frontierNodesAtCurrentDepth.Any())
+            {
+                int numNodesAtCurrentDepth = frontierNodesAtCurrentDepth.Count;
+                int numNodesProcessedAtCurrentDepth = 0;
+                
+                while (frontierNodesAtCurrentDepth.Any())
+                {
+                    var currentNode = frontierNodesAtCurrentDepth.Dequeue();                    
+                    var currentMapNodeVisual = InstantiateMapNodeVisual(currentNode);
+
+                    float radius = depth * 1.1f * mapNodeVisualPrefab.rectTransform.sizeDelta.x;
+                    float irrationalOffset = .01f * (float)Math.E * depth;
+                    float angleInRadians = irrationalOffset + 2 * Mathf.PI * (numNodesProcessedAtCurrentDepth - (depth-1)) / numNodesAtCurrentDepth;
+                    currentMapNodeVisual.rectTransform.anchoredPosition = radius * new Vector2(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians));
+
+                    // manage traversal
+                    discoveredNodes.Add(currentNode);
+                    foreach (MapNode adjacentNode in currentNode.AdjacentNodes)
+                    {
+                        if (!discoveredNodes.Contains(adjacentNode) &&
+                            !frontierNodesAtCurrentDepth.Contains(adjacentNode) &&
+                            !frontierNodesPastCurrentDepth.Contains(adjacentNode))
+                        {
+                            frontierNodesPastCurrentDepth.Enqueue(adjacentNode);
+                        }
+                    }
+                    
+                    numNodesProcessedAtCurrentDepth++;
+                }
+
+                frontierNodesAtCurrentDepth = frontierNodesPastCurrentDepth;
+                frontierNodesPastCurrentDepth = new Queue<MapNode>();
+                depth++;
+            }
+
+            // foreach (var mapNode in map.Nodes.Values)
+            // {
+            //     GenerateMapNodeVisual(mapNode);
+            // }   
+        }
+
+        private MapNodeVisualController InstantiateMapNodeVisual(MapNode mapNode)
+        {
+            var mapNodeVisual = Instantiate(mapNodeVisualPrefab, nodesParent);
+            mapNodeVisual.Initialize(mapNode, this);
+            _instantiatedMapNodeVisuals.Add(mapNode, mapNodeVisual);
+            return mapNodeVisual;
         }
     }
 }

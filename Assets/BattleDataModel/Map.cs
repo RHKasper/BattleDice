@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,7 +7,7 @@ namespace BattleDataModel
 {
     public class Map
     {
-        private Dictionary<int, MapNode> _nodes;
+        private readonly Dictionary<int, MapNode> _nodes;
 
         public IReadOnlyDictionary<int, MapNode> Nodes => _nodes;
 
@@ -24,23 +25,23 @@ namespace BattleDataModel
 
                 foreach (MapNode adjacentMapNode in currentNode.AdjacentMapNodes)
                 {
-                    if (!_nodes.ContainsKey(adjacentMapNode.NodeId))
+                    if (!nodesToProcess.Contains(adjacentMapNode) && !_nodes.ContainsKey(adjacentMapNode.NodeId))
                     {
                         nodesToProcess.Push(adjacentMapNode);
                     }
                 }
             }
-
-            Debug.Log("Nodes processed: " + _nodes.Values.Count);
+            
+            MapValidator.ValidateMapGraph(this);
         }
         
-        public HashSet<MapNode> GetLargestContiguousTerritory(int owningPlayerId)
+        public HashSet<MapNode> GetLargestContiguousTerritory(int? owningPlayerId)
         {
             HashSet<MapNode> largestYet = new();
 
             foreach (var node in _nodes.Values)
             {
-                if (node.OwnerPlayerId == owningPlayerId && !largestYet.Contains(node))
+                if ((!owningPlayerId.HasValue || node.OwnerPlayerId == owningPlayerId) && !largestYet.Contains(node))
                 {
                     HashSet<MapNode> connectedNodes = new();
                     Stack<MapNode> frontierNodes = new Stack<MapNode>();
@@ -53,14 +54,15 @@ namespace BattleDataModel
                         
                         foreach (var adjacentNode in tempNode.AdjacentMapNodes)
                         {
-                            if (adjacentNode.OwnerPlayerId == owningPlayerId && !connectedNodes.Contains(adjacentNode))
+                            if ((!owningPlayerId.HasValue || adjacentNode.OwnerPlayerId == owningPlayerId) && !connectedNodes.Contains(adjacentNode))
                             {
                                 frontierNodes.Push(adjacentNode);
                             }
                         }
                     }
                     
-                    Debug.Log("Contiguous group size: " + connectedNodes.Count);
+                    Debug.Log("Contiguous Area: " + connectedNodes.Count);
+                    
                     if (connectedNodes.Count > largestYet.Count)
                     {
                         largestYet = connectedNodes;
