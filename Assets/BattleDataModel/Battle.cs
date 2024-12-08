@@ -79,9 +79,30 @@ namespace BattleDataModel
             }
         }
 
-        public void Attack(int attackingSpaceId, int defendingSpaceId)
+        public void Attack(MapNode attackingSpace, MapNode defendingSpace)
         {
+            Debug.Log("node " + attackingSpace.NodeId + " attacks node " + defendingSpace.NodeId);
             
+            List<int> attackingRoll = DiceRoller.RollDice(attackingSpace.NumDice, Rng);
+            List<int> defendingRoll = DiceRoller.RollDice(defendingSpace.NumDice, Rng);
+            int attackRollSum = attackingRoll.Sum();
+            int defenseRollSum = defendingRoll.Sum();
+
+            bool attackerWins = attackRollSum > defenseRollSum;
+
+            if (attackerWins)
+            {
+                Debug.Log("Attacker wins: " + attackRollSum + " vs " + defenseRollSum);
+                defendingSpace.NumDice = attackingSpace.NumDice - 1;
+                attackingSpace.NumDice = 1;
+                defendingSpace.OwnerPlayerId = attackingSpace.OwnerPlayerId;
+            }
+            else
+            {
+                Debug.Log("Defender wins: " + attackRollSum + " vs " + defenseRollSum);
+
+                attackingSpace.NumDice = 1;
+            }
         }
 
         public void EndTurn()

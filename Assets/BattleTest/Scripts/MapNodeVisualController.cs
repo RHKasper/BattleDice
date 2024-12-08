@@ -53,7 +53,8 @@ namespace BattleTest.Scripts
         {
             if (ATerritoryIsSelected && CanBeAttacked)
             {
-                Debug.Log("Todo: execute attack");
+                _battleTester.Battle.Attack(_battleTester.SelectedNode._mapNode, _mapNode);
+                _battleTester.SelectedNode = null;
             }
             else if (!ATerritoryIsSelected && CanAttack)
             {
