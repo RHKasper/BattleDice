@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BattleDataModel;
+using BattleTest.MapVisuals;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -11,11 +12,12 @@ namespace BattleTest.Scripts
 {
     public class BattleTester : MonoBehaviour
     {
+        public event Action BattleInitialized; 
+        
         [Header("Settings")]
         [SerializeField] private bool quickInit = true;
         [SerializeField] private int playerCount = 3;
         [SerializeField] private int startingReinforcements = 3;
-        
         
         [Header("Prefab References")]
         [SerializeField] private MapNodeVisualController mapNodeVisualPrefab;
@@ -54,6 +56,8 @@ namespace BattleTest.Scripts
             if (quickInit)
             {
                 await InitializeBattle(playerCount);
+                BattleInitialized?.Invoke();
+                
                 Battle.RandomlyAssignTerritories();
                 Battle.RandomlyAllocateStartingReinforcements(startingReinforcements);
             }

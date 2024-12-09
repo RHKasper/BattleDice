@@ -8,13 +8,18 @@ namespace BattleDataModel
 {
     public class Battle
     {
+        public event EventHandler<BattleEvents.StartingTerritoriesAssignedArgs> StartingTerritoriesAssigned;
+        public event EventHandler<BattleEvents.StartingReinforcementsAllocatedArgs> StartingReinforcementsAllocated;
+        public event EventHandler<BattleEvents.TerritoryCapturedArgs> TerritoryCaptured;
+        
         private readonly List<Player> _players;
         private int _activePlayerIndex = 0;
-
-        public Player ActivePlayer => _players[_activePlayerIndex];
+        
         public Map Map { get; }
+        internal Random Rng { get; }
+        public Player ActivePlayer => _players[_activePlayerIndex];
         public IReadOnlyList<Player> Players => _players;
-        internal Random Rng { get; private set; }
+
 
         public Battle(Map map, List<Player> players, int randomSeed)
         {
@@ -45,6 +50,8 @@ namespace BattleDataModel
 
                 shuffledNodes[i].OwnerPlayerId = shuffledPlayers[playerIndex].PlayerID;
             }
+            
+            StartingTerritoriesAssigned?.Invoke(this, new BattleEvents.StartingTerritoriesAssignedArgs(this));
         }
 
         public void RandomlyAllocateStartingReinforcements(int startingReinforcements)
@@ -77,6 +84,8 @@ namespace BattleDataModel
                     // todo: trigger dice changed event?
                 }
             }
+            
+            StartingReinforcementsAllocated?.Invoke(this, new BattleEvents.StartingReinforcementsAllocatedArgs(this));
         }
 
         public void Attack(MapNode attackingSpace, MapNode defendingSpace)
@@ -96,12 +105,11 @@ namespace BattleDataModel
                 Debug.Log("Attacker wins: " + resultsString);
                 defendingSpace.NumDice = attackingSpace.NumDice - 1;
                 attackingSpace.NumDice = 1;
-                defendingSpace.OwnerPlayerId = attackingSpace.OwnerPlayerId;
+                ChangeTerritoryOwnership(defendingSpace, attackingSpace.OwnerPlayerId);
             }
             else
             {
                 Debug.Log("Defender wins: " + resultsString);
-
                 attackingSpace.NumDice = 1;
             }
         }
@@ -147,6 +155,14 @@ namespace BattleDataModel
         private void HandleNoRoomForReinforcements(int extraReinforcementsAmount)
         {
             Debug.Log("No room for " + extraReinforcementsAmount + " extra reinforcements");
+        }
+
+        private void ChangeTerritoryOwnership(MapNode territory, int newOwnerPlayerId)
+        {
+            var eventArgs = new BattleEvents.TerritoryCapturedArgs(territory, territory.OwnerPlayerId);
+            territory.OwnerPlayerId = newOwnerPlayerId;
+            // todo: handle player elimination and end game
+            TerritoryCaptured?.Invoke(this, eventArgs);
         }
     }
 }

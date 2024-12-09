@@ -34,6 +34,21 @@ namespace BattleDataModel
             
             MapValidator.ValidateMapGraph(this);
         }
+
+        public HashSet<MapNode> GetTerritories(int owningPlayerId)
+        {
+            HashSet<MapNode> territories = new();
+
+            foreach (var node in _nodes.Values)
+            {
+                if (node.OwnerPlayerId == owningPlayerId)
+                {
+                    territories.Add(node);
+                }
+            }
+
+            return territories;
+        }
         
         public HashSet<MapNode> GetLargestContiguousTerritory(int? owningPlayerId)
         {

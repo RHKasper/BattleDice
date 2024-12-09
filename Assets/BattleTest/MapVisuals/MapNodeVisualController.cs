@@ -1,12 +1,11 @@
-using System.Linq;
 using BattleDataModel;
+using BattleTest.Scripts;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-namespace BattleTest.Scripts
+namespace BattleTest.MapVisuals
 {
     public class MapNodeVisualController : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IPointerExitHandler
     {
