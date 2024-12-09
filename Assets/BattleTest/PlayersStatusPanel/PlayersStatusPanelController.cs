@@ -26,14 +26,16 @@ namespace BattleTest.PlayersStatusPanel
         {
             battleTester.Battle.StartingTerritoriesAssigned += OnStartingTerritoriesAssigned;
             battleTester.Battle.StartingReinforcementsAllocated += OnStartingReinforcementsAllocated;
-            battleTester.Battle.TerritoryCaptured += OnTerritoryCaptured;
+            battleTester.Battle.AttackFinished += OnAttackFinished;
+            battleTester.Battle.ReinforcementsApplied += OnReinforcementsApplied;
         }
 
         private void OnDestroy()
         {
             battleTester.Battle.StartingTerritoriesAssigned -= OnStartingTerritoriesAssigned;
             battleTester.Battle.StartingReinforcementsAllocated -= OnStartingReinforcementsAllocated;
-            battleTester.Battle.TerritoryCaptured -= OnTerritoryCaptured;
+            battleTester.Battle.AttackFinished -= OnAttackFinished;
+            battleTester.Battle.ReinforcementsApplied -= OnReinforcementsApplied;
         }
 
         private void OnStartingTerritoriesAssigned(object sender, BattleEvents.StartingTerritoriesAssignedArgs e)
@@ -65,10 +67,15 @@ namespace BattleTest.PlayersStatusPanel
             }
         }
         
-        private void OnTerritoryCaptured(object sender, BattleEvents.TerritoryCapturedArgs args)
+        private void OnAttackFinished(object sender, BattleEvents.AttackFinishedArgs args)
         {
-            _playerStatusBoxes[args.PreviousOwnerPlayerId].SetData(args.PreviousOwnerPlayerId, battleTester.Battle.Map);
-            _playerStatusBoxes[args.CapturedTerritory.OwnerPlayerId].SetData(args.CapturedTerritory.OwnerPlayerId, battleTester.Battle.Map);
+            _playerStatusBoxes[args.AttackingPlayerId].SetData(args.AttackingPlayerId, battleTester.Battle.Map);
+            _playerStatusBoxes[args.DefendingPlayerId].SetData(args.DefendingPlayerId, battleTester.Battle.Map);
+        }
+        
+        private void OnReinforcementsApplied(object sender, BattleEvents.ReinforcementsAppliedArgs e)
+        {
+            _playerStatusBoxes[e.PlayerId].SetData(e.PlayerId, battleTester.Battle.Map);
         }
     }
 }

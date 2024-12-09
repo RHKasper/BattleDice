@@ -11,6 +11,8 @@ namespace BattleDataModel
         public event EventHandler<BattleEvents.StartingTerritoriesAssignedArgs> StartingTerritoriesAssigned;
         public event EventHandler<BattleEvents.StartingReinforcementsAllocatedArgs> StartingReinforcementsAllocated;
         public event EventHandler<BattleEvents.TerritoryCapturedArgs> TerritoryCaptured;
+        public event EventHandler<BattleEvents.AttackFinishedArgs> AttackFinished;
+        public event EventHandler<BattleEvents.ReinforcementsAppliedArgs> ReinforcementsApplied;
         
         private readonly List<Player> _players;
         private int _activePlayerIndex = 0;
@@ -91,7 +93,7 @@ namespace BattleDataModel
         public void Attack(MapNode attackingSpace, MapNode defendingSpace)
         {
             Debug.Log("node " + attackingSpace.NodeId + " attacks node " + defendingSpace.NodeId);
-            
+
             List<int> attackingRoll = DiceRoller.RollDice(attackingSpace.NumDice, Rng);
             List<int> defendingRoll = DiceRoller.RollDice(defendingSpace.NumDice, Rng);
             int attackRollSum = attackingRoll.Sum();
@@ -99,7 +101,9 @@ namespace BattleDataModel
 
             bool attackerWins = attackRollSum > defenseRollSum;
             string resultsString = attackRollSum + " vs " + defenseRollSum + " ([" + string.Join(", ", attackingRoll) + "] vs [" + string.Join(", ", defendingRoll) + "]";
-
+            
+            var attackFinishedEventArgs = new BattleEvents.AttackFinishedArgs(attackingSpace.OwnerPlayerId, defendingSpace.OwnerPlayerId, attackingSpace, defendingSpace, attackerWins);
+            
             if (attackerWins)
             {
                 Debug.Log("Attacker wins: " + resultsString);
@@ -112,6 +116,8 @@ namespace BattleDataModel
                 Debug.Log("Defender wins: " + resultsString);
                 attackingSpace.NumDice = 1;
             }
+
+            AttackFinished?.Invoke(this, attackFinishedEventArgs);
         }
 
         public void EndTurn()
@@ -150,6 +156,8 @@ namespace BattleDataModel
                     ownedNodesWithRoomForReinforcements.RemoveAt(randomTerritoryIndex);
                 }
             }
+            
+            ReinforcementsApplied?.Invoke(this, new BattleEvents.ReinforcementsAppliedArgs(_activePlayerIndex));
         }
 
         private void HandleNoRoomForReinforcements(int extraReinforcementsAmount)
