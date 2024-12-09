@@ -1,3 +1,4 @@
+using System.Linq;
 using BattleDataModel;
 using BattleTest.Scripts;
 using TMPro;
@@ -13,11 +14,12 @@ namespace BattleTest.PlayersStatusPanel
 
         public void SetData(int playerId, Map map)
         {
-            int territories = map.GetTerritories(playerId).Count;
+            var territories = map.GetTerritories(playerId);
             int reinforcementCount = map.GetLargestContiguousTerritory(playerId).Count;
+            int totalDice = territories.Sum(t => t.NumDice);
             
             backgroundImage.color = PlayerColors.Colors[playerId];
-            text.text = "Player ID: " + playerId + "\nTerritories: " + territories + "\n\nReinforcements: " + reinforcementCount;
+            text.text = "Player ID: " + playerId + "\nTerritories: " + territories.Count + "\nTotal Dice: " + totalDice + "\nReinforcements: " + reinforcementCount;
         }
     }
 }

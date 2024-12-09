@@ -25,13 +25,15 @@ namespace BattleTest.PlayersStatusPanel
         private void OnBattleInitialized()
         {
             battleTester.Battle.StartingTerritoriesAssigned += OnStartingTerritoriesAssigned;
-            battleTester.Battle.TerritoryCaptured += BattleOnTerritoryCaptured;
+            battleTester.Battle.StartingReinforcementsAllocated += OnStartingReinforcementsAllocated;
+            battleTester.Battle.TerritoryCaptured += OnTerritoryCaptured;
         }
 
         private void OnDestroy()
         {
             battleTester.Battle.StartingTerritoriesAssigned -= OnStartingTerritoriesAssigned;
-            battleTester.Battle.TerritoryCaptured -= BattleOnTerritoryCaptured;
+            battleTester.Battle.StartingReinforcementsAllocated -= OnStartingReinforcementsAllocated;
+            battleTester.Battle.TerritoryCaptured -= OnTerritoryCaptured;
         }
 
         private void OnStartingTerritoriesAssigned(object sender, BattleEvents.StartingTerritoriesAssignedArgs e)
@@ -52,13 +54,21 @@ namespace BattleTest.PlayersStatusPanel
             {
                 var box = Instantiate(playerStatusBoxPrefab, playerStatusBoxesParent);
                 _playerStatusBoxes.Add(player.PlayerID, box);
-                box.SetData(player.PlayerID, e.Battle.Map);
             }
         }
         
-        private void BattleOnTerritoryCaptured(object sender, BattleEvents.TerritoryCapturedArgs args)
+        private void OnStartingReinforcementsAllocated(object sender, BattleEvents.StartingReinforcementsAllocatedArgs e)
         {
-            // recalculate contiguous territories for the defender and attacker
+            foreach (Player player in e.Battle.Players)
+            {
+                _playerStatusBoxes[player.PlayerID].SetData(player.PlayerID, e.Battle.Map);    
+            }
+        }
+        
+        private void OnTerritoryCaptured(object sender, BattleEvents.TerritoryCapturedArgs args)
+        {
+            _playerStatusBoxes[args.PreviousOwnerPlayerId].SetData(args.PreviousOwnerPlayerId, battleTester.Battle.Map);
+            _playerStatusBoxes[args.CapturedTerritory.OwnerPlayerId].SetData(args.CapturedTerritory.OwnerPlayerId, battleTester.Battle.Map);
         }
     }
 }
