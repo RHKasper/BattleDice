@@ -51,11 +51,11 @@ namespace BattleTest.Scripts
             }
         }
 
-        private async void Start()
+        private void Start()
         {
             if (quickInit)
             {
-                await InitializeBattle(playerCount);
+                InitializeBattle();
                 BattleInitialized?.Invoke();
                 
                 Battle.RandomlyAssignTerritories();
@@ -82,7 +82,7 @@ namespace BattleTest.Scripts
             Battle.EndTurn();
         }
 
-        private async Task InitializeBattle(int playerCount)
+        private void InitializeBattle()
         {
             var players = new List<Player>();
             for (int i = 0; i < playerCount; i++)
@@ -94,24 +94,16 @@ namespace BattleTest.Scripts
             var map = MapGenUtil.GenerateCircleMap(25);
             Battle = new Battle(map, players, 190);
             
-            await GenerateMapVisuals(map);
+            GenerateMapVisuals(map);
         }
         
-        private async Task GenerateMapVisuals(Map map)
+        private void GenerateMapVisuals(Map map)
         {
-            await GenerateNodeVisualsInConcentricCircles(map);
-            await Task.Delay(100);
-            
-            foreach (var mapNode in map.Nodes.Values)
-            {
-                foreach (MapNode adjacentNode in mapNode.AdjacentNodes)
-                {
-                    Instantiate(mapEdgeVisualPrefab, edgesParent).Initialize(_instantiatedMapNodeVisuals[mapNode], _instantiatedMapNodeVisuals[adjacentNode]);
-                }
-            }
+            GenerateNodeVisualsInConcentricCircles(map);
+            GenerateEdgeVisuals(map);
         }
 
-        private async Task GenerateNodeVisualsInConcentricCircles(Map map)
+        private void GenerateNodeVisualsInConcentricCircles(Map map)
         {
             var rootNode = map.Nodes.Values.First();
             HashSet<MapNode> discoveredNodes = new HashSet<MapNode>();
@@ -160,6 +152,17 @@ namespace BattleTest.Scripts
             // {
             //     GenerateMapNodeVisual(mapNode);
             // }   
+        }
+
+        private void GenerateEdgeVisuals(Map map)
+        {
+            foreach (var mapNode in map.Nodes.Values)
+            {
+                foreach (MapNode adjacentNode in mapNode.AdjacentNodes)
+                {
+                    Instantiate(mapEdgeVisualPrefab, edgesParent).Initialize(_instantiatedMapNodeVisuals[mapNode], _instantiatedMapNodeVisuals[adjacentNode]);
+                }
+            }
         }
 
         private MapNodeVisualController InstantiateMapNodeVisual(MapNode mapNode)
