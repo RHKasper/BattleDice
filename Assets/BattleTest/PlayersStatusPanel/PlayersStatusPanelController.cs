@@ -28,14 +28,16 @@ namespace BattleTest.PlayersStatusPanel
             battleTester.Battle.StartingReinforcementsAllocated += OnStartingReinforcementsAllocated;
             battleTester.Battle.AttackFinished += OnAttackFinished;
             battleTester.Battle.ReinforcementsApplied += OnReinforcementsApplied;
+            battleTester.Battle.TurnEnded += OnTurnEnded;
         }
-
+        
         private void OnDestroy()
         {
             battleTester.Battle.StartingTerritoriesAssigned -= OnStartingTerritoriesAssigned;
             battleTester.Battle.StartingReinforcementsAllocated -= OnStartingReinforcementsAllocated;
             battleTester.Battle.AttackFinished -= OnAttackFinished;
             battleTester.Battle.ReinforcementsApplied -= OnReinforcementsApplied;
+            battleTester.Battle.TurnEnded -= OnTurnEnded;
         }
 
         private void OnStartingTerritoriesAssigned(object sender, BattleEvents.StartingTerritoriesAssignedArgs e)
@@ -63,7 +65,8 @@ namespace BattleTest.PlayersStatusPanel
         {
             foreach (Player player in e.Battle.Players)
             {
-                _playerStatusBoxes[player.PlayerID].SetData(player.PlayerID, e.Battle.Map);    
+                _playerStatusBoxes[player.PlayerID].SetData(player.PlayerID, e.Battle.Map);
+                _playerStatusBoxes[player.PlayerID].SetHighlightActive(player.PlayerID == e.Battle.ActivePlayer.PlayerID);
             }
         }
         
@@ -76,6 +79,12 @@ namespace BattleTest.PlayersStatusPanel
         private void OnReinforcementsApplied(object sender, BattleEvents.ReinforcementsAppliedArgs e)
         {
             _playerStatusBoxes[e.PlayerId].SetData(e.PlayerId, battleTester.Battle.Map);
+        }
+        
+        private void OnTurnEnded(object sender, BattleEvents.TurnEndedArgs e)
+        {
+            _playerStatusBoxes[e.PrevActivePlayerId].SetHighlightActive(false);
+            _playerStatusBoxes[e.NewActivePlayerId].SetHighlightActive(true);
         }
     }
 }

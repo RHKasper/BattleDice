@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using BattleDataModel;
 using BattleTest.Scripts;
@@ -10,8 +11,9 @@ namespace BattleTest.PlayersStatusPanel
     public class PlayerStatusBoxController : MonoBehaviour
     {
         [SerializeField] private Image backgroundImage;
+        [SerializeField] private Image borderHighlight;
         [SerializeField] private TextMeshProUGUI text;
-
+        
         public void SetData(int playerId, Map map)
         {
             var territories = map.GetTerritories(playerId);
@@ -21,5 +23,7 @@ namespace BattleTest.PlayersStatusPanel
             backgroundImage.color = PlayerColors.Colors[playerId];
             text.text = "Player ID: " + playerId + "\nTerritories: " + territories.Count + "\nTotal Dice: " + totalDice + "\nReinforcements: " + reinforcementCount;
         }
+
+        public void SetHighlightActive(bool active) => borderHighlight.gameObject.SetActive(active);
     }
 }

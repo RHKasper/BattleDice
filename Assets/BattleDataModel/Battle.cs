@@ -13,6 +13,7 @@ namespace BattleDataModel
         public event EventHandler<BattleEvents.TerritoryCapturedArgs> TerritoryCaptured;
         public event EventHandler<BattleEvents.AttackFinishedArgs> AttackFinished;
         public event EventHandler<BattleEvents.ReinforcementsAppliedArgs> ReinforcementsApplied;
+        public event EventHandler<BattleEvents.TurnEndedArgs> TurnEnded;
         
         private readonly List<Player> _players;
         private int _activePlayerIndex = 0;
@@ -122,8 +123,11 @@ namespace BattleDataModel
 
         public void EndTurn()
         {
+            int prevActivePlayerIndex = _activePlayerIndex;
+
             Reinforce(_activePlayerIndex);
             _activePlayerIndex = (_activePlayerIndex + 1) % Players.Count;
+            TurnEnded?.Invoke(this, new(prevActivePlayerIndex, _activePlayerIndex));
         }
         
         /// <summary>

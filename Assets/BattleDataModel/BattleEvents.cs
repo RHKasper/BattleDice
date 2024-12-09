@@ -64,5 +64,17 @@ namespace BattleDataModel
                 PlayerId = playerId;
             }
         }
+        
+        public class TurnEndedArgs : EventArgs
+        {
+            public int PrevActivePlayerId;
+            public int NewActivePlayerId;
+
+            public TurnEndedArgs(int prevActivePlayerId, int newActivePlayerId)
+            {
+                PrevActivePlayerId = prevActivePlayerId;
+                NewActivePlayerId = newActivePlayerId;
+            }
+        }
     }
 }
