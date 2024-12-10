@@ -21,11 +21,11 @@ namespace BattleDataModel
             while (nodesToProcess.Any())
             {
                 MapNode currentNode = nodesToProcess.Pop();
-                _nodes.Add(currentNode.NodeId, currentNode);
+                _nodes.Add(currentNode.NodeIndex, currentNode);
 
                 foreach (MapNode adjacentMapNode in currentNode.AdjacentMapNodes)
                 {
-                    if (!nodesToProcess.Contains(adjacentMapNode) && !_nodes.ContainsKey(adjacentMapNode.NodeId))
+                    if (!nodesToProcess.Contains(adjacentMapNode) && !_nodes.ContainsKey(adjacentMapNode.NodeIndex))
                     {
                         nodesToProcess.Push(adjacentMapNode);
                     }
@@ -41,7 +41,7 @@ namespace BattleDataModel
 
             foreach (var node in _nodes.Values)
             {
-                if (node.OwnerPlayerId == owningPlayerId)
+                if (node.OwnerPlayerIndex == owningPlayerId)
                 {
                     territories.Add(node);
                 }
@@ -50,13 +50,13 @@ namespace BattleDataModel
             return territories;
         }
         
-        public HashSet<MapNode> GetLargestContiguousTerritory(int? owningPlayerId)
+        public HashSet<MapNode> GetLargestContiguousGroupOfTerritories(int? owningPlayerId)
         {
             HashSet<MapNode> largestYet = new();
 
             foreach (var node in _nodes.Values)
             {
-                if ((!owningPlayerId.HasValue || node.OwnerPlayerId == owningPlayerId) && !largestYet.Contains(node))
+                if ((!owningPlayerId.HasValue || node.OwnerPlayerIndex == owningPlayerId) && !largestYet.Contains(node))
                 {
                     HashSet<MapNode> connectedNodes = new();
                     Stack<MapNode> frontierNodes = new Stack<MapNode>();
@@ -69,7 +69,7 @@ namespace BattleDataModel
                         
                         foreach (var adjacentNode in tempNode.AdjacentMapNodes)
                         {
-                            if ((!owningPlayerId.HasValue || adjacentNode.OwnerPlayerId == owningPlayerId) && !connectedNodes.Contains(adjacentNode))
+                            if ((!owningPlayerId.HasValue || adjacentNode.OwnerPlayerIndex == owningPlayerId) && !connectedNodes.Contains(adjacentNode))
                             {
                                 frontierNodes.Push(adjacentNode);
                             }
@@ -89,9 +89,7 @@ namespace BattleDataModel
             return largestYet;
         }
 
-        public List<MapNode> GetNodesOwnedByPlayer(int owningPlayerId)
-        {
-            return _nodes.Values.Where(n => n.OwnerPlayerId == owningPlayerId).ToList();
-        }
+        public List<MapNode> GetTerritoriesOwnedByPlayer(int owningPlayerId) => _nodes.Values.Where(n => n.OwnerPlayerIndex == owningPlayerId).ToList();
+        public int GetNumTerritoriesOwnedByPlayer(int owningPlayerId) => _nodes.Values.Count(n => n.OwnerPlayerIndex == owningPlayerId);
     }
 }

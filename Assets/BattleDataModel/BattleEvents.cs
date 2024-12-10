@@ -54,26 +54,50 @@ namespace BattleDataModel
             }
         }
         
+        public class PlayerEliminatedArgs : EventArgs
+        {
+            public int EliminatedPlayerIndex;
+            public int EliminatingPlayerIndex;
+
+            public PlayerEliminatedArgs(int eliminatedPlayerIndex, int eliminatingPlayerIndex)
+            {
+                EliminatedPlayerIndex = eliminatedPlayerIndex;
+                EliminatingPlayerIndex = eliminatingPlayerIndex;
+            }
+        }
+        
+        public class GameEndedArgs : EventArgs
+        {
+            public int WinningPlayerIndex;
+            public int LastOpponentStandingIndex;
+
+            public GameEndedArgs(int winningPlayerIndex, int lastOpponentStandingIndex)
+            {
+                WinningPlayerIndex = winningPlayerIndex;
+                LastOpponentStandingIndex = lastOpponentStandingIndex;
+            }
+        }
+        
         // todo: add info here to nicely animate reinforcements
         public class ReinforcementsAppliedArgs : EventArgs
         {
-            public int PlayerId;
+            public int PlayerIndex;
 
-            public ReinforcementsAppliedArgs(int playerId)
+            public ReinforcementsAppliedArgs(int playerIndex)
             {
-                PlayerId = playerId;
+                PlayerIndex = playerIndex;
             }
         }
         
         public class TurnEndedArgs : EventArgs
         {
-            public int PrevActivePlayerId;
-            public int NewActivePlayerId;
+            public int PrevActivePlayerIndex;
+            public int NewActivePlayerIndex;
 
-            public TurnEndedArgs(int prevActivePlayerId, int newActivePlayerId)
+            public TurnEndedArgs(int prevActivePlayerIndex, int newActivePlayerIndex)
             {
-                PrevActivePlayerId = prevActivePlayerId;
-                NewActivePlayerId = newActivePlayerId;
+                PrevActivePlayerIndex = prevActivePlayerIndex;
+                NewActivePlayerIndex = newActivePlayerIndex;
             }
         }
     }

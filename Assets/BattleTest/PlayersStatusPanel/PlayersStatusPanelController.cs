@@ -27,15 +27,19 @@ namespace BattleTest.PlayersStatusPanel
             battleTester.Battle.StartingTerritoriesAssigned += OnStartingTerritoriesAssigned;
             battleTester.Battle.StartingReinforcementsAllocated += OnStartingReinforcementsAllocated;
             battleTester.Battle.AttackFinished += OnAttackFinished;
+            battleTester.Battle.PlayerEliminated += OnPlayerEliminated;
+            battleTester.Battle.GameEnded += OnGameEnded;
             battleTester.Battle.ReinforcementsApplied += OnReinforcementsApplied;
             battleTester.Battle.TurnEnded += OnTurnEnded;
         }
-        
+
         private void OnDestroy()
         {
             battleTester.Battle.StartingTerritoriesAssigned -= OnStartingTerritoriesAssigned;
             battleTester.Battle.StartingReinforcementsAllocated -= OnStartingReinforcementsAllocated;
             battleTester.Battle.AttackFinished -= OnAttackFinished;
+            battleTester.Battle.PlayerEliminated -= OnPlayerEliminated;
+            battleTester.Battle.GameEnded -= OnGameEnded;
             battleTester.Battle.ReinforcementsApplied -= OnReinforcementsApplied;
             battleTester.Battle.TurnEnded -= OnTurnEnded;
         }
@@ -57,7 +61,7 @@ namespace BattleTest.PlayersStatusPanel
             foreach (Player player in e.Battle.Players)
             {
                 var box = Instantiate(playerStatusBoxPrefab, playerStatusBoxesParent);
-                _playerStatusBoxes.Add(player.PlayerID, box);
+                _playerStatusBoxes.Add(player.PlayerIndex, box);
             }
         }
         
@@ -65,8 +69,11 @@ namespace BattleTest.PlayersStatusPanel
         {
             foreach (Player player in e.Battle.Players)
             {
-                _playerStatusBoxes[player.PlayerID].SetData(player.PlayerID, e.Battle.Map);
-                _playerStatusBoxes[player.PlayerID].SetHighlightActive(player.PlayerID == e.Battle.ActivePlayer.PlayerID);
+                _playerStatusBoxes[player.PlayerIndex].SetData(player.PlayerIndex, e.Battle.Map);
+                _playerStatusBoxes[player.PlayerIndex].SetHighlightActive(player.PlayerIndex == e.Battle.ActivePlayer.PlayerIndex);
+                _playerStatusBoxes[player.PlayerIndex].SetEliminatedVisualsActive(false);
+                _playerStatusBoxes[player.PlayerIndex].SetWinnerVisualsActive(false);
+                
             }
         }
         
@@ -76,15 +83,25 @@ namespace BattleTest.PlayersStatusPanel
             _playerStatusBoxes[args.DefendingPlayerId].SetData(args.DefendingPlayerId, battleTester.Battle.Map);
         }
         
+        private void OnPlayerEliminated(object sender, BattleEvents.PlayerEliminatedArgs e)
+        {
+            _playerStatusBoxes[e.EliminatedPlayerIndex].SetEliminatedVisualsActive(true);
+        }
+
+        private void OnGameEnded(object sender, BattleEvents.GameEndedArgs e)
+        {
+            _playerStatusBoxes[e.WinningPlayerIndex].SetWinnerVisualsActive(true);
+        }
+        
         private void OnReinforcementsApplied(object sender, BattleEvents.ReinforcementsAppliedArgs e)
         {
-            _playerStatusBoxes[e.PlayerId].SetData(e.PlayerId, battleTester.Battle.Map);
+            _playerStatusBoxes[e.PlayerIndex].SetData(e.PlayerIndex, battleTester.Battle.Map);
         }
         
         private void OnTurnEnded(object sender, BattleEvents.TurnEndedArgs e)
         {
-            _playerStatusBoxes[e.PrevActivePlayerId].SetHighlightActive(false);
-            _playerStatusBoxes[e.NewActivePlayerId].SetHighlightActive(true);
+            _playerStatusBoxes[e.PrevActivePlayerIndex].SetHighlightActive(false);
+            _playerStatusBoxes[e.NewActivePlayerIndex].SetHighlightActive(true);
         }
     }
 }

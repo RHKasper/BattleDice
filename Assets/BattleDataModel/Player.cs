@@ -2,11 +2,13 @@ namespace BattleDataModel
 {
     public class Player
     {
-        public int PlayerID { get; private set; }
+        public int PlayerIndex { get; private set; }
+        public bool Eliminated { get; internal set; }
 
-        public Player(int playerID)
+        public Player(int playerIndex)
         {
-            PlayerID = playerID;
+            PlayerIndex = playerIndex;
+            Eliminated = false;
         }
     }
 }

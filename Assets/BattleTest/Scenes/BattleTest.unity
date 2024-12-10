@@ -849,8 +849,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   quickInit: 1
-  playerCount: 7
-  startingReinforcements: 6
+  playerCount: 3
+  startingReinforcements: 3
+  minimumMapTerritories: 7
+  randomSeed: 190
   mapNodeVisualPrefab: {fileID: 2796633796793049055, guid: c02daca0e1557fd4393bae9801382c37, type: 3}
   mapEdgeVisualPrefab: {fileID: 3612468435193083318, guid: 4afcb01d31fafba40a1feabdc965eb0e, type: 3}
   edgesParent: {fileID: 1854552852}

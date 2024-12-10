@@ -18,6 +18,8 @@ namespace BattleTest.Scripts
         [SerializeField] private bool quickInit = true;
         [SerializeField] private int playerCount = 3;
         [SerializeField] private int startingReinforcements = 3;
+        [SerializeField] private int minimumMapTerritories = 7;
+        [SerializeField] private int randomSeed = 190;
         
         [Header("Prefab References")]
         [SerializeField] private MapNodeVisualController mapNodeVisualPrefab;
@@ -67,7 +69,7 @@ namespace BattleTest.Scripts
         {
             if (Battle != null)
             {
-                activePlayerText.text = "Active Player: " + Battle.ActivePlayer.PlayerID;
+                activePlayerText.text = "Active Player: " + Battle.ActivePlayer.PlayerIndex;
             }
         }
 
@@ -91,8 +93,8 @@ namespace BattleTest.Scripts
             }
             
             //var map = MapGenUtil.GenerateSimpleMapAsLine(20);
-            var map = MapGenUtil.GenerateCircleMap(25);
-            Battle = new Battle(map, players, 190);
+            var map = MapGenUtil.GenerateCircleMap(minimumMapTerritories);
+            Battle = new Battle(map, players, randomSeed);
             
             GenerateMapVisuals(map);
         }

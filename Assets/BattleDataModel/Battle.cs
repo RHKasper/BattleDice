@@ -12,6 +12,8 @@ namespace BattleDataModel
         public event EventHandler<BattleEvents.StartingReinforcementsAllocatedArgs> StartingReinforcementsAllocated;
         public event EventHandler<BattleEvents.TerritoryCapturedArgs> TerritoryCaptured;
         public event EventHandler<BattleEvents.AttackFinishedArgs> AttackFinished;
+        public event EventHandler<BattleEvents.PlayerEliminatedArgs> PlayerEliminated;
+        public event EventHandler<BattleEvents.GameEndedArgs> GameEnded;
         public event EventHandler<BattleEvents.ReinforcementsAppliedArgs> ReinforcementsApplied;
         public event EventHandler<BattleEvents.TurnEndedArgs> TurnEnded;
         
@@ -51,7 +53,7 @@ namespace BattleDataModel
                     shuffledPlayers = shuffledPlayers.OrderBy(_ => Rng.Next()).ToList();
                 }
 
-                shuffledNodes[i].OwnerPlayerId = shuffledPlayers[playerIndex].PlayerID;
+                shuffledNodes[i].OwnerPlayerIndex = shuffledPlayers[playerIndex].PlayerIndex;
             }
             
             StartingTerritoriesAssigned?.Invoke(this, new BattleEvents.StartingTerritoriesAssignedArgs(this));
@@ -59,7 +61,7 @@ namespace BattleDataModel
 
         public void RandomlyAllocateStartingReinforcements(int startingReinforcements)
         {
-            if (Map.Nodes.Values.Any(n => n.OwnerPlayerId == -1))
+            if (Map.Nodes.Values.Any(n => n.OwnerPlayerIndex == -1))
             {
                 throw new Exception("All map territories (nodes) must belong to a player before starting reinforcements are applied");
             }
@@ -68,22 +70,22 @@ namespace BattleDataModel
 
             foreach (Player player in _players)
             {
-                playerNodes[player.PlayerID] = new();
+                playerNodes[player.PlayerIndex] = new();
             }
 
             foreach (var mapNode in Map.Nodes.Values)
             {
                 mapNode.NumDice = 1;
-                playerNodes[mapNode.OwnerPlayerId].Add(mapNode);
+                playerNodes[mapNode.OwnerPlayerIndex].Add(mapNode);
             }
 
             foreach (Player player in _players)
             {
-                var nodes = playerNodes[player.PlayerID];
+                var nodes = playerNodes[player.PlayerIndex];
                 
                 for (int i = 0; i < startingReinforcements; i++)
                 {
-                    playerNodes[player.PlayerID][Rng.Next(0, nodes.Count)].NumDice++;
+                    playerNodes[player.PlayerIndex][Rng.Next(0, nodes.Count)].NumDice++;
                     // todo: trigger dice changed event?
                 }
             }
@@ -93,7 +95,7 @@ namespace BattleDataModel
 
         public void Attack(MapNode attackingSpace, MapNode defendingSpace)
         {
-            Debug.Log("node " + attackingSpace.NodeId + " attacks node " + defendingSpace.NodeId);
+            Debug.Log("node " + attackingSpace.NodeIndex + " attacks node " + defendingSpace.NodeIndex);
 
             List<int> attackingRoll = DiceRoller.RollDice(attackingSpace.NumDice, Rng);
             List<int> defendingRoll = DiceRoller.RollDice(defendingSpace.NumDice, Rng);
@@ -103,14 +105,14 @@ namespace BattleDataModel
             bool attackerWins = attackRollSum > defenseRollSum;
             string resultsString = attackRollSum + " vs " + defenseRollSum + " ([" + string.Join(", ", attackingRoll) + "] vs [" + string.Join(", ", defendingRoll) + "]";
             
-            var attackFinishedEventArgs = new BattleEvents.AttackFinishedArgs(attackingSpace.OwnerPlayerId, defendingSpace.OwnerPlayerId, attackingSpace, defendingSpace, attackerWins);
+            var attackFinishedEventArgs = new BattleEvents.AttackFinishedArgs(attackingSpace.OwnerPlayerIndex, defendingSpace.OwnerPlayerIndex, attackingSpace, defendingSpace, attackerWins);
             
             if (attackerWins)
             {
                 Debug.Log("Attacker wins: " + resultsString);
                 defendingSpace.NumDice = attackingSpace.NumDice - 1;
                 attackingSpace.NumDice = 1;
-                ChangeTerritoryOwnership(defendingSpace, attackingSpace.OwnerPlayerId);
+                CaptureTerritory(defendingSpace, attackingSpace.OwnerPlayerIndex);
             }
             else
             {
@@ -132,16 +134,16 @@ namespace BattleDataModel
         
         /// <summary>
         /// Called at the end of a turn, this method randomly distributes a number of reinforcement dice equal to
-        /// the size of the largest contiguous number of nodes owned by the given <see cref="playerId"/>
+        /// the size of the largest contiguous number of nodes owned by the given <see cref="playerIndex"/>
         /// </summary>
-        private void Reinforce(int playerId)
+        private void Reinforce(int playerIndex)
         {
-            HashSet<MapNode> largestContiguousTerritory = Map.GetLargestContiguousTerritory(playerId);
+            HashSet<MapNode> largestContiguousTerritory = Map.GetLargestContiguousGroupOfTerritories(playerIndex);
             int reinforcementsCount = largestContiguousTerritory.Count;
-            List<MapNode> ownedNodes = Map.GetNodesOwnedByPlayer(playerId);
+            List<MapNode> ownedNodes = Map.GetTerritoriesOwnedByPlayer(playerIndex);
             List<MapNode> ownedNodesWithRoomForReinforcements = ownedNodes.Where(n => n.NumDice < Constants.MaxDiceInTerritory).ToList();
 
-            Debug.Log("Adding " + reinforcementsCount + " reinforcements for player " + playerId);
+            Debug.Log("Adding " + reinforcementsCount + " reinforcements for player " + playerIndex);
             
             for (int i = 0; i < reinforcementsCount; i++)
             {
@@ -169,12 +171,34 @@ namespace BattleDataModel
             Debug.Log("No room for " + extraReinforcementsAmount + " extra reinforcements");
         }
 
-        private void ChangeTerritoryOwnership(MapNode territory, int newOwnerPlayerId)
+        private void CaptureTerritory(MapNode territory, int capturingPlayerIndex)
         {
-            var eventArgs = new BattleEvents.TerritoryCapturedArgs(territory, territory.OwnerPlayerId);
-            territory.OwnerPlayerId = newOwnerPlayerId;
-            // todo: handle player elimination and end game
+            int previousOwnerPlayerIndex = territory.OwnerPlayerIndex;
+            var eventArgs = new BattleEvents.TerritoryCapturedArgs(territory, territory.OwnerPlayerIndex);
+            territory.OwnerPlayerIndex = capturingPlayerIndex;
+            
             TerritoryCaptured?.Invoke(this, eventArgs);
+            
+            if (Map.GetNumTerritoriesOwnedByPlayer(previousOwnerPlayerIndex) == 0)
+            {
+                EliminatePlayer(previousOwnerPlayerIndex, capturingPlayerIndex);
+                if (_players.Count(p => p.Eliminated == false) == 1)
+                {
+                    EndGame(capturingPlayerIndex, previousOwnerPlayerIndex);
+                }
+            }
+        }
+
+        private void EliminatePlayer(int eliminatedPlayerIndex, int eliminatingPlayerIndex)
+        {
+            _players[eliminatedPlayerIndex].Eliminated = true;
+            PlayerEliminated?.Invoke(this, new BattleEvents.PlayerEliminatedArgs(eliminatedPlayerIndex, eliminatingPlayerIndex));
+        }
+
+        private void EndGame(int winningPlayerIndex, int lastOpponentStandingIndex)
+        {
+            // todo record game over? Might not need to since players' Eliminated variable contains that info
+            GameEnded?.Invoke(this, new BattleEvents.GameEndedArgs(winningPlayerIndex, lastOpponentStandingIndex));
         }
     }
 }

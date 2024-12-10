@@ -12,12 +12,14 @@ namespace BattleTest.PlayersStatusPanel
     {
         [SerializeField] private Image backgroundImage;
         [SerializeField] private Image borderHighlight;
+        [SerializeField] private GameObject eliminatedVisuals;
+        [SerializeField] private GameObject winnerVisuals;
         [SerializeField] private TextMeshProUGUI text;
         
         public void SetData(int playerId, Map map)
         {
             var territories = map.GetTerritories(playerId);
-            int reinforcementCount = map.GetLargestContiguousTerritory(playerId).Count;
+            int reinforcementCount = map.GetLargestContiguousGroupOfTerritories(playerId).Count;
             int totalDice = territories.Sum(t => t.NumDice);
             
             backgroundImage.color = PlayerColors.Colors[playerId];
@@ -25,5 +27,7 @@ namespace BattleTest.PlayersStatusPanel
         }
 
         public void SetHighlightActive(bool active) => borderHighlight.gameObject.SetActive(active);
+        public void SetEliminatedVisualsActive(bool active) => eliminatedVisuals.SetActive(active);
+        public void SetWinnerVisualsActive(bool active) => winnerVisuals.SetActive(active);
     }
 }

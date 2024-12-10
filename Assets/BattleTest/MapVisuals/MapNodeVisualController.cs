@@ -23,18 +23,18 @@ namespace BattleTest.MapVisuals
         
         private bool ThisTerritoryIsSelected => _battleTester.SelectedNode == this;
         private bool ATerritoryIsSelected => _battleTester.SelectedNode != null;
-        private bool CanAttack => _mapNode.CanAttack(_battleTester.Battle.ActivePlayer.PlayerID);
+        private bool CanAttack => _mapNode.CanAttack(_battleTester.Battle.ActivePlayer.PlayerIndex);
         private bool CanBeAttacked => ATerritoryIsSelected && _mapNode.CanBeAttackedByAGivenNode(_battleTester.SelectedNode._mapNode);
         private bool IsInteractable => (!ATerritoryIsSelected && CanAttack) || (ATerritoryIsSelected && CanBeAttacked) || ThisTerritoryIsSelected;
 
         private void Update()
         {
-            text.text = $"ID: {_mapNode.NodeId}\nOwnerID: {_mapNode.OwnerPlayerId}\nDice: {_mapNode.NumDice}";
+            text.text = $"ID: {_mapNode.NodeIndex}\nOwnerID: {_mapNode.OwnerPlayerIndex}\nDice: {_mapNode.NumDice}";
             diceFill.fillAmount = _mapNode.NumDice / 8f;
 
-            if (_mapNode.OwnerPlayerId != -1)
+            if (_mapNode.OwnerPlayerIndex != -1)
             {
-                background.color = PlayerColors.Colors[_mapNode.OwnerPlayerId];
+                background.color = PlayerColors.Colors[_mapNode.OwnerPlayerIndex];
             }
         }
 

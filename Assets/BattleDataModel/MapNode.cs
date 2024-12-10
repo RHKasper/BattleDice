@@ -8,13 +8,13 @@ namespace BattleDataModel
     {
         internal readonly HashSet<MapNode> AdjacentMapNodes = new();
 
-        public int NodeId { get; }
-        public int OwnerPlayerId { get; internal set; } = -1;
+        public int NodeIndex { get; }
+        public int OwnerPlayerIndex { get; internal set; } = -1;
         public int NumDice { get; internal set; } = 0;
 
-        public MapNode(int nodeId)
+        public MapNode(int nodeIndex)
         {
-            NodeId = nodeId;
+            NodeIndex = nodeIndex;
             //Debug.Log(NodeId);
         }
 
@@ -22,8 +22,8 @@ namespace BattleDataModel
 
         public bool CanAttack(int currentActivePlayerId)
         {
-            bool isOwnedByActivePlayer = OwnerPlayerId == currentActivePlayerId;
-            bool hasAnAdjacentEnemySpace = AdjacentNodes.Any(n => n.OwnerPlayerId != OwnerPlayerId);
+            bool isOwnedByActivePlayer = OwnerPlayerIndex == currentActivePlayerId;
+            bool hasAnAdjacentEnemySpace = AdjacentNodes.Any(n => n.OwnerPlayerIndex != OwnerPlayerIndex);
             bool hasEnoughDice = NumDice > 1;
 
             return isOwnedByActivePlayer && hasAnAdjacentEnemySpace && hasEnoughDice;
@@ -33,7 +33,7 @@ namespace BattleDataModel
         {
             bool isAdjacent = attackingNode.AdjacentNodes.Contains(this);
             bool attackingSpaceHasEnoughDice = attackingNode.NumDice > 1;
-            bool isDifferentTeam = attackingNode.OwnerPlayerId != OwnerPlayerId;
+            bool isDifferentTeam = attackingNode.OwnerPlayerIndex != OwnerPlayerIndex;
 
             return isAdjacent && attackingSpaceHasEnoughDice && isDifferentTeam;
         }
