@@ -128,8 +128,25 @@ namespace BattleDataModel
             int prevActivePlayerIndex = _activePlayerIndex;
 
             Reinforce(_activePlayerIndex);
-            _activePlayerIndex = (_activePlayerIndex + 1) % Players.Count;
+            _activePlayerIndex = GetIndexOfNextNonEliminatedPlayer(_activePlayerIndex);
             TurnEnded?.Invoke(this, new(prevActivePlayerIndex, _activePlayerIndex));
+        }
+
+        private int GetIndexOfNextNonEliminatedPlayer(int startIndex)
+        {
+            int indexToCheck = (startIndex + 1) % _players.Count;
+
+            while (indexToCheck != startIndex)
+            {
+                if (!_players[indexToCheck].Eliminated)
+                {
+                    return indexToCheck;
+                }
+                
+                indexToCheck = (indexToCheck + 1) % _players.Count;
+            }
+
+            throw new Exception("No other active players found");
         }
         
         /// <summary>
