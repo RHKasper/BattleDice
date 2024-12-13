@@ -17,6 +17,8 @@ namespace BattleTest.MapVisuals
         {
             _node1 = node1;
             _node2 = node2;
+            _node1.RegisterEdgeVisual(_node2, this);
+            _node2.RegisterEdgeVisual(_node1, this);
         }
 
         private void Update()

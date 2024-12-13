@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using BattleDataModel;
 using BattleTest.Scripts;
 using TMPro;
@@ -20,6 +21,7 @@ namespace BattleTest.MapVisuals
 
         private MapNode _mapNode;
         private BattleTester _battleTester;
+        private Dictionary<MapNode, MapEdgeVisualController> _edgeVisuals = new(); 
         
         private bool ThisTerritoryIsSelected => _battleTester.SelectedNode == this;
         private bool ATerritoryIsSelected => _battleTester.SelectedNode != null;
@@ -43,6 +45,11 @@ namespace BattleTest.MapVisuals
             _mapNode = mapNode;
             _battleTester = battleTester;
             selectionHighlight.gameObject.SetActive(false);
+        }
+
+        public bool HasEdgeVisual(MapNode adjacentNode)
+        {
+            return _edgeVisuals.ContainsKey(adjacentNode);
         }
 
         public void OnPointerEnter(PointerEventData eventData)
@@ -81,6 +88,11 @@ namespace BattleTest.MapVisuals
         {
             //highlight attackable edges / nodes
             selectionHighlight.gameObject.SetActive(true);
+        }
+
+        public void RegisterEdgeVisual(MapNodeVisualController node2, MapEdgeVisualController edgeVisual)
+        {
+            _edgeVisuals.Add(node2._mapNode, edgeVisual);
         }
     }
 }

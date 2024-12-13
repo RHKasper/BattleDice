@@ -149,20 +149,20 @@ namespace BattleTest.Scripts
                 frontierNodesPastCurrentDepth = new Queue<MapNode>();
                 depth++;
             }
-
-            // foreach (var mapNode in map.Nodes.Values)
-            // {
-            //     GenerateMapNodeVisual(mapNode);
-            // }   
         }
 
         private void GenerateEdgeVisuals(Map map)
         {
-            foreach (var mapNode in map.Nodes.Values)
+            foreach (MapNode mapNode in map.Nodes.Values)
             {
+                MapNodeVisualController mapNodeVisual = _instantiatedMapNodeVisuals[mapNode];
                 foreach (MapNode adjacentNode in mapNode.AdjacentNodes)
                 {
-                    Instantiate(mapEdgeVisualPrefab, edgesParent).Initialize(_instantiatedMapNodeVisuals[mapNode], _instantiatedMapNodeVisuals[adjacentNode]);
+                    if (!mapNodeVisual.HasEdgeVisual(adjacentNode))
+                    {
+                        MapEdgeVisualController edgeVisual = Instantiate(mapEdgeVisualPrefab, edgesParent);
+                        edgeVisual.Initialize(mapNodeVisual, _instantiatedMapNodeVisuals[adjacentNode]);
+                    }
                 }
             }
         }
