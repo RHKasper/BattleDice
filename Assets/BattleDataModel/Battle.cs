@@ -7,7 +7,7 @@ using Random = System.Random;
 namespace BattleDataModel
 {
     public class Battle
-    {
+    {        
         public event EventHandler<BattleEvents.StartingTerritoriesAssignedArgs> StartingTerritoriesAssigned;
         public event EventHandler<BattleEvents.StartingReinforcementsAllocatedArgs> StartingReinforcementsAllocated;
         public event EventHandler<BattleEvents.TerritoryCapturedArgs> TerritoryCaptured;
@@ -61,6 +61,7 @@ namespace BattleDataModel
 
         public void RandomlyAllocateStartingReinforcements(int startingReinforcements)
         {
+            ValidateNumStartingReinforcements(startingReinforcements);
             if (Map.Nodes.Values.Any(n => n.OwnerPlayerIndex == -1))
             {
                 throw new Exception("All map territories (nodes) must belong to a player before starting reinforcements are applied");
@@ -92,6 +93,8 @@ namespace BattleDataModel
             
             StartingReinforcementsAllocated?.Invoke(this, new BattleEvents.StartingReinforcementsAllocatedArgs(this));
         }
+
+       
 
         public void Attack(MapNode attackingSpace, MapNode defendingSpace)
         {
@@ -216,6 +219,17 @@ namespace BattleDataModel
         {
             // todo record game over? Might not need to since players' Eliminated variable contains that info
             GameEnded?.Invoke(this, new BattleEvents.GameEndedArgs(winningPlayerIndex, lastOpponentStandingIndex));
+        }
+        
+        private void ValidateNumStartingReinforcements(int startingReinforcements)
+        {
+            int leastNumTerritories = _players.Min(p => Map.GetNumTerritoriesOwnedByPlayer(p.PlayerIndex));
+            int leastRoomForReinforcements = leastNumTerritories * (Constants.MaxDiceInTerritory - 1);
+
+            if (startingReinforcements > leastRoomForReinforcements)
+            {
+                throw new Exception("Not enough room for starting reinforcements. " + leastNumTerritories + " only have room for " + leastRoomForReinforcements + " reinforcements, but " + startingReinforcements + " are being assigned");
+            }
         }
     }
 }

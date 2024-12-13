@@ -255,6 +255,60 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 163900492}
   m_CullTransparentMesh: 1
+--- !u!1 &223186056
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 223186058}
+  - component: {fileID: 223186057}
+  m_Layer: 0
+  m_Name: '[BattleTester]'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &223186057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 223186056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54a98aa8c780ea542a5013363fc8ec60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  quickInit: 1
+  playerCount: 3
+  startingReinforcements: 3
+  minimumMapTerritories: 7
+  randomSeed: 190
+  mapNodeVisualPrefab: {fileID: 2796633796793049055, guid: c02daca0e1557fd4393bae9801382c37, type: 3}
+  mapEdgeVisualPrefab: {fileID: 3612468435193083318, guid: 4afcb01d31fafba40a1feabdc965eb0e, type: 3}
+  edgesParent: {fileID: 1854552852}
+  nodesParent: {fileID: 1186872496}
+  activePlayerText: {fileID: 163900494}
+--- !u!4 &223186058
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 223186056}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &583349483
 GameObject:
   m_ObjectHideFlags: 0
@@ -753,7 +807,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerStatusBoxPrefab: {fileID: 781023359612298412, guid: a954aab96e424a94dab9e1e5d1d0e760, type: 3}
   playerStatusBoxesParent: {fileID: 1314490315}
-  battleTester: {fileID: 1568258607}
+  battleTester: {fileID: 223186057}
 --- !u!1 &1526398874
 GameObject:
   m_ObjectHideFlags: 0
@@ -828,36 +882,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1568258608}
-  - component: {fileID: 1568258607}
   m_Layer: 0
-  m_Name: Battle Tester
+  m_Name: MapVisuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1568258607
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1568258606}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54a98aa8c780ea542a5013363fc8ec60, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  quickInit: 1
-  playerCount: 3
-  startingReinforcements: 3
-  minimumMapTerritories: 7
-  randomSeed: 190
-  mapNodeVisualPrefab: {fileID: 2796633796793049055, guid: c02daca0e1557fd4393bae9801382c37, type: 3}
-  mapEdgeVisualPrefab: {fileID: 3612468435193083318, guid: 4afcb01d31fafba40a1feabdc965eb0e, type: 3}
-  edgesParent: {fileID: 1854552852}
-  nodesParent: {fileID: 1186872496}
-  activePlayerText: {fileID: 163900494}
 --- !u!224 &1568258608
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1041,7 +1072,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1568258607}
+      - m_Target: {fileID: 223186057}
         m_TargetAssemblyTypeName: BattleTest.Scripts.BattleTester, BattleTest
         m_MethodName: OnClickEndTurn
         m_Mode: 1
@@ -1346,7 +1377,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1568258607}
+      - m_Target: {fileID: 223186057}
         m_TargetAssemblyTypeName: BattleTest.Scripts.BattleTester, BattleTest
         m_MethodName: OnClickReshuffle
         m_Mode: 1
@@ -1540,3 +1571,4 @@ SceneRoots:
   - {fileID: 1202071423}
   - {fileID: 583349487}
   - {fileID: 1680390959}
+  - {fileID: 223186058}
