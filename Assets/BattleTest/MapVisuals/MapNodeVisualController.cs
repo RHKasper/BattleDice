@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using BattleDataModel;
 using BattleTest.Scripts;
@@ -17,6 +18,7 @@ namespace BattleTest.MapVisuals
         [SerializeField] private Image background;
         [SerializeField] private Image diceFill;
         [SerializeField] private Image selectionHighlight;
+        [SerializeField] private Image targetHighlight;
         [SerializeField] private TextMeshProUGUI text;
 
         private MapNode _mapNode;
@@ -28,6 +30,11 @@ namespace BattleTest.MapVisuals
         private bool CanAttack => _mapNode.CanAttack(_battleTester.Battle.ActivePlayer.PlayerIndex);
         private bool CanBeAttacked => ATerritoryIsSelected && _mapNode.CanBeAttackedByAGivenNode(_battleTester.SelectedNode._mapNode);
         private bool IsInteractable => (!ATerritoryIsSelected && CanAttack) || (ATerritoryIsSelected && CanBeAttacked) || ThisTerritoryIsSelected;
+
+        private void Awake()
+        {
+            targetHighlight.gameObject.SetActive(false);
+        }
 
         private void Update()
         {
@@ -82,25 +89,44 @@ namespace BattleTest.MapVisuals
         public void OnDeselected()
         {
             selectionHighlight.gameObject.SetActive(false);
-            SetPotentialAttackTargetHighlightActive(false);
+            HidePotentialAttackTargets();
         }
 
         public void OnSelected()
         {
             selectionHighlight.gameObject.SetActive(true);
-            SetPotentialAttackTargetHighlightActive(true);
+            ShowPotentialAttackTargets();
         }
 
         public void RegisterEdgeVisual(MapNodeVisualController node2, MapEdgeVisualController edgeVisual)
         {
             _edgeVisuals.Add(node2._mapNode, edgeVisual);
         }
+        
+        /// <summary>
+        /// Shows or hides the highlight visuals on this object that identify it as a valid attack target
+        /// </summary>
+        public void ShowOrHideHighlightsAsPotentialAttackTarget(bool show)
+        {
+            targetHighlight.gameObject.SetActive(show);
+        }
 
-        private void SetPotentialAttackTargetHighlightActive(bool active)
+        private void ShowPotentialAttackTargets() => ShowOrHidePotentialAttackTargets(true);
+
+        private void HidePotentialAttackTargets() => ShowOrHidePotentialAttackTargets(false);
+
+        private void ShowOrHidePotentialAttackTargets(bool show)
         {
             foreach (MapNode adjSpace in _edgeVisuals.Keys)
             {
-                _edgeVisuals[adjSpace].SetHighlightVisualsActive(active && adjSpace.CanBeAttackedByAGivenNode(_mapNode));
+                if (show && adjSpace.CanBeAttackedByAGivenNode(_mapNode))
+                {
+                    _edgeVisuals[adjSpace].ShowPotentialAttackVisuals(this);
+                }
+                else
+                {
+                    _edgeVisuals[adjSpace].HidePotentialAttackVisuals(this);
+                }
             }
         }
     }

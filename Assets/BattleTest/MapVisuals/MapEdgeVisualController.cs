@@ -13,7 +13,7 @@ namespace BattleTest.MapVisuals
         private void Start()
         {
             _rectTransform = GetComponent<RectTransform>();
-            SetHighlightVisualsActive(false);
+            highlightVisuals.SetActive(false);
         }
 
         public void Initialize(MapNodeVisualController node1, MapNodeVisualController node2)
@@ -32,9 +32,18 @@ namespace BattleTest.MapVisuals
             _rectTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 180 * Mathf.Atan(dif.y / dif.x) / Mathf.PI));
         }
 
-        public void SetHighlightVisualsActive(bool active)
+        public void ShowPotentialAttackVisuals(MapNodeVisualController attackingNode)
         {
-            highlightVisuals.SetActive(active);
+            MapNodeVisualController defendingNode = (_node1 == attackingNode) ? _node2 : _node1;
+            defendingNode.ShowOrHideHighlightsAsPotentialAttackTarget(true);
+            highlightVisuals.SetActive(true);
+        }
+
+        public void HidePotentialAttackVisuals(MapNodeVisualController attackingNode)
+        {
+            MapNodeVisualController defendingNode = (_node1 == attackingNode) ? _node2 : _node1;
+            defendingNode.ShowOrHideHighlightsAsPotentialAttackTarget(false);
+            highlightVisuals.SetActive(false);
         }
     }
 }
