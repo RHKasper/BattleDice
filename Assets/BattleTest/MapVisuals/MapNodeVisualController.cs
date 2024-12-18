@@ -10,8 +10,8 @@ namespace BattleTest.MapVisuals
 {
     public class MapNodeVisualController : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IPointerExitHandler
     {
-        [SerializeField] private Texture2D defaultCursor;
         [SerializeField] private Texture2D interactableCursor;
+        [SerializeField] private Vector2 interactableCursorHotspotOffset;
 
         [SerializeField] public RectTransform rectTransform;
         [SerializeField] private Image background;
@@ -54,7 +54,7 @@ namespace BattleTest.MapVisuals
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            Cursor.SetCursor(IsInteractable ? interactableCursor : defaultCursor, Vector2.zero, CursorMode.Auto);
+            Cursor.SetCursor(IsInteractable ? interactableCursor : null, interactableCursorHotspotOffset, CursorMode.Auto);
         }
 
         public void OnPointerClick(PointerEventData eventData)
@@ -76,7 +76,7 @@ namespace BattleTest.MapVisuals
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            Cursor.SetCursor(defaultCursor, Vector2.zero, CursorMode.Auto);
+            Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
         }
 
         public void OnDeselected()

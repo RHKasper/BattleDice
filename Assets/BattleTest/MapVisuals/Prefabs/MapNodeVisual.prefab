@@ -429,8 +429,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8714dcae1941814a8783d87731b8d42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultCursor: {fileID: 2800000, guid: 1e5528ce82b8e5d4ca23cb162ed90bfe, type: 3}
   interactableCursor: {fileID: 2800000, guid: c1f9872ee9e3b5f45b0bbeb924b7aa38, type: 3}
+  interactableCursorHotspotOffset: {x: 5, y: 2}
   rectTransform: {fileID: 6656609668107616177}
   background: {fileID: 7007968496434971849}
   diceFill: {fileID: 1486244626554627143}
