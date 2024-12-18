@@ -17,7 +17,7 @@ namespace BattleTest.PlayersStatusPanel
 
         private Dictionary<int, PlayerStatusBoxController> _playerStatusBoxes;
 
-        private void Start()
+        private void Awake()
         {
             battleTester.BattleInitialized += OnBattleInitialized;
         }
