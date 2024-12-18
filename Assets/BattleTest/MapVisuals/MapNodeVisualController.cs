@@ -82,17 +82,26 @@ namespace BattleTest.MapVisuals
         public void OnDeselected()
         {
             selectionHighlight.gameObject.SetActive(false);
+            SetPotentialAttackTargetHighlightActive(false);
         }
 
         public void OnSelected()
         {
-            //highlight attackable edges / nodes
             selectionHighlight.gameObject.SetActive(true);
+            SetPotentialAttackTargetHighlightActive(true);
         }
 
         public void RegisterEdgeVisual(MapNodeVisualController node2, MapEdgeVisualController edgeVisual)
         {
             _edgeVisuals.Add(node2._mapNode, edgeVisual);
+        }
+
+        private void SetPotentialAttackTargetHighlightActive(bool active)
+        {
+            foreach (MapNode adjSpace in _edgeVisuals.Keys)
+            {
+                _edgeVisuals[adjSpace].SetHighlightVisualsActive(active && adjSpace.CanBeAttackedByAGivenNode(_mapNode));
+            }
         }
     }
 }

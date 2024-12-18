@@ -41,7 +41,6 @@ namespace BattleTest.Scripts
             {
                 if (_selectedNode)
                 {
-                    DeactivatePotentialAttackTargetGraphics(_selectedNode);
                     _selectedNode.OnDeselected();
                 }
                 
@@ -50,7 +49,6 @@ namespace BattleTest.Scripts
                 if (_selectedNode)
                 {
                     _selectedNode.OnSelected();
-                    ActivatePotentialAttackTargetGraphics(_selectedNode);
                 }
             }
         }
@@ -175,16 +173,6 @@ namespace BattleTest.Scripts
             mapNodeVisual.Initialize(mapNode, this);
             _instantiatedMapNodeVisuals.Add(mapNode, mapNodeVisual);
             return mapNodeVisual;
-        }
-
-        private void ActivatePotentialAttackTargetGraphics(MapNodeVisualController attackingNode)
-        {
-            Debug.Log("Todo: activate potential attack target graphics");
-        }
-        
-        private void DeactivatePotentialAttackTargetGraphics(MapNodeVisualController attackingNode)
-        {
-            Debug.Log("Todo: deactivate potential attack target graphics");
         }
     }
 }

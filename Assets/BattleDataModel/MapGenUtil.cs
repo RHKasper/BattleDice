@@ -43,8 +43,8 @@ namespace BattleDataModel
                 node2.AdjacentMapNodes.Add(currentNode);
                 //node3.AdjacentMapNodes.Add(currentNode);
                 
-                node1.AdjacentMapNodes.Add(node2);
-                node2.AdjacentMapNodes.Add(node1);
+                //node1.AdjacentMapNodes.Add(node2);
+                //node2.AdjacentMapNodes.Add(node1);
                 
                 //node2.AdjacentMapNodes.Add(node3);
                 //node3.AdjacentMapNodes.Add(node2);
