@@ -39,7 +39,7 @@ namespace BattleTest.MapVisuals
         private void Update()
         {
             text.text = $"ID: {_mapNode.NodeIndex}\nOwnerID: {_mapNode.OwnerPlayerIndex}\nDice: {_mapNode.NumDice}";
-            diceFill.fillAmount = _mapNode.NumDice / 8f;
+            diceFill.fillAmount = _mapNode.NumDice / (float) Constants.MaxDiceInTerritory;
 
             if (_mapNode.OwnerPlayerIndex != -1)
             {
