@@ -9,6 +9,8 @@ namespace BattleTest.Scripts
     public static class UserCueSequencer
     {
         private static readonly Queue<Cue> _queueOfCues = new();
+        private static bool _alive = true;
+        private static int _cueInterval = 16;
 
         public static void EnqueueCue(Cue cue)
         {
@@ -33,7 +35,10 @@ namespace BattleTest.Scripts
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterAssembliesLoaded)]
         private static async void ProcessQueue()
         {
-            while (true)
+            Debug.Log("Starting Cue Sequencer");
+            Application.quitting += OnApplicationQuitting;
+            
+            while (_alive)
             {
                 Cue cue = DequeueToNextValidCue();
                 if (cue != null)
@@ -42,9 +47,18 @@ namespace BattleTest.Scripts
                 }
                 else
                 {
-                    await Task.Delay(50);
+                    await Task.Delay(_cueInterval);
                 }
             }
+            
+            Debug.Log("Stopping Cue Sequencer");
+            Application.quitting -= OnApplicationQuitting;
+        }
+
+        private static void OnApplicationQuitting()
+        {
+            _alive = false;
+            
         }
 
         [CanBeNull]
