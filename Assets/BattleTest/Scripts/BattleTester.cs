@@ -30,6 +30,7 @@ namespace BattleTest.Scripts
         [SerializeField] private Transform nodesParent;
         [SerializeField] private TextMeshProUGUI activePlayerText;
 
+        private BattleTesterCuesManager _cuesManager;
         private readonly Dictionary<MapNode, MapNodeVisualController> _instantiatedMapNodeVisuals = new();
         private MapNodeVisualController _selectedNode;
         
@@ -55,14 +56,31 @@ namespace BattleTest.Scripts
 
         private void Start()
         {
+            _cuesManager = new BattleTesterCuesManager(this);
+            
             if (quickInit)
             {
                 InitializeBattle();
                 BattleInitialized?.Invoke();
                 
+                //todo: move these somewhere else so they work when we're not doing quick init
+                Battle.StartingTerritoriesAssigned += _cuesManager.OnStartingTerritoriesAssigned;
+                Battle.StartingReinforcementsAllocated += _cuesManager.OnStartingReinforcementsAllocated;
+                Battle.ReinforcementsApplied += _cuesManager.OnReinforcementsApplied;
+                Battle.TerritoryCaptured += _cuesManager.OnTerritoryCaptured;
+                Battle.AttackFinished += _cuesManager.OnAttackFinished;
+                
                 Battle.RandomlyAssignTerritories();
                 Battle.RandomlyAllocateStartingReinforcements(startingReinforcements);
             }
+        }
+        
+        private void OnDestroy()
+        {
+            Battle.StartingTerritoriesAssigned -= _cuesManager.OnStartingTerritoriesAssigned;
+            Battle.StartingReinforcementsAllocated -= _cuesManager.OnStartingReinforcementsAllocated;
+            Battle.ReinforcementsApplied -= _cuesManager.OnReinforcementsApplied;
+            Battle.TerritoryCaptured -= _cuesManager.OnTerritoryCaptured;
         }
 
         private void Update()
@@ -83,6 +101,8 @@ namespace BattleTest.Scripts
         {
             Battle.EndTurn();
         }
+
+        public MapNodeVisualController GetMapNodeVisual(MapNode mapNode) => _instantiatedMapNodeVisuals[mapNode];
 
         private void InitializeBattle()
         {
