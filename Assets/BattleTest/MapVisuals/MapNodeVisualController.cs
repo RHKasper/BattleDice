@@ -30,28 +30,26 @@ namespace BattleTest.MapVisuals
         private bool CanAttack => _mapNode.CanAttack(_battleTester.Battle.ActivePlayer.PlayerIndex);
         private bool CanBeAttacked => ATerritoryIsSelected && _mapNode.CanBeAttackedByAGivenNode(_battleTester.SelectedNode._mapNode);
         private bool IsInteractable => (!ATerritoryIsSelected && CanAttack) || (ATerritoryIsSelected && CanBeAttacked) || ThisTerritoryIsSelected;
-
-        private void Awake()
+        
+        private void OnDestroy()
         {
-            targetHighlight.gameObject.SetActive(false);
+            _battleTester.Battle.StartingTerritoriesAssigned -= OnStartingTerritoriesAssigned;
+            _battleTester.Battle.StartingReinforcementsAllocated -= OnStartingReinforcementsAllocated;
+            _battleTester.Battle.ReinforcementsApplied -= OnReinforcementsApplied;
+            _battleTester.Battle.TerritoryCaptured -= OnTerritoryCaptured;
         }
-
-        private void Update()
-        {
-            text.text = $"ID: {_mapNode.NodeIndex}\nOwnerID: {_mapNode.OwnerPlayerIndex}\nDice: {_mapNode.NumDice}";
-            diceFill.fillAmount = _mapNode.NumDice / (float) Constants.MaxDiceInTerritory;
-
-            if (_mapNode.OwnerPlayerIndex != -1)
-            {
-                background.color = PlayerColors.Colors[_mapNode.OwnerPlayerIndex];
-            }
-        }
-
+        
         public void Initialize(MapNode mapNode, BattleTester battleTester)
         {
             _mapNode = mapNode;
             _battleTester = battleTester;
             selectionHighlight.gameObject.SetActive(false);
+            targetHighlight.gameObject.SetActive(false);
+            
+            _battleTester.Battle.StartingTerritoriesAssigned += OnStartingTerritoriesAssigned;
+            _battleTester.Battle.StartingReinforcementsAllocated += OnStartingReinforcementsAllocated;
+            _battleTester.Battle.ReinforcementsApplied += OnReinforcementsApplied;
+            _battleTester.Battle.TerritoryCaptured += OnTerritoryCaptured;
         }
 
         public bool HasEdgeVisual(MapNode adjacentNode)
@@ -128,6 +126,47 @@ namespace BattleTest.MapVisuals
                     _edgeVisuals[adjSpace].HidePotentialAttackVisuals(this);
                 }
             }
+        }
+        
+        private void ShowOwnership()
+        {
+            background.color = PlayerColors.Colors[_mapNode.OwnerPlayerIndex];
+            UpdateText();
+        }
+        
+        private void ShowNumDice()
+        {
+            diceFill.fillAmount = _mapNode.NumDice / (float)Constants.MaxDiceInTerritory;
+            UpdateText();
+        }
+
+        private void ShowOwnershipAndNumDice()
+        {
+            ShowOwnership();
+            ShowNumDice();
+        }
+
+        private void UpdateText() => text.text = $"ID: {_mapNode.NodeIndex}\nOwnerID: {_mapNode.OwnerPlayerIndex}\nDice: {_mapNode.NumDice}";
+
+
+        private void OnStartingTerritoriesAssigned(object sender, BattleEvents.StartingTerritoriesAssignedArgs e)
+        {
+            UserCueSequencer.EnqueueCueWithDelayAfter(gameObject, ShowOwnership);
+        }
+        
+        private void OnStartingReinforcementsAllocated(object sender, BattleEvents.StartingReinforcementsAllocatedArgs e)
+        {
+            UserCueSequencer.EnqueueCueWithDelayAfter(gameObject, ShowNumDice);
+        }
+        
+        private void OnTerritoryCaptured(object sender, BattleEvents.TerritoryCapturedArgs e)
+        {
+            UserCueSequencer.EnqueueCueWithDelayAfter(gameObject, ShowOwnershipAndNumDice);
+        }
+
+        private void OnReinforcementsApplied(object sender, BattleEvents.ReinforcementsAppliedArgs e)
+        {
+            UserCueSequencer.EnqueueCueWithDelayAfter(gameObject, ShowNumDice);
         }
     }
 }

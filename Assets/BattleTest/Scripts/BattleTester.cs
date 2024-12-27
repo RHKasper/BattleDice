@@ -63,15 +63,6 @@ namespace BattleTest.Scripts
                 Battle.RandomlyAssignTerritories();
                 Battle.RandomlyAllocateStartingReinforcements(startingReinforcements);
             }
-
-            for (int i = 0; i < 40; i++)
-            {
-                UserCueSequencer.EnqueueCue(async () =>
-                {
-                    Debug.Log("hello");
-                    await Task.Delay(1000);
-                });    
-            }
         }
 
         private void Update()

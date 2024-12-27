@@ -6,8 +6,11 @@ using UnityEngine;
 
 namespace BattleTest.Scripts
 {
+    // todo: cleanup surface methods for this class
     public static class UserCueSequencer
     {
+        public const int DefaultCueDelayMs = 100;
+        
         private static readonly Queue<Cue> _queueOfCues = new();
         private static bool _alive = true;
         private static int _cueInterval = 16;
@@ -15,6 +18,26 @@ namespace BattleTest.Scripts
         public static void EnqueueCue(Cue cue)
         {
             _queueOfCues.Enqueue(cue);
+        }
+
+        public static void EnqueueCueWithDelayAfter(GameObject requiredGameObject, Func<Task> action, int delayMs = DefaultCueDelayMs)
+        {
+            Cue cue = new Cue(async () =>
+            {
+                await action.Invoke();
+                await Task.Delay(delayMs);
+            }, GenerateGameObjectExistsFunc(requiredGameObject));
+            EnqueueCue(cue);
+        }
+        
+        public static void EnqueueCueWithDelayAfter(GameObject requiredGameObject, Action action, int delayMs = DefaultCueDelayMs)
+        {
+            Cue cue = new Cue(async () =>
+            {
+                action.Invoke();
+                await Task.Delay(delayMs);
+            }, GenerateGameObjectExistsFunc(requiredGameObject));
+            EnqueueCue(cue);
         }
         
         public static void EnqueueCue(Func<Task> cue)
@@ -24,7 +47,7 @@ namespace BattleTest.Scripts
 
         public static void EnqueueCue(GameObject requiredGameObject, Func<Task> cue)
         {
-            _queueOfCues.Enqueue(new Cue(cue, () => requiredGameObject));
+            _queueOfCues.Enqueue(new Cue(cue, GenerateGameObjectExistsFunc(requiredGameObject)));
         }
         
         public static void ClearQueuedCues()
@@ -77,6 +100,7 @@ namespace BattleTest.Scripts
         }
 
         private static Func<bool> AlwaysTrue = () => true;
+        private static Func<bool> GenerateGameObjectExistsFunc(GameObject g) => () => g;
         
         public class Cue
         {
