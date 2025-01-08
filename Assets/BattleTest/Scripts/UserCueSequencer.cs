@@ -40,9 +40,28 @@ namespace BattleTest.Scripts
             EnqueueCue(cue);
         }
         
+        public static void EnqueueCueWithDelayAfter(Action action, int delayMs = DefaultCueDelayMs)
+        {
+            Cue cue = new Cue(async () =>
+            {
+                action.Invoke();
+                await Task.Delay(delayMs);
+            }, AlwaysTrue);
+            EnqueueCue(cue);
+        }
+        
         public static void EnqueueCue(Func<Task> cue)
         {
             _queueOfCues.Enqueue(new Cue(cue, AlwaysTrue));
+        }
+        
+        public static void EnqueueCue(Action cue)
+        {
+            _queueOfCues.Enqueue(new Cue(() =>
+            {
+                cue.Invoke();
+                return Task.CompletedTask;
+            }, AlwaysTrue));
         }
 
         public static void EnqueueCue(GameObject requiredGameObject, Func<Task> cue)

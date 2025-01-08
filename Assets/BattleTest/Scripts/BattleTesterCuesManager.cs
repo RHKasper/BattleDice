@@ -15,7 +15,7 @@ namespace BattleTest.Scripts
         {
             foreach (MapNode mapNode in e.Battle.Map.Nodes.Values)
             {
-                _battleTester.GetMapNodeVisual(mapNode).ShowOwnership();
+                UserCueSequencer.EnqueueCueWithDelayAfter(_battleTester.GetMapNodeVisual(mapNode).ShowOwnership);
             }
         }
 
@@ -23,7 +23,7 @@ namespace BattleTest.Scripts
         {
             foreach (MapNode mapNode in e.Battle.Map.Nodes.Values)
             {
-                _battleTester.GetMapNodeVisual(mapNode).ShowNumDice();
+                UserCueSequencer.EnqueueCueWithDelayAfter(_battleTester.GetMapNodeVisual(mapNode).ShowNumDice);
             }
         }
 

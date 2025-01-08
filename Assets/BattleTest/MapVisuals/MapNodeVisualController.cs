@@ -37,6 +37,9 @@ namespace BattleTest.MapVisuals
             _battleTester = battleTester;
             selectionHighlight.gameObject.SetActive(false);
             targetHighlight.gameObject.SetActive(false);
+            background.color = Color.grey;
+            diceFill.fillAmount = 0;
+            text.text = "";
         }
 
         public bool HasEdgeVisual(MapNode adjacentNode)
