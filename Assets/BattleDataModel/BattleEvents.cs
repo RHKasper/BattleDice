@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace BattleDataModel
 {
@@ -78,14 +79,15 @@ namespace BattleDataModel
             }
         }
         
-        // todo: add info here to nicely animate reinforcements
         public class ReinforcementsAppliedArgs : EventArgs
         {
-            public int PlayerIndex;
+            public readonly int PlayerIndex;
+            public readonly IEnumerable<MapNode> ReinforcedTerritoriesInOrder;
 
-            public ReinforcementsAppliedArgs(int playerIndex)
+            public ReinforcementsAppliedArgs(int playerIndex, IEnumerable<MapNode> reinforcedTerritoriesInOrder)
             {
                 PlayerIndex = playerIndex;
+                ReinforcedTerritoriesInOrder = reinforcedTerritoriesInOrder;
             }
         }
         

@@ -29,13 +29,10 @@ namespace BattleTest.Scripts
 
         public void OnReinforcementsApplied(object sender, BattleEvents.ReinforcementsAppliedArgs e)
         {
-            // todo: replace this with sequenced cues for each assigned die
-            foreach (MapNode mapNode in _battleTester.Battle.Map.Nodes.Values)
+            foreach (MapNode territory in e.ReinforcedTerritoriesInOrder)
             {
-                _battleTester.GetMapNodeVisual(mapNode).ShowNumDice();
+                UserCueSequencer.EnqueueCueWithDelayAfter(_battleTester.GetMapNodeVisual(territory).IncrementNumDiceShown);
             }
-            
-            //_battleTester.GetMapNodeVisual(e.)
         }
         
         public void OnTerritoryCaptured(object sender, BattleEvents.TerritoryCapturedArgs e)

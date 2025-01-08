@@ -164,6 +164,7 @@ namespace BattleDataModel
             List<MapNode> ownedNodesWithRoomForReinforcements = ownedNodes.Where(n => n.NumDice < Constants.MaxDiceInTerritory).ToList();
 
             Debug.Log("Adding " + reinforcementsCount + " reinforcements for player " + playerIndex);
+            List<MapNode> orderedReinforcements = new();
             
             for (int i = 0; i < reinforcementsCount; i++)
             {
@@ -175,6 +176,7 @@ namespace BattleDataModel
                 
                 int randomTerritoryIndex = Rng.Next(0, ownedNodesWithRoomForReinforcements.Count);
                 MapNode randomTerritory = ownedNodesWithRoomForReinforcements[randomTerritoryIndex];
+                orderedReinforcements.Add(randomTerritory);
                 randomTerritory.NumDice++;
                 
                 if (randomTerritory.NumDice == Constants.MaxDiceInTerritory)
@@ -183,7 +185,7 @@ namespace BattleDataModel
                 }
             }
             
-            ReinforcementsApplied?.Invoke(this, new BattleEvents.ReinforcementsAppliedArgs(_activePlayerIndex));
+            ReinforcementsApplied?.Invoke(this, new BattleEvents.ReinforcementsAppliedArgs(_activePlayerIndex, orderedReinforcements));
         }
 
         private void HandleNoRoomForReinforcements(int extraReinforcementsAmount)
