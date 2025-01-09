@@ -15,7 +15,6 @@ namespace BattleTest.Scripts
         public event Action BattleInitialized; 
         
         [Header("Settings")]
-        [SerializeField] private bool quickInit = true;
         [SerializeField] private int playerCount = 3;
         [SerializeField] private int startingReinforcements = 3;
         [SerializeField] private int minimumMapTerritories = 7;
@@ -58,29 +57,30 @@ namespace BattleTest.Scripts
         {
             _cuesManager = new BattleTesterCuesManager(this);
             
-            if (quickInit)
-            {
-                InitializeBattle();
-                BattleInitialized?.Invoke();
+            InitializeBattle();
+            BattleInitialized?.Invoke();
                 
-                //todo: move these somewhere else so they work when we're not doing quick init
-                Battle.StartingTerritoriesAssigned += _cuesManager.OnStartingTerritoriesAssigned;
-                Battle.StartingReinforcementsAllocated += _cuesManager.OnStartingReinforcementsAllocated;
-                Battle.ReinforcementsApplied += _cuesManager.OnReinforcementsApplied;
-                Battle.TerritoryCaptured += _cuesManager.OnTerritoryCaptured;
-                Battle.AttackFinished += _cuesManager.OnAttackFinished;
+            Battle.StartingTerritoriesAssigned += _cuesManager.OnStartingTerritoriesAssigned;
+            Battle.StartingReinforcementsAllocated += _cuesManager.OnStartingReinforcementsAllocated;
+            Battle.ApplyingReinforcements += _cuesManager.OnApplyingReinforcements;
+            Battle.AppliedReinforcementDie += _cuesManager.OnAppliedReinforcementDie;
+            Battle.AppliedReinforcements += _cuesManager.OnAppliedReinforcements;
+            Battle.TerritoryCaptured += _cuesManager.OnTerritoryCaptured;
+            Battle.AttackFinished += _cuesManager.OnAttackFinished;
                 
-                Battle.RandomlyAssignTerritories();
-                Battle.RandomlyAllocateStartingReinforcements(startingReinforcements);
-            }
+            Battle.RandomlyAssignTerritories();
+            Battle.RandomlyAllocateStartingReinforcements(startingReinforcements);
         }
         
         private void OnDestroy()
         {
             Battle.StartingTerritoriesAssigned -= _cuesManager.OnStartingTerritoriesAssigned;
             Battle.StartingReinforcementsAllocated -= _cuesManager.OnStartingReinforcementsAllocated;
-            Battle.ReinforcementsApplied -= _cuesManager.OnReinforcementsApplied;
+            Battle.ApplyingReinforcements -= _cuesManager.OnApplyingReinforcements;
+            Battle.AppliedReinforcementDie -= _cuesManager.OnAppliedReinforcementDie;
+            Battle.AppliedReinforcements -= _cuesManager.OnAppliedReinforcements;
             Battle.TerritoryCaptured -= _cuesManager.OnTerritoryCaptured;
+            Battle.AttackFinished -= _cuesManager.OnAttackFinished;
         }
 
         private void Update()

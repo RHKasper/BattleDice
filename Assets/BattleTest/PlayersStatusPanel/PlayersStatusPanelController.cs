@@ -29,7 +29,7 @@ namespace BattleTest.PlayersStatusPanel
             battleTester.Battle.AttackFinished += OnAttackFinished;
             battleTester.Battle.PlayerEliminated += OnPlayerEliminated;
             battleTester.Battle.GameEnded += OnGameEnded;
-            battleTester.Battle.ReinforcementsApplied += OnReinforcementsApplied;
+            battleTester.Battle.AppliedReinforcements += OnAppliedReinforcements;
             battleTester.Battle.TurnEnded += OnTurnEnded;
         }
 
@@ -40,7 +40,7 @@ namespace BattleTest.PlayersStatusPanel
             battleTester.Battle.AttackFinished -= OnAttackFinished;
             battleTester.Battle.PlayerEliminated -= OnPlayerEliminated;
             battleTester.Battle.GameEnded -= OnGameEnded;
-            battleTester.Battle.ReinforcementsApplied -= OnReinforcementsApplied;
+            battleTester.Battle.AppliedReinforcements -= OnAppliedReinforcements;
             battleTester.Battle.TurnEnded -= OnTurnEnded;
         }
 
@@ -93,7 +93,7 @@ namespace BattleTest.PlayersStatusPanel
             _playerStatusBoxes[e.WinningPlayerIndex].SetWinnerVisualsActive(true);
         }
         
-        private void OnReinforcementsApplied(object sender, BattleEvents.ReinforcementsAppliedArgs e)
+        private void OnAppliedReinforcements(object sender, BattleEvents.AppliedReinforcementsArgs e)
         {
             _playerStatusBoxes[e.PlayerIndex].SetData(e.PlayerIndex, battleTester.Battle.Map);
         }

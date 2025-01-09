@@ -79,12 +79,34 @@ namespace BattleDataModel
             }
         }
         
-        public class ReinforcementsAppliedArgs : EventArgs
+        public class ApplyingReinforcementsArgs : EventArgs
+        {
+            public readonly int PlayerIndex;
+            public readonly int NumReinforcements;
+
+            public ApplyingReinforcementsArgs(int playerIndex, int numReinforcements)
+            {
+                PlayerIndex = playerIndex;
+                NumReinforcements = numReinforcements;
+            }
+        }
+        
+        public class AppliedReinforcementDieArgs : EventArgs
+        {
+            public readonly MapNode Territory;
+
+            public AppliedReinforcementDieArgs(MapNode territory)
+            {
+                Territory = territory;
+            }
+        }
+        
+        public class AppliedReinforcementsArgs : EventArgs
         {
             public readonly int PlayerIndex;
             public readonly IEnumerable<MapNode> ReinforcedTerritoriesInOrder;
 
-            public ReinforcementsAppliedArgs(int playerIndex, IEnumerable<MapNode> reinforcedTerritoriesInOrder)
+            public AppliedReinforcementsArgs(int playerIndex, IEnumerable<MapNode> reinforcedTerritoriesInOrder)
             {
                 PlayerIndex = playerIndex;
                 ReinforcedTerritoriesInOrder = reinforcedTerritoriesInOrder;

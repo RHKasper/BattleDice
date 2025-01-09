@@ -14,7 +14,9 @@ namespace BattleDataModel
         public event EventHandler<BattleEvents.AttackFinishedArgs> AttackFinished;
         public event EventHandler<BattleEvents.PlayerEliminatedArgs> PlayerEliminated;
         public event EventHandler<BattleEvents.GameEndedArgs> GameEnded;
-        public event EventHandler<BattleEvents.ReinforcementsAppliedArgs> ReinforcementsApplied;
+        public event EventHandler<BattleEvents.ApplyingReinforcementsArgs> ApplyingReinforcements;
+        public event EventHandler<BattleEvents.AppliedReinforcementDieArgs> AppliedReinforcementDie;
+        public event EventHandler<BattleEvents.AppliedReinforcementsArgs> AppliedReinforcements;
         public event EventHandler<BattleEvents.TurnEndedArgs> TurnEnded;
         
         private readonly List<Player> _players;
@@ -163,7 +165,8 @@ namespace BattleDataModel
             List<MapNode> ownedNodes = Map.GetTerritoriesOwnedByPlayer(playerIndex);
             List<MapNode> ownedNodesWithRoomForReinforcements = ownedNodes.Where(n => n.NumDice < Constants.MaxDiceInTerritory).ToList();
 
-            Debug.Log("Adding " + reinforcementsCount + " reinforcements for player " + playerIndex);
+            ApplyingReinforcements?.Invoke(this, new BattleEvents.ApplyingReinforcementsArgs(playerIndex, reinforcementsCount));
+            
             List<MapNode> orderedReinforcements = new();
             
             for (int i = 0; i < reinforcementsCount; i++)
@@ -178,6 +181,7 @@ namespace BattleDataModel
                 MapNode randomTerritory = ownedNodesWithRoomForReinforcements[randomTerritoryIndex];
                 orderedReinforcements.Add(randomTerritory);
                 randomTerritory.NumDice++;
+                AppliedReinforcementDie?.Invoke(this, new BattleEvents.AppliedReinforcementDieArgs(randomTerritory));
                 
                 if (randomTerritory.NumDice == Constants.MaxDiceInTerritory)
                 {
@@ -185,7 +189,7 @@ namespace BattleDataModel
                 }
             }
             
-            ReinforcementsApplied?.Invoke(this, new BattleEvents.ReinforcementsAppliedArgs(_activePlayerIndex, orderedReinforcements));
+            AppliedReinforcements?.Invoke(this, new BattleEvents.AppliedReinforcementsArgs(_activePlayerIndex, orderedReinforcements));
         }
 
         private void HandleNoRoomForReinforcements(int extraReinforcementsAmount)

@@ -111,12 +111,6 @@ namespace BattleTest.MapVisuals
             UpdateText();
         }
 
-        public void IncrementNumDiceShown()
-        {
-            diceFill.fillAmount += 1 / (float) Constants.MaxDiceInTerritory;
-            UpdateText();
-        }
-
         public void ShowOwnershipAndNumDice()
         {
             ShowOwnership();
