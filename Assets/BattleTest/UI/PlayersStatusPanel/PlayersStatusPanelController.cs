@@ -94,8 +94,8 @@ namespace BattleTest.PlayersStatusPanel
         
         private void OnTurnEnded(object sender, BattleEvents.TurnEndedArgs e)
         {
-            _playerStatusBoxes[e.PrevActivePlayerIndex].SetHighlightActive(false);
-            _playerStatusBoxes[e.NewActivePlayerIndex].SetHighlightActive(true);
+            UserCueSequencer.EnqueueCueWithDelayAfter(() => _playerStatusBoxes[e.PrevActivePlayerIndex].SetHighlightActive(false));
+            UserCueSequencer.EnqueueCueWithDelayAfter(() => _playerStatusBoxes[e.NewActivePlayerIndex].SetHighlightActive(true));
         }
     }
 }

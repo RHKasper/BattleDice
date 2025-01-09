@@ -45,17 +45,14 @@ namespace BattleTest.Scripts
         {
             UserCueSequencer.EnqueueCueWithDelayAfter(() => Debug.Log("Applied reinforcements for " + e.PlayerIndex));
         }
-        
-        public void OnTerritoryCaptured(object sender, BattleEvents.TerritoryCapturedArgs e)
-        {
-            _battleTester.GetMapNodeVisual(e.CapturedTerritory).ShowOwnershipAndNumDice();
-            
-            // todo: update player status UI
-        }
 
         public void OnAttackFinished(object sender, BattleEvents.AttackFinishedArgs e)
         {
-            _battleTester.GetMapNodeVisual(e.AttackingTerritory).ShowNumDice();
+            UserCueSequencer.EnqueueCueWithDelayAfter(() =>
+            {
+                _battleTester.GetMapNodeVisual(e.DefendingTerritory).ShowOwnershipAndNumDice();    
+                _battleTester.GetMapNodeVisual(e.AttackingTerritory).ShowOwnershipAndNumDice();
+            });
         }
     }
 }

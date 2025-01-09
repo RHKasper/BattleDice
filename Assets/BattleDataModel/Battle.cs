@@ -10,7 +10,7 @@ namespace BattleDataModel
     {        
         public event EventHandler<BattleEvents.StartingTerritoriesAssignedArgs> StartingTerritoriesAssigned;
         public event EventHandler<BattleEvents.StartingReinforcementsAllocatedArgs> StartingReinforcementsAllocated;
-        public event EventHandler<BattleEvents.TerritoryCapturedArgs> TerritoryCaptured;
+        public event EventHandler<BattleEvents.RollingAttackArgs> RollingAttack;
         public event EventHandler<BattleEvents.AttackFinishedArgs> AttackFinished;
         public event EventHandler<BattleEvents.PlayerEliminatedArgs> PlayerEliminated;
         public event EventHandler<BattleEvents.GameEndedArgs> GameEnded;
@@ -110,10 +110,11 @@ namespace BattleDataModel
             bool attackerWins = attackRollSum > defenseRollSum;
             string resultsString = attackRollSum + " vs " + defenseRollSum + " ([" + string.Join(", ", attackingRoll) + "] vs [" + string.Join(", ", defendingRoll) + "]";
 
-            var attackFinishedEventArgs = new BattleEvents.AttackFinishedArgs(
+            var rollingAttackEventArgs = new BattleEvents.RollingAttackArgs(
                 attackingTerritory.OwnerPlayerIndex, defendingTerritory.OwnerPlayerIndex, 
                 attackingTerritory, defendingTerritory, 
                 attackingRoll.ToArray(), defendingRoll.ToArray());
+            RollingAttack?.Invoke(this, rollingAttackEventArgs);
             
             if (attackerWins)
             {
@@ -128,6 +129,10 @@ namespace BattleDataModel
                 attackingTerritory.NumDice = 1;
             }
 
+            var attackFinishedEventArgs = new BattleEvents.AttackFinishedArgs(
+                attackingTerritory.OwnerPlayerIndex, defendingTerritory.OwnerPlayerIndex,
+                attackingTerritory, defendingTerritory, attackerWins);
+            
             AttackFinished?.Invoke(this, attackFinishedEventArgs);
         }
 
@@ -203,10 +208,7 @@ namespace BattleDataModel
         private void CaptureTerritory(MapNode territory, int capturingPlayerIndex)
         {
             int previousOwnerPlayerIndex = territory.OwnerPlayerIndex;
-            var eventArgs = new BattleEvents.TerritoryCapturedArgs(territory, territory.OwnerPlayerIndex);
             territory.OwnerPlayerIndex = capturingPlayerIndex;
-            
-            TerritoryCaptured?.Invoke(this, eventArgs);
             
             if (Map.GetNumTerritoriesOwnedByPlayer(previousOwnerPlayerIndex) == 0)
             {

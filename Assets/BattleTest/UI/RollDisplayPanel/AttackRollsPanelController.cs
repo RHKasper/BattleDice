@@ -18,10 +18,10 @@ namespace BattleTest.UI.RollDisplayPanel
 
         private void OnBattleInitialized()
         {
-            battleTester.Battle.AttackFinished += OnAttackFinished;
+            battleTester.Battle.RollingAttack += OnRollingAttack;
         }
 
-        private void OnAttackFinished(object sender, BattleEvents.AttackFinishedArgs e)
+        private void OnRollingAttack(object sender, BattleEvents.RollingAttackArgs e)
         {
             UserCueSequencer.EnqueueCueWithDelayAfter(gameObject, async () => await attackerRollDisplayPanel.ShowDiceRoll(e.AttackRoll));
             UserCueSequencer.EnqueueCueWithDelayAfter(gameObject, async () => await defenderRollDisplayPanel.ShowDiceRoll(e.DefenseRoll));

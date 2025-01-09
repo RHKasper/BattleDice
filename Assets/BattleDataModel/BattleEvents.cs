@@ -37,7 +37,7 @@ namespace BattleDataModel
             }
         }
         
-        public class AttackFinishedArgs : EventArgs
+        public class RollingAttackArgs : EventArgs
         {
             public int AttackingPlayerId;
             public int DefendingPlayerId;
@@ -46,7 +46,7 @@ namespace BattleDataModel
             public int[] AttackRoll;
             public int[] DefenseRoll;
 
-            public AttackFinishedArgs(int attackingPlayerId, int defendingPlayerId, MapNode attackingTerritory, MapNode defendingTerritory, int[] attackRoll, int[] defenseRoll)
+            public RollingAttackArgs(int attackingPlayerId, int defendingPlayerId, MapNode attackingTerritory, MapNode defendingTerritory, int[] attackRoll, int[] defenseRoll)
             {
                 AttackingPlayerId = attackingPlayerId;
                 DefendingPlayerId = defendingPlayerId;
@@ -54,6 +54,24 @@ namespace BattleDataModel
                 DefendingTerritory = defendingTerritory;
                 AttackRoll = attackRoll;
                 DefenseRoll = defenseRoll;
+            }
+        }
+        
+        public class AttackFinishedArgs : EventArgs
+        {
+            public int AttackingPlayerId;
+            public int DefendingPlayerId;
+            public MapNode AttackingTerritory;
+            public MapNode DefendingTerritory;
+            public bool AttackerWon;
+
+            public AttackFinishedArgs(int attackingPlayerId, int defendingPlayerId, MapNode attackingTerritory, MapNode defendingTerritory, bool attackerWon)
+            {
+                AttackingPlayerId = attackingPlayerId;
+                DefendingPlayerId = defendingPlayerId;
+                AttackingTerritory = attackingTerritory;
+                DefendingTerritory = defendingTerritory;
+                AttackerWon = attackerWon;
             }
         }
         

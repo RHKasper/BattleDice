@@ -65,7 +65,6 @@ namespace BattleTest.Scripts
             Battle.ApplyingReinforcements += _cuesManager.OnApplyingReinforcements;
             Battle.AppliedReinforcementDie += _cuesManager.OnAppliedReinforcementDie;
             Battle.AppliedReinforcements += _cuesManager.OnAppliedReinforcements;
-            Battle.TerritoryCaptured += _cuesManager.OnTerritoryCaptured;
             Battle.AttackFinished += _cuesManager.OnAttackFinished;
                 
             Battle.RandomlyAssignTerritories();
