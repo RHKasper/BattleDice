@@ -98,31 +98,34 @@ namespace BattleDataModel
 
        
 
-        public void Attack(MapNode attackingSpace, MapNode defendingSpace)
+        public void Attack(MapNode attackingTerritory, MapNode defendingTerritory)
         {
-            Debug.Log("node " + attackingSpace.NodeIndex + " attacks node " + defendingSpace.NodeIndex);
+            Debug.Log("node " + attackingTerritory.NodeIndex + " attacks node " + defendingTerritory.NodeIndex);
 
-            List<int> attackingRoll = DiceRoller.RollDice(attackingSpace.NumDice, Rng);
-            List<int> defendingRoll = DiceRoller.RollDice(defendingSpace.NumDice, Rng);
+            List<int> attackingRoll = DiceRoller.RollDice(attackingTerritory.NumDice, Rng);
+            List<int> defendingRoll = DiceRoller.RollDice(defendingTerritory.NumDice, Rng);
             int attackRollSum = attackingRoll.Sum();
             int defenseRollSum = defendingRoll.Sum();
 
             bool attackerWins = attackRollSum > defenseRollSum;
             string resultsString = attackRollSum + " vs " + defenseRollSum + " ([" + string.Join(", ", attackingRoll) + "] vs [" + string.Join(", ", defendingRoll) + "]";
-            
-            var attackFinishedEventArgs = new BattleEvents.AttackFinishedArgs(attackingSpace.OwnerPlayerIndex, defendingSpace.OwnerPlayerIndex, attackingSpace, defendingSpace, attackerWins);
+
+            var attackFinishedEventArgs = new BattleEvents.AttackFinishedArgs(
+                attackingTerritory.OwnerPlayerIndex, defendingTerritory.OwnerPlayerIndex, 
+                attackingTerritory, defendingTerritory, 
+                attackingRoll.ToArray(), defendingRoll.ToArray());
             
             if (attackerWins)
             {
                 Debug.Log("Attacker wins: " + resultsString);
-                defendingSpace.NumDice = attackingSpace.NumDice - 1;
-                attackingSpace.NumDice = 1;
-                CaptureTerritory(defendingSpace, attackingSpace.OwnerPlayerIndex);
+                defendingTerritory.NumDice = attackingTerritory.NumDice - 1;
+                attackingTerritory.NumDice = 1;
+                CaptureTerritory(defendingTerritory, attackingTerritory.OwnerPlayerIndex);
             }
             else
             {
                 Debug.Log("Defender wins: " + resultsString);
-                attackingSpace.NumDice = 1;
+                attackingTerritory.NumDice = 1;
             }
 
             AttackFinished?.Invoke(this, attackFinishedEventArgs);

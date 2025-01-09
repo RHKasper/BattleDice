@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using BattleDataModel;
 using BattleTest.MapVisuals;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Serialization;
 
 namespace BattleTest.Scripts
@@ -70,17 +70,6 @@ namespace BattleTest.Scripts
                 
             Battle.RandomlyAssignTerritories();
             Battle.RandomlyAllocateStartingReinforcements(startingReinforcements);
-        }
-        
-        private void OnDestroy()
-        {
-            Battle.StartingTerritoriesAssigned -= _cuesManager.OnStartingTerritoriesAssigned;
-            Battle.StartingReinforcementsAllocated -= _cuesManager.OnStartingReinforcementsAllocated;
-            Battle.ApplyingReinforcements -= _cuesManager.OnApplyingReinforcements;
-            Battle.AppliedReinforcementDie -= _cuesManager.OnAppliedReinforcementDie;
-            Battle.AppliedReinforcements -= _cuesManager.OnAppliedReinforcements;
-            Battle.TerritoryCaptured -= _cuesManager.OnTerritoryCaptured;
-            Battle.AttackFinished -= _cuesManager.OnAttackFinished;
         }
 
         private void Update()

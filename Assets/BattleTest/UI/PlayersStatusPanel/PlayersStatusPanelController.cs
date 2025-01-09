@@ -34,18 +34,6 @@ namespace BattleTest.PlayersStatusPanel
             battleTester.Battle.TurnEnded += OnTurnEnded;
         }
 
-        private void OnDestroy()
-        {
-            battleTester.Battle.StartingTerritoriesAssigned -= OnStartingTerritoriesAssigned;
-            battleTester.Battle.StartingReinforcementsAllocated -= OnStartingReinforcementsAllocated;
-            battleTester.Battle.AttackFinished -= OnAttackFinished;
-            battleTester.Battle.PlayerEliminated -= OnPlayerEliminated;
-            battleTester.Battle.GameEnded -= OnGameEnded;
-            battleTester.Battle.AppliedReinforcementDie -= OnAppliedReinforcementDie;
-            battleTester.Battle.AppliedReinforcements -= OnAppliedReinforcements;
-            battleTester.Battle.TurnEnded -= OnTurnEnded;
-        }
-
         private void OnStartingTerritoriesAssigned(object sender, BattleEvents.StartingTerritoriesAssignedArgs e)
         {
             // clear old boxes if necessary

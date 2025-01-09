@@ -43,15 +43,17 @@ namespace BattleDataModel
             public int DefendingPlayerId;
             public MapNode AttackingTerritory;
             public MapNode DefendingTerritory;
-            public bool AttackSuccessful;
+            public int[] AttackRoll;
+            public int[] DefenseRoll;
 
-            public AttackFinishedArgs(int attackingPlayerId, int defendingPlayerId, MapNode attackingTerritory, MapNode defendingTerritory, bool attackSuccessful)
+            public AttackFinishedArgs(int attackingPlayerId, int defendingPlayerId, MapNode attackingTerritory, MapNode defendingTerritory, int[] attackRoll, int[] defenseRoll)
             {
                 AttackingPlayerId = attackingPlayerId;
                 DefendingPlayerId = defendingPlayerId;
                 AttackingTerritory = attackingTerritory;
                 DefendingTerritory = defendingTerritory;
-                AttackSuccessful = attackSuccessful;
+                AttackRoll = attackRoll;
+                DefenseRoll = defenseRoll;
             }
         }
         
