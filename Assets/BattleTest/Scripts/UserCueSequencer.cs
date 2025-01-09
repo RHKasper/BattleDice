@@ -19,7 +19,7 @@ namespace BattleTest.Scripts
         {
             _queueOfCues.Enqueue(cue);
         }
-
+        
         public static void EnqueueCueWithDelayAfter(GameObject requiredGameObject, Func<Task> action, int delayMs = DefaultCueDelayMs)
         {
             Cue cue = new Cue(async () =>
@@ -89,6 +89,7 @@ namespace BattleTest.Scripts
                 }
                 else
                 {
+                    // todo: figure out how to run things on the main thread while running 
                     await Task.Delay(_cueInterval);
                 }
             }

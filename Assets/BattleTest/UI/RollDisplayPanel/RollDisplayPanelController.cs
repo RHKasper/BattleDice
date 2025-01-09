@@ -12,8 +12,6 @@ namespace BattleTest.UI.RollDisplayPanel
 {
     public class RollDisplayPanelController : MonoBehaviour
     {
-        private const float DieFaceChangeIntervalMS = UserCueSequencer.DefaultCueDelayMs / 10.0f;
-        
         [SerializeField] private DieRollUiController[] dieRollUiControllers;
         [SerializeField] private Sprite[] dieFaceSprites;
         [SerializeField] private TextMeshProUGUI resultsText;
@@ -29,26 +27,28 @@ namespace BattleTest.UI.RollDisplayPanel
             {
                 dieRollUiControllers[i].gameObject.SetActive(i < diceRoll.Length);
             }
-
-            float rollDuration = UserCueSequencer.DefaultCueDelayMs;
-            float startTime = Time.time;
-
-            while (Time.time < startTime + rollDuration)
+            
+            float endTime = Time.time + .001f * UserCueSequencer.DefaultCueDelayMs * 3;
+            float pipChangeTimeInterval = UserCueSequencer.DefaultCueDelayMs / 10.0f;
+            
+            while (Time.time < endTime)
             {
+                Debug.Log(Time.time + " is less than " + endTime);
                 for (int i = 0; i < diceRoll.Length; i++)
                 {
                     dieRollUiControllers[i].ShowPips(dieFaceSprites.GetRandom());
                 }
 
-                await Task.Delay(TimeSpan.FromMilliseconds(DieFaceChangeIntervalMS));
+                await Task.Delay(TimeSpan.FromMilliseconds(pipChangeTimeInterval));
             }
             
             for (int i = 0; i < diceRoll.Length; i++)
             {
-                dieRollUiControllers[i].ShowPips(dieFaceSprites[diceRoll[i-1]]);
+                var sprite = dieFaceSprites[diceRoll[i] - 1];
+                dieRollUiControllers[i].ShowPips(sprite);
             }
 
-            await Task.Delay(TimeSpan.FromMilliseconds(rollDuration));
+            await Task.Delay(TimeSpan.FromMilliseconds(UserCueSequencer.DefaultCueDelayMs));
             resultsText.text = diceRoll.Sum().ToString();
         }
     }
