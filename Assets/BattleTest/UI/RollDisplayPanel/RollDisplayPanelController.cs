@@ -23,6 +23,10 @@ namespace BattleTest.UI.RollDisplayPanel
 
         public async Task ShowDiceRoll(int[] diceRoll)
         {
+            Debug.Log("Starting Dice Roll - " + Time.time);
+            float startTime = Time.time;
+            int dieChanges = 0;
+            
             for (int i = 0; i < dieRollUiControllers.Length; i++)
             {
                 dieRollUiControllers[i].gameObject.SetActive(i < diceRoll.Length);
@@ -33,12 +37,12 @@ namespace BattleTest.UI.RollDisplayPanel
             
             while (Time.time < endTime)
             {
-                Debug.Log(Time.time + " is less than " + endTime);
                 for (int i = 0; i < diceRoll.Length; i++)
                 {
                     dieRollUiControllers[i].ShowPips(dieFaceSprites.GetRandom());
                 }
 
+                dieChanges++;
                 await Task.Delay(TimeSpan.FromMilliseconds(pipChangeTimeInterval));
             }
             
@@ -50,6 +54,8 @@ namespace BattleTest.UI.RollDisplayPanel
 
             await Task.Delay(TimeSpan.FromMilliseconds(UserCueSequencer.DefaultCueDelayMs));
             resultsText.text = diceRoll.Sum().ToString();
+            
+            Debug.Log("Ending ShowDiceRoll - " + Time.time + " (elapsed: " + (Time.time - startTime) + ") Die Changes: " + dieChanges);
         }
     }
 }

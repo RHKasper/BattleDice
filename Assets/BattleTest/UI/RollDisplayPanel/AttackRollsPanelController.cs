@@ -24,6 +24,7 @@ namespace BattleTest.UI.RollDisplayPanel
         private void OnAttackFinished(object sender, BattleEvents.AttackFinishedArgs e)
         {
             UserCueSequencer.EnqueueCueWithDelayAfter(gameObject, async () => await attackerRollDisplayPanel.ShowDiceRoll(e.AttackRoll));
+            UserCueSequencer.EnqueueCueWithDelayAfter(gameObject, async () => await defenderRollDisplayPanel.ShowDiceRoll(e.DefenseRoll));
         }
     }
 }
