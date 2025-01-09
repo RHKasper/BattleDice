@@ -29,6 +29,7 @@ namespace BattleTest.PlayersStatusPanel
             battleTester.Battle.AttackFinished += OnAttackFinished;
             battleTester.Battle.PlayerEliminated += OnPlayerEliminated;
             battleTester.Battle.GameEnded += OnGameEnded;
+            battleTester.Battle.AppliedReinforcementDie += OnAppliedReinforcementDie;
             battleTester.Battle.AppliedReinforcements += OnAppliedReinforcements;
             battleTester.Battle.TurnEnded += OnTurnEnded;
         }
@@ -40,6 +41,7 @@ namespace BattleTest.PlayersStatusPanel
             battleTester.Battle.AttackFinished -= OnAttackFinished;
             battleTester.Battle.PlayerEliminated -= OnPlayerEliminated;
             battleTester.Battle.GameEnded -= OnGameEnded;
+            battleTester.Battle.AppliedReinforcementDie -= OnAppliedReinforcementDie;
             battleTester.Battle.AppliedReinforcements -= OnAppliedReinforcements;
             battleTester.Battle.TurnEnded -= OnTurnEnded;
         }
@@ -79,23 +81,27 @@ namespace BattleTest.PlayersStatusPanel
         
         private void OnAttackFinished(object sender, BattleEvents.AttackFinishedArgs args)
         {
-            _playerStatusBoxes[args.AttackingPlayerId].SetData(args.AttackingPlayerId, battleTester.Battle.Map);
-            _playerStatusBoxes[args.DefendingPlayerId].SetData(args.DefendingPlayerId, battleTester.Battle.Map);
+            UserCueSequencer.EnqueueCueWithDelayAfter(() => _playerStatusBoxes[args.AttackingPlayerId].SetData(args.AttackingPlayerId, battleTester.Battle.Map));
+            UserCueSequencer.EnqueueCueWithDelayAfter(() => _playerStatusBoxes[args.DefendingPlayerId].SetData(args.DefendingPlayerId, battleTester.Battle.Map));
         }
         
         private void OnPlayerEliminated(object sender, BattleEvents.PlayerEliminatedArgs e)
         {
-            _playerStatusBoxes[e.EliminatedPlayerIndex].SetEliminatedVisualsActive(true);
+            UserCueSequencer.EnqueueCueWithDelayAfter(() => _playerStatusBoxes[e.EliminatedPlayerIndex].SetEliminatedVisualsActive(true));
         }
 
         private void OnGameEnded(object sender, BattleEvents.GameEndedArgs e)
         {
-            _playerStatusBoxes[e.WinningPlayerIndex].SetWinnerVisualsActive(true);
+            UserCueSequencer.EnqueueCueWithDelayAfter(() => _playerStatusBoxes[e.WinningPlayerIndex].SetWinnerVisualsActive(true));
+        }
+        
+        private void OnAppliedReinforcementDie(object sender, BattleEvents.AppliedReinforcementDieArgs e)
+        {
         }
         
         private void OnAppliedReinforcements(object sender, BattleEvents.AppliedReinforcementsArgs e)
         {
-            _playerStatusBoxes[e.PlayerIndex].SetData(e.PlayerIndex, battleTester.Battle.Map);
+            UserCueSequencer.EnqueueCueWithDelayAfter(() => _playerStatusBoxes[e.PlayerIndex].SetData(e.PlayerIndex, battleTester.Battle.Map));
         }
         
         private void OnTurnEnded(object sender, BattleEvents.TurnEndedArgs e)

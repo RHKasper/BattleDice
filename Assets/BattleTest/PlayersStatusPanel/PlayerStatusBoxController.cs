@@ -16,8 +16,12 @@ namespace BattleTest.PlayersStatusPanel
         [SerializeField] private GameObject winnerVisuals;
         [SerializeField] private TextMeshProUGUI text;
         
+        /// <summary>
+        /// todo: make this properly sequenced
+        /// </summary>
         public void SetData(int playerId, Map map)
         {
+            Debug.Log("Setting player status box for player ID " + playerId);
             var territories = map.GetTerritories(playerId);
             int reinforcementCount = map.GetLargestContiguousGroupOfTerritories(playerId).Count;
             int totalDice = territories.Sum(t => t.NumDice);
