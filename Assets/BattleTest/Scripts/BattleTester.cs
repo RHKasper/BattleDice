@@ -62,10 +62,13 @@ namespace BattleTest.Scripts
                 
             Battle.StartingTerritoriesAssigned += _cuesManager.OnStartingTerritoriesAssigned;
             Battle.StartingReinforcementsAllocated += _cuesManager.OnStartingReinforcementsAllocated;
+            
+            Battle.AttackSucceeded += _cuesManager.OnAttackSucceeded;
+            Battle.AttackFailed += _cuesManager.OnAttackFailed;
+            
             Battle.ApplyingReinforcements += _cuesManager.OnApplyingReinforcements;
             Battle.AppliedReinforcementDie += _cuesManager.OnAppliedReinforcementDie;
             Battle.AppliedReinforcements += _cuesManager.OnAppliedReinforcements;
-            Battle.AttackFinished += _cuesManager.OnAttackFinished;
                 
             Battle.RandomlyAssignTerritories();
             Battle.RandomlyAllocateStartingReinforcements(startingReinforcements);

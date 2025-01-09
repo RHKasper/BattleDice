@@ -46,13 +46,18 @@ namespace BattleTest.Scripts
             UserCueSequencer.EnqueueCueWithDelayAfter(() => Debug.Log("Applied reinforcements for " + e.PlayerIndex));
         }
 
-        public void OnAttackFinished(object sender, BattleEvents.AttackFinishedArgs e)
+        public void OnAttackSucceeded(object sender, BattleEvents.AttackSucceededArgs e)
         {
             UserCueSequencer.EnqueueCueWithDelayAfter(() =>
             {
-                _battleTester.GetMapNodeVisual(e.DefendingTerritory).ShowOwnershipAndNumDice();    
                 _battleTester.GetMapNodeVisual(e.AttackingTerritory).ShowOwnershipAndNumDice();
+                _battleTester.GetMapNodeVisual(e.CapturedTerritory).ShowOwnershipAndNumDice();
             });
+        }
+        
+        public void OnAttackFailed(object sender, BattleEvents.AttackFailedArgs e)
+        {
+            UserCueSequencer.EnqueueCueWithDelayAfter(_battleTester.GetMapNodeVisual(e.AttackingTerritory).ShowNumDice);
         }
     }
 }

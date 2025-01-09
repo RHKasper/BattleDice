@@ -11,8 +11,10 @@ namespace BattleDataModel
         public event EventHandler<BattleEvents.StartingTerritoriesAssignedArgs> StartingTerritoriesAssigned;
         public event EventHandler<BattleEvents.StartingReinforcementsAllocatedArgs> StartingReinforcementsAllocated;
         public event EventHandler<BattleEvents.RollingAttackArgs> RollingAttack;
-        public event EventHandler<BattleEvents.AttackFinishedArgs> AttackFinished;
+        public event EventHandler<BattleEvents.AttackSucceededArgs> AttackSucceeded;
+        public event EventHandler<BattleEvents.AttackFailedArgs> AttackFailed;
         public event EventHandler<BattleEvents.PlayerEliminatedArgs> PlayerEliminated;
+        public event EventHandler<BattleEvents.AttackFinishedArgs> AttackFinished;
         public event EventHandler<BattleEvents.GameEndedArgs> GameEnded;
         public event EventHandler<BattleEvents.ApplyingReinforcementsArgs> ApplyingReinforcements;
         public event EventHandler<BattleEvents.AppliedReinforcementDieArgs> AppliedReinforcementDie;
@@ -102,6 +104,9 @@ namespace BattleDataModel
         {
             Debug.Log("node " + attackingTerritory.NodeIndex + " attacks node " + defendingTerritory.NodeIndex);
 
+            int attackingPlayerIndex = attackingTerritory.OwnerPlayerIndex;
+            int defendingPlayerIndex = defendingTerritory.OwnerPlayerIndex;
+            
             List<int> attackingRoll = DiceRoller.RollDice(attackingTerritory.NumDice, Rng);
             List<int> defendingRoll = DiceRoller.RollDice(defendingTerritory.NumDice, Rng);
             int attackRollSum = attackingRoll.Sum();
@@ -111,7 +116,7 @@ namespace BattleDataModel
             string resultsString = attackRollSum + " vs " + defenseRollSum + " ([" + string.Join(", ", attackingRoll) + "] vs [" + string.Join(", ", defendingRoll) + "]";
 
             var rollingAttackEventArgs = new BattleEvents.RollingAttackArgs(
-                attackingTerritory.OwnerPlayerIndex, defendingTerritory.OwnerPlayerIndex, 
+                attackingPlayerIndex, defendingPlayerIndex, 
                 attackingTerritory, defendingTerritory, 
                 attackingRoll.ToArray(), defendingRoll.ToArray());
             RollingAttack?.Invoke(this, rollingAttackEventArgs);
@@ -119,14 +124,25 @@ namespace BattleDataModel
             if (attackerWins)
             {
                 Debug.Log("Attacker wins: " + resultsString);
+                defendingTerritory.OwnerPlayerIndex = attackingPlayerIndex;
                 defendingTerritory.NumDice = attackingTerritory.NumDice - 1;
                 attackingTerritory.NumDice = 1;
-                CaptureTerritory(defendingTerritory, attackingTerritory.OwnerPlayerIndex);
+                
+                var eventArgs = new BattleEvents.AttackSucceededArgs(attackingTerritory, defendingTerritory);
+                AttackSucceeded?.Invoke(this, eventArgs);
+            
+                if (Map.GetNumTerritoriesOwnedByPlayer(defendingPlayerIndex) == 0)
+                {
+                    EliminatePlayer(defendingPlayerIndex, attackingPlayerIndex);
+                }
             }
             else
             {
                 Debug.Log("Defender wins: " + resultsString);
                 attackingTerritory.NumDice = 1;
+                var attackFailedArgs = new BattleEvents.AttackFailedArgs(attackingTerritory.OwnerPlayerIndex,
+                    defendingTerritory.OwnerPlayerIndex, attackingTerritory, defendingTerritory);
+                AttackFailed?.Invoke(this, attackFailedArgs);
             }
 
             var attackFinishedEventArgs = new BattleEvents.AttackFinishedArgs(
@@ -204,26 +220,16 @@ namespace BattleDataModel
         {
             Debug.Log("No room for " + extraReinforcementsAmount + " extra reinforcements");
         }
-
-        private void CaptureTerritory(MapNode territory, int capturingPlayerIndex)
-        {
-            int previousOwnerPlayerIndex = territory.OwnerPlayerIndex;
-            territory.OwnerPlayerIndex = capturingPlayerIndex;
-            
-            if (Map.GetNumTerritoriesOwnedByPlayer(previousOwnerPlayerIndex) == 0)
-            {
-                EliminatePlayer(previousOwnerPlayerIndex, capturingPlayerIndex);
-                if (_players.Count(p => p.Eliminated == false) == 1)
-                {
-                    EndGame(capturingPlayerIndex, previousOwnerPlayerIndex);
-                }
-            }
-        }
-
+        
+        
         private void EliminatePlayer(int eliminatedPlayerIndex, int eliminatingPlayerIndex)
         {
             _players[eliminatedPlayerIndex].Eliminated = true;
             PlayerEliminated?.Invoke(this, new BattleEvents.PlayerEliminatedArgs(eliminatedPlayerIndex, eliminatingPlayerIndex));
+            if (_players.Count(p => p.Eliminated == false) == 1)
+            {
+                EndGame(eliminatingPlayerIndex, eliminatedPlayerIndex);
+            }
         }
 
         private void EndGame(int winningPlayerIndex, int lastOpponentStandingIndex)

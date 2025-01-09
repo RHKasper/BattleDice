@@ -25,15 +25,15 @@ namespace BattleDataModel
             }
         }
         
-        public class TerritoryCapturedArgs : EventArgs
+        public class AttackSucceededArgs : EventArgs
         {
+            public MapNode AttackingTerritory;
             public MapNode CapturedTerritory;
-            public int PreviousOwnerPlayerId;
 
-            public TerritoryCapturedArgs(MapNode capturedTerritory, int previousOwnerPlayerId)
+            public AttackSucceededArgs(MapNode attackingTerritory, MapNode capturedTerritory)
             {
+                AttackingTerritory = attackingTerritory;
                 CapturedTerritory = capturedTerritory;
-                PreviousOwnerPlayerId = previousOwnerPlayerId;
             }
         }
         
@@ -54,6 +54,22 @@ namespace BattleDataModel
                 DefendingTerritory = defendingTerritory;
                 AttackRoll = attackRoll;
                 DefenseRoll = defenseRoll;
+            }
+        }
+        
+        public class AttackFailedArgs : EventArgs
+        {
+            public int AttackingPlayerId;
+            public int DefendingPlayerId;
+            public MapNode AttackingTerritory;
+            public MapNode DefendingTerritory;
+
+            public AttackFailedArgs(int attackingPlayerId, int defendingPlayerId, MapNode attackingTerritory, MapNode defendingTerritory)
+            {
+                AttackingPlayerId = attackingPlayerId;
+                DefendingPlayerId = defendingPlayerId;
+                AttackingTerritory = attackingTerritory;
+                DefendingTerritory = defendingTerritory;
             }
         }
         
