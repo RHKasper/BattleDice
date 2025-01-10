@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BattleTest.Scripts;
 using GenericsExtensions;
+using GlobalScripts;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -43,7 +44,7 @@ namespace BattleTest.UI.RollDisplayPanel
                 }
 
                 dieChanges++;
-                await Task.Delay(TimeSpan.FromMilliseconds(pipChangeTimeInterval));
+                await WebGlUtil.WebGlSafeDelay(pipChangeTimeInterval);
             }
             
             for (int i = 0; i < diceRoll.Length; i++)
@@ -52,7 +53,7 @@ namespace BattleTest.UI.RollDisplayPanel
                 dieRollUiControllers[i].ShowPips(sprite);
             }
 
-            await Task.Delay(TimeSpan.FromMilliseconds(UserCueSequencer.DefaultCueDelayMs));
+            await WebGlUtil.WebGlSafeDelay(UserCueSequencer.DefaultCueDelayMs);
             resultsText.text = diceRoll.Sum().ToString();
             
             Debug.Log("Ending ShowDiceRoll - " + Time.time + " (elapsed: " + (Time.time - startTime) + ") Die Changes: " + dieChanges);

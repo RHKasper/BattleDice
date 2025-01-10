@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using GlobalScripts;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -13,70 +14,30 @@ namespace BattleTest.Scripts
         
         private static readonly Queue<Cue> _queueOfCues = new();
         private static bool _alive = true;
-        private static int _cueInterval = 16;
 
         public static void EnqueueCue(Cue cue)
         {
             _queueOfCues.Enqueue(cue);
         }
-
-        public static void EnqueueCueWithNoDelay(Action action)
-        {
-            Cue cue = new Cue(() =>
-            {
-                action.Invoke();
-                return Task.CompletedTask;
-            }, AlwaysTrue);
-            EnqueueCue(cue);
-        }
         
-        public static void EnqueueCueWithDelayAfter(GameObject requiredGameObject, Func<Task> action, int delayMs = DefaultCueDelayMs)
+        public static void EnqueueCueWithDelayAfter(string cueName, GameObject requiredGameObject, Func<Task> action, int delayMs = DefaultCueDelayMs)
         {
-            Cue cue = new Cue(async () =>
+            Cue cue = new Cue(cueName, async () =>
             {
                 await action.Invoke();
-                await Task.Delay(delayMs);
+                await WebGlUtil.WebGlSafeDelay(delayMs);
             }, GenerateGameObjectExistsFunc(requiredGameObject));
             EnqueueCue(cue);
         }
         
-        public static void EnqueueCueWithDelayAfter(GameObject requiredGameObject, Action action, int delayMs = DefaultCueDelayMs)
+        public static void EnqueueCueWithDelayAfter(string cueName, Action action, int delayMs = DefaultCueDelayMs)
         {
-            Cue cue = new Cue(async () =>
+            Cue cue = new Cue(cueName, async () =>
             {
                 action.Invoke();
-                await Task.Delay(delayMs);
-            }, GenerateGameObjectExistsFunc(requiredGameObject));
-            EnqueueCue(cue);
-        }
-        
-        public static void EnqueueCueWithDelayAfter(Action action, int delayMs = DefaultCueDelayMs)
-        {
-            Cue cue = new Cue(async () =>
-            {
-                action.Invoke();
-                await Task.Delay(delayMs);
+                await WebGlUtil.WebGlSafeDelay(delayMs);
             }, AlwaysTrue);
             EnqueueCue(cue);
-        }
-        
-        public static void EnqueueCue(Func<Task> cue)
-        {
-            _queueOfCues.Enqueue(new Cue(cue, AlwaysTrue));
-        }
-        
-        public static void EnqueueCue(Action cue)
-        {
-            _queueOfCues.Enqueue(new Cue(() =>
-            {
-                cue.Invoke();
-                return Task.CompletedTask;
-            }, AlwaysTrue));
-        }
-
-        public static void EnqueueCue(GameObject requiredGameObject, Func<Task> cue)
-        {
-            _queueOfCues.Enqueue(new Cue(cue, GenerateGameObjectExistsFunc(requiredGameObject)));
         }
         
         public static void ClearQueuedCues()
@@ -95,12 +56,12 @@ namespace BattleTest.Scripts
                 Cue cue = DequeueToNextValidCue();
                 if (cue != null)
                 {
+                    Debug.Log("Proceessing Cue: " + cue.Name);
                     await cue.AsyncAction();
                 }
                 else
                 {
-                    // todo: figure out how to run things on the main thread while running 
-                    await Task.Delay(_cueInterval);
+                    await Task.Yield();
                 }
             }
             
@@ -134,11 +95,13 @@ namespace BattleTest.Scripts
         
         public class Cue
         {
+            public string Name;
             public Func<Task> AsyncAction;
             public Func<bool> IsValid;
 
-            public Cue(Func<Task> asyncAction, Func<bool> isValid)
+            public Cue(string cueName, Func<Task> asyncAction, Func<bool> isValid)
             {
+                Name = cueName;
                 AsyncAction = asyncAction;
                 IsValid = isValid;
             }

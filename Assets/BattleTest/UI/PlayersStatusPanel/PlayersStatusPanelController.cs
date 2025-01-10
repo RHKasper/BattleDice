@@ -69,18 +69,21 @@ namespace BattleTest.PlayersStatusPanel
         
         private void OnAttackFinished(object sender, BattleEvents.AttackFinishedArgs args)
         {
-            UserCueSequencer.EnqueueCueWithDelayAfter(() => _playerStatusBoxes[args.AttackingPlayerId].SetData(args.AttackingPlayerId, battleTester.Battle.Map));
-            UserCueSequencer.EnqueueCueWithDelayAfter(() => _playerStatusBoxes[args.DefendingPlayerId].SetData(args.DefendingPlayerId, battleTester.Battle.Map));
+            UserCueSequencer.EnqueueCueWithDelayAfter("Show attack results in Player Status Panels", () =>
+            {
+                _playerStatusBoxes[args.AttackingPlayerId].SetData(args.AttackingPlayerId, battleTester.Battle.Map);
+                _playerStatusBoxes[args.DefendingPlayerId].SetData(args.DefendingPlayerId, battleTester.Battle.Map);
+            });
         }
         
         private void OnPlayerEliminated(object sender, BattleEvents.PlayerEliminatedArgs e)
         {
-            UserCueSequencer.EnqueueCueWithDelayAfter(() => _playerStatusBoxes[e.EliminatedPlayerIndex].SetEliminatedVisualsActive(true));
+            UserCueSequencer.EnqueueCueWithDelayAfter("Show player elimination", () => _playerStatusBoxes[e.EliminatedPlayerIndex].SetEliminatedVisualsActive(true));
         }
 
         private void OnGameEnded(object sender, BattleEvents.GameEndedArgs e)
         {
-            UserCueSequencer.EnqueueCueWithDelayAfter(() => _playerStatusBoxes[e.WinningPlayerIndex].SetWinnerVisualsActive(true));
+            UserCueSequencer.EnqueueCueWithDelayAfter("Show winner visuals", () => _playerStatusBoxes[e.WinningPlayerIndex].SetWinnerVisualsActive(true));
         }
         
         private void OnAppliedReinforcementDie(object sender, BattleEvents.AppliedReinforcementDieArgs e)
@@ -89,13 +92,16 @@ namespace BattleTest.PlayersStatusPanel
         
         private void OnAppliedReinforcements(object sender, BattleEvents.AppliedReinforcementsArgs e)
         {
-            UserCueSequencer.EnqueueCueWithDelayAfter(() => _playerStatusBoxes[e.PlayerIndex].SetData(e.PlayerIndex, battleTester.Battle.Map));
+            UserCueSequencer.EnqueueCueWithDelayAfter("Show total dice changed from reinforcements", () => _playerStatusBoxes[e.PlayerIndex].SetData(e.PlayerIndex, battleTester.Battle.Map));
         }
         
         private void OnTurnEnded(object sender, BattleEvents.TurnEndedArgs e)
         {
-            UserCueSequencer.EnqueueCueWithDelayAfter(() => _playerStatusBoxes[e.PrevActivePlayerIndex].SetHighlightActive(false));
-            UserCueSequencer.EnqueueCueWithDelayAfter(() => _playerStatusBoxes[e.NewActivePlayerIndex].SetHighlightActive(true));
+            UserCueSequencer.EnqueueCueWithDelayAfter("Show active player changed", () =>
+            {
+                _playerStatusBoxes[e.PrevActivePlayerIndex].SetHighlightActive(false);
+                _playerStatusBoxes[e.NewActivePlayerIndex].SetHighlightActive(true);
+            });
         }
     }
 }
