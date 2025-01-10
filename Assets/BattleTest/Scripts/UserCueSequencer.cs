@@ -20,22 +20,22 @@ namespace BattleTest.Scripts
             _queueOfCues.Enqueue(cue);
         }
         
-        public static void EnqueueCueWithDelayAfter(string cueName, GameObject requiredGameObject, Func<Task> action, int delayMs = DefaultCueDelayMs)
+        public static void EnqueueCueWithDelayAfter(GameObject requiredGameObject, Func<Task> action, string cueName)
         {
             Cue cue = new Cue(cueName, async () =>
             {
                 await action.Invoke();
-                await WebGlUtil.WebGlSafeDelay(delayMs);
+                await WebGlUtil.WebGlSafeDelay(DefaultCueDelayMs);
             }, GenerateGameObjectExistsFunc(requiredGameObject));
             EnqueueCue(cue);
         }
         
-        public static void EnqueueCueWithDelayAfter(string cueName, Action action, int delayMs = DefaultCueDelayMs)
+        public static void EnqueueCueWithDelayAfter(Action action, string cueName)
         {
             Cue cue = new Cue(cueName, async () =>
             {
                 action.Invoke();
-                await WebGlUtil.WebGlSafeDelay(delayMs);
+                await WebGlUtil.WebGlSafeDelay(DefaultCueDelayMs);
             }, AlwaysTrue);
             EnqueueCue(cue);
         }

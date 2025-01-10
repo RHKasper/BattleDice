@@ -140,13 +140,13 @@ namespace BattleDataModel
             {
                 Debug.Log("Defender wins: " + resultsString);
                 attackingTerritory.NumDice = 1;
-                var attackFailedArgs = new BattleEvents.AttackFailedArgs(attackingTerritory.OwnerPlayerIndex,
-                    defendingTerritory.OwnerPlayerIndex, attackingTerritory, defendingTerritory);
+                var attackFailedArgs = new BattleEvents.AttackFailedArgs(attackingPlayerIndex,
+                    defendingPlayerIndex, attackingTerritory, defendingTerritory);
                 AttackFailed?.Invoke(this, attackFailedArgs);
             }
 
             var attackFinishedEventArgs = new BattleEvents.AttackFinishedArgs(
-                attackingTerritory.OwnerPlayerIndex, defendingTerritory.OwnerPlayerIndex,
+                attackingPlayerIndex, defendingPlayerIndex,
                 attackingTerritory, defendingTerritory, attackerWins);
             
             AttackFinished?.Invoke(this, attackFinishedEventArgs);

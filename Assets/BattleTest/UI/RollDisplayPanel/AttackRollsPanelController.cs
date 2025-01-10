@@ -23,8 +23,8 @@ namespace BattleTest.UI.RollDisplayPanel
 
         private void OnRollingAttack(object sender, BattleEvents.RollingAttackArgs e)
         {
-            UserCueSequencer.EnqueueCueWithDelayAfter("show attacker roll", gameObject, async () => await attackerRollDisplayPanel.ShowDiceRoll(e.AttackRoll));
-            UserCueSequencer.EnqueueCueWithDelayAfter("show defender roll", gameObject, async () => await defenderRollDisplayPanel.ShowDiceRoll(e.DefenseRoll));
+            UserCueSequencer.EnqueueCueWithDelayAfter(gameObject, async () => await attackerRollDisplayPanel.ShowDiceRoll(e.AttackRoll), "show attacker roll");
+            UserCueSequencer.EnqueueCueWithDelayAfter(gameObject, async () => await defenderRollDisplayPanel.ShowDiceRoll(e.DefenseRoll), "show defender roll");
         }
     }
 }

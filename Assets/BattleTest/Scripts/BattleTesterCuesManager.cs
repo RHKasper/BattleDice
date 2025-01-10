@@ -19,7 +19,7 @@ namespace BattleTest.Scripts
         {
             foreach (MapNode mapNode in e.Battle.Map.Nodes.Values)
             {
-                UserCueSequencer.EnqueueCueWithDelayAfter("Show Node " + mapNode.NodeIndex + " starting owner", _battleTester.GetMapNodeVisual(mapNode).ShowOwnership);
+                UserCueSequencer.EnqueueCueWithDelayAfter(_battleTester.GetMapNodeVisual(mapNode).ShowOwnership, "Show Node " + mapNode.NodeIndex + " starting owner");
             }
         }
 
@@ -27,37 +27,37 @@ namespace BattleTest.Scripts
         {
             foreach (MapNode mapNode in e.Battle.Map.Nodes.Values)
             {
-                UserCueSequencer.EnqueueCueWithDelayAfter("Show Node " + mapNode.NodeIndex + " starting dice", _battleTester.GetMapNodeVisual(mapNode).ShowNumDice);
+                UserCueSequencer.EnqueueCueWithDelayAfter(_battleTester.GetMapNodeVisual(mapNode).ShowNumDice, "Show Node " + mapNode.NodeIndex + " starting dice");
             }
         }
 
         public void OnApplyingReinforcements(object sender, BattleEvents.ApplyingReinforcementsArgs e)
         {
-            UserCueSequencer.EnqueueCueWithDelayAfter("Logging", () => Debug.Log("Adding " + e.NumReinforcements + " reinforcements for player " + e.PlayerIndex));
+            UserCueSequencer.EnqueueCueWithDelayAfter(() => Debug.Log("Adding " + e.NumReinforcements + " reinforcements for player " + e.PlayerIndex), "Logging");
         }
 
         public void OnAppliedReinforcementDie(object sender, BattleEvents.AppliedReinforcementDieArgs e)
         {
-            UserCueSequencer.EnqueueCueWithDelayAfter("Show Node " + e.Territory.NodeIndex + " die added", _battleTester.GetMapNodeVisual(e.Territory).ShowNumDice);
+            UserCueSequencer.EnqueueCueWithDelayAfter(_battleTester.GetMapNodeVisual(e.Territory).ShowNumDice, "Show Node " + e.Territory.NodeIndex + " die added");
         }
         
         public void OnAppliedReinforcements(object sender, BattleEvents.AppliedReinforcementsArgs e)
         {
-            UserCueSequencer.EnqueueCueWithDelayAfter("Logging", () => Debug.Log("Applied reinforcements for " + e.PlayerIndex));
+            UserCueSequencer.EnqueueCueWithDelayAfter(() => Debug.Log("Applied reinforcements for " + e.PlayerIndex), "Logging");
         }
 
         public void OnAttackSucceeded(object sender, BattleEvents.AttackSucceededArgs e)
         {
-            UserCueSequencer.EnqueueCueWithDelayAfter("Showing attack success", () =>
+            UserCueSequencer.EnqueueCueWithDelayAfter(() =>
             {
                 _battleTester.GetMapNodeVisual(e.AttackingTerritory).ShowOwnershipAndNumDice();
                 _battleTester.GetMapNodeVisual(e.CapturedTerritory).ShowOwnershipAndNumDice();
-            });
+            }, "Showing attack success");
         }
         
         public void OnAttackFailed(object sender, BattleEvents.AttackFailedArgs e)
         {
-            UserCueSequencer.EnqueueCueWithDelayAfter("Showing attack failure", _battleTester.GetMapNodeVisual(e.AttackingTerritory).ShowNumDice);
+            UserCueSequencer.EnqueueCueWithDelayAfter(_battleTester.GetMapNodeVisual(e.AttackingTerritory).ShowNumDice, "Showing attack failure");
         }
     }
 }
