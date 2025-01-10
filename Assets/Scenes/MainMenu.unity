@@ -840,7 +840,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &847813833
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1463,7 +1463,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1359035538}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 847813834}
+        m_TargetAssemblyTypeName: MainMenu.CustomMapOptionsUiController, MainMenu
+        m_MethodName: OnClickStartGameButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1359035538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1747,6 +1759,7 @@ GameObject:
   - component: {fileID: 1661700533}
   - component: {fileID: 1661700532}
   - component: {fileID: 1661700531}
+  - component: {fileID: 1661700534}
   m_Layer: 5
   m_Name: Custom Maps List
   m_TagString: Untagged
@@ -1820,6 +1833,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1661700529}
   m_CullTransparentMesh: 1
+--- !u!114 &1661700534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1661700529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fafe2cfe61f6974895a912c3755e8f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AllowSwitchOff: 1
 --- !u!1 &1788186974
 GameObject:
   m_ObjectHideFlags: 0
