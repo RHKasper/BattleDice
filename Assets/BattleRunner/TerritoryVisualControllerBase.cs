@@ -11,7 +11,7 @@ namespace BattleRunner
     public abstract class TerritoryVisualControllerBase : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IPointerExitHandler
     {
         [SerializedDictionary("Adjacent Territory", "Edge Object")]
-        [SerializeField] private SerializedDictionary<TerritoryVisualControllerBase, EdgeVisualControllerBase> edges = new();
+        [SerializeField] public SerializedDictionary<TerritoryVisualControllerBase, EdgeVisualControllerBase> edges = new();
         
         public BattleRunnerController BattleRunnerController { get; private set; }
         public MapNode Territory { get; private set; }

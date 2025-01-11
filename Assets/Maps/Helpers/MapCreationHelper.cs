@@ -1,7 +1,7 @@
 using BattleRunner;
 using UnityEngine;
 
-namespace Maps.EditorTools
+namespace Maps.Helpers
 {
     [ExecuteAlways]
     public class MapCreationHelper : MonoBehaviour
@@ -10,19 +10,64 @@ namespace Maps.EditorTools
         
         private void Update()
         {
-            foreach (GameplayMapNodeDefinition node in activeMap.GetNodeDefinitionsInOrder())
+            GameplayMapNodeDefinition[] nodes = activeMap.GetNodeDefinitionsInOrder();
+
+            EnsureEachNodeHasAVisualController(nodes);
+            EnsureEachNodesVisualControllerHasAppropriateEdges(nodes);
+        }
+
+        private void EnsureEachNodeHasAVisualController(GameplayMapNodeDefinition[] nodes)
+        {
+            foreach (GameplayMapNodeDefinition node in nodes)
             {
-                // ensure that node has a visual controller
                 TerritoryVisualControllerBase visualController = node.GetComponent<TerritoryVisualControllerBase>();
                 if (visualController == null)
                 {
                     Debug.LogError("Could not find Territory VisualController. Adding a BasicTerritoryVisualController to " + node.gameObject.name);
-                    visualController = node.gameObject.AddComponent<BasicTerritoryVisualController>();
+                    node.gameObject.AddComponent<BasicTerritoryVisualController>();
                 }
-                
-                // ensure that visual controller has an edge visual controller for each adjacent node
-                // ensure that edge controller points to the other node
-                // ensure the other node is correctly linked to this node/edge
+            }
+        }
+
+        private void EnsureEachNodesVisualControllerHasAppropriateEdges(GameplayMapNodeDefinition[] nodes)
+        {
+            foreach (GameplayMapNodeDefinition node in nodes)
+            {
+                var visualController = node.GetComponent<TerritoryVisualControllerBase>();
+                foreach (GameplayMapNodeDefinition adjacentNode in node.adjacentNodes)
+                {
+                    var adjacentVisualController = adjacentNode.GetComponent<TerritoryVisualControllerBase>();
+                    if (!visualController.edges.ContainsKey(adjacentVisualController))
+                    {
+                        visualController.edges.Add(adjacentVisualController, null);
+                    }
+
+                    if (!adjacentVisualController.edges.ContainsKey(visualController))
+                    {
+                        adjacentVisualController.edges.Add(visualController, null);
+                    }
+                    
+                    // var myEdge = visualController.edges[adjacentVisualController];
+                    // var theirEdge = adjacentVisualController.edges[adjacentVisualController];
+                    //
+                    // if (myEdge == null)
+                    // {
+                    //     if (theirEdge == null)
+                    //     {
+                    //         // both null; create a new one
+                    //     }
+                    //     else
+                    //     {
+                    //         visualController.edges[adjacentVisualController] = theirEdge;
+                    //     }
+                    // }
+                    // else if (theirEdge == null)
+                    // {
+                    //     adjacentVisualController.edges[adjacentVisualController] = myEdge;
+                    // }
+                    
+                    // ensure edge controller points to nodes
+                }
             }
         }
     }
