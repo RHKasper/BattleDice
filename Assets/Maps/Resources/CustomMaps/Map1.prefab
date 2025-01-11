@@ -1,5 +1,95 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2911310469348643074
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4372284346624824190}
+  - component: {fileID: 4147348668659429201}
+  - component: {fileID: 3176163287484448881}
+  - component: {fileID: 5454417184891179576}
+  m_Layer: 5
+  m_Name: Edge
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &4372284346624824190
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2911310469348643074}
+  m_LocalRotation: {x: -0, y: -0, z: 0.12336192, w: 0.9923618}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4124739360852689543}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -396.99997, y: -19}
+  m_SizeDelta: {x: 408.43115, y: 5}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &4147348668659429201
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2911310469348643074}
+  m_CullTransparentMesh: 1
+--- !u!114 &3176163287484448881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2911310469348643074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5454417184891179576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2911310469348643074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caa2d5bebf4b443f09deaae7cb3a56d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  end1: {fileID: 6946602461831285623}
+  end2: {fileID: 2227184570623744686}
 --- !u!1 &6199773303178256100
 GameObject:
   m_ObjectHideFlags: 0
@@ -10,6 +100,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4124739360852689543}
   - component: {fileID: -1359148636758676726}
+  - component: {fileID: 5736524405662003770}
   m_Layer: 5
   m_Name: Map1
   m_TagString: Untagged
@@ -29,6 +120,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 4372284346624824190}
   - {fileID: 6879656279750899429}
   - {fileID: 5791791702789091422}
   - {fileID: 2172753189741269758}
@@ -60,6 +152,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eda0cd262bd414681f93b047faad754, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5736524405662003770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6199773303178256100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63c5cbd48e3c4cafb6a43da9d5c27078, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeMap: {fileID: -1359148636758676726}
 --- !u!1001 &223057744220539220
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -186,6 +291,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58f16f5e74e34820ab61884d492ecf66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  edges:
+    _serializedList:
+    - Key: {fileID: 2227184570623744686}
+      Value: {fileID: 0}
 --- !u!114 &7510968437310968693
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -329,6 +438,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58f16f5e74e34820ab61884d492ecf66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  edges:
+    _serializedList: []
 --- !u!114 &393728012714523337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -474,6 +585,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58f16f5e74e34820ab61884d492ecf66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  edges:
+    _serializedList: []
 --- !u!114 &3708013530489806329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -617,6 +730,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58f16f5e74e34820ab61884d492ecf66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  edges:
+    _serializedList: []
 --- !u!114 &3721853989313648471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -754,6 +869,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58f16f5e74e34820ab61884d492ecf66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  edges:
+    _serializedList: []
 --- !u!114 &2695337892952644511
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -902,6 +1019,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58f16f5e74e34820ab61884d492ecf66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  edges:
+    _serializedList: []
 --- !u!114 &1531561838222661190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1045,6 +1164,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58f16f5e74e34820ab61884d492ecf66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  edges:
+    _serializedList: []
 --- !u!114 &7444869845361458020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1189,6 +1310,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58f16f5e74e34820ab61884d492ecf66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  edges:
+    _serializedList: []
 --- !u!114 &6629665279555013079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1327,6 +1450,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58f16f5e74e34820ab61884d492ecf66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  edges:
+    _serializedList: []
 --- !u!114 &4527890362866971105
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1469,6 +1594,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58f16f5e74e34820ab61884d492ecf66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  edges:
+    _serializedList: []
 --- !u!114 &5089575822875169542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1611,6 +1738,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58f16f5e74e34820ab61884d492ecf66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  edges:
+    _serializedList: []
 --- !u!114 &3443636029899040623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1752,6 +1881,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58f16f5e74e34820ab61884d492ecf66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  edges:
+    _serializedList: []
 --- !u!114 &1777095662239033599
 MonoBehaviour:
   m_ObjectHideFlags: 0

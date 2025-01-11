@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using BattleDataModel;
+using RKUnityToolkit.UnityExtensions;
 using UnityEngine;
 
 namespace Maps
@@ -33,7 +35,7 @@ namespace Maps
 
         public GameplayMapNodeDefinition[] GetNodeDefinitionsInOrder()
         {
-            return GetComponentsInChildren<GameplayMapNodeDefinition>();
+            return gameObject.GetComponentsInDirectChildren<GameplayMapNodeDefinition>();
         }
     }
 }

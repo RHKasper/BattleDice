@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Linq;
+using AYellowpaper.SerializedCollections;
 using BattleDataModel;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -8,8 +10,12 @@ namespace BattleRunner
 {
     public abstract class TerritoryVisualControllerBase : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IPointerExitHandler
     {
+        [SerializedDictionary("Adjacent Territory", "Edge Object")]
+        [SerializeField] private SerializedDictionary<TerritoryVisualControllerBase, EdgeVisualControllerBase> edges = new();
+        
         public BattleRunnerController BattleRunnerController { get; private set; }
         public MapNode Territory { get; private set; }
+        
         
         public void Initialize(BattleRunnerController battleRunnerController, MapNode territory)
         {

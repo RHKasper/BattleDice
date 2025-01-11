@@ -27,7 +27,7 @@ namespace BattleRunner
             // Construct data model battle
             Battle = BattleLoader.ConstructBattle();
             
-            // link nodes to node visuals
+            // Link nodes to node visuals
             var order = GameplayMap.GetNodeDefinitionsInOrder();
             for (var i = 0; i < order.Length; i++)
             {
@@ -35,8 +35,9 @@ namespace BattleRunner
                 nodeDefinition.GetComponent<TerritoryVisualControllerBase>().Initialize(this, Battle.Map.Nodes[i]);
                 Destroy(nodeDefinition);
             }
-
-            // Generate Edges?
+            
+            // Link Nodes to Edge Visuals
+            
             
             // wait for player to start game
         }
