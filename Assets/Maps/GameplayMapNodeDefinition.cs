@@ -1,13 +1,14 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
+using BattleDataModel;
 using UnityEngine;
 
-namespace GlobalScripts
+namespace Maps
 {
     public class GameplayMapNodeDefinition : MonoBehaviour
     {
         public List<GameplayMapNodeDefinition> adjacentNodes;
+        
+        public MapNode RuntimeData { get; set; }
 
         private void OnDrawGizmos()
         {

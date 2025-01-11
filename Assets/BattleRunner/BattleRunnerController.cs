@@ -1,6 +1,7 @@
 using System;
 using BattleDataModel;
 using GlobalScripts;
+using Maps;
 using UnityEngine;
 
 namespace BattleRunner
@@ -20,12 +21,21 @@ namespace BattleRunner
 #endif
             
             // Instantiate selected map
-            GameplayMap = Instantiate(BattleLoader.SelectedMap, mapRoot.transform);
+            GameplayMap = Instantiate(BattleLoader.SelectedMapPrefab, mapRoot.transform);
             GameplayMap.RectTransform.anchoredPosition = Vector2.zero;
+            
+            // Construct data model battle
+            Battle = BattleLoader.ConstructBattle();
+            
+            // link nodes to node visuals
+            var order = GameplayMap.GetNodeDefinitionsInOrder();
+            for (var i = 0; i < order.Length; i++)
+            {
+                var nodeDefinition = order[i];
+                nodeDefinition.GetComponent<TerritoryVisualControllerBase>().Initialize(this, Battle.Map.Nodes[i]);
+            }
 
-            // Instantiate data model map
-            // Instantiate & init data model battle
-            // Init map nodes and edges
+            // Generate Edges?
         }
 
         public void SelectTerritory(TerritoryVisualControllerBase territory)

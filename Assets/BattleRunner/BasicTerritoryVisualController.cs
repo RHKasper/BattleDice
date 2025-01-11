@@ -6,7 +6,7 @@ namespace BattleRunner
     {
         public override void OnPointerExit(PointerEventData eventData)
         {
-            throw new System.NotImplementedException();
+            //throw new System.NotImplementedException();
         }
 
         public override void OnSelect()
@@ -21,7 +21,7 @@ namespace BattleRunner
 
         protected override void OnInitialize()
         {
-            throw new System.NotImplementedException();
+            //throw new System.NotImplementedException();
         }
 
         protected override void OnPointerEnterWhenSelectable(PointerEventData eventData)

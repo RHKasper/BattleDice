@@ -1,5 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using BattleDataModel;
+using Maps;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,20 +12,44 @@ namespace GlobalScripts
     {
         private const string GameplayMapsResourcesFolder = "CustomMaps";
         
-        public static GameplayMap SelectedMap { get; private set; }
-        
+        public static GameplayMap SelectedMapPrefab { get; private set; }
+        public static int PlayerCount { get; private set; }
+        public static int RandomSeed { get; private set; } = int.MinValue;
+
         public static void LoadBattle(GameplayMap map)
         {
-            SelectedMap = map;
+            SelectedMapPrefab = map;
             SceneManager.LoadScene("BattleRunner");
         }
 
         public static void EnsureInitialized()
         {
-            if (SelectedMap == null)
+            if (SelectedMapPrefab == null)
             {
-                SelectedMap = GetCustomMaps().First();
+                SelectedMapPrefab = GetCustomMaps().First();
             }
+
+            if (PlayerCount == 0)
+            {
+                PlayerCount = 3;
+            }
+
+            if (RandomSeed == int.MinValue)
+            {
+                RandomSeed = DateTime.Now.Millisecond;
+            }
+        }
+
+        public static Battle ConstructBattle()
+        {
+            var players = new List<Player>();
+            for (int i = 0; i < PlayerCount; i++)
+            {
+                players.Add(new Player(i));    
+            }
+            
+            Battle b = new Battle(SelectedMapPrefab.GenerateMapData(), players, RandomSeed);
+            return b;
         }
         
         public static List<GameplayMap> GetCustomMaps()

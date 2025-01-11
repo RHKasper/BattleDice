@@ -37,5 +37,10 @@ namespace BattleDataModel
 
             return isAdjacent && attackingSpaceHasEnoughDice && isDifferentTeam;
         }
+
+        public void LinkToNode(MapNode otherNode)
+        {
+            AdjacentMapNodes.Add(otherNode);
+        }
     }
 }

@@ -15,11 +15,15 @@ namespace BattleRunner
         {
             BattleRunnerController = battleRunnerController;
             Territory = territory;
+            Debug.Log("Territory ID : " + territory.NodeIndex);
             OnInitialize();
         }
         
         public void OnPointerEnter(PointerEventData eventData)
         {
+            Debug.Log("Node ID: " + Territory.NodeIndex);
+            return;
+            
             if (IsSelected())
             {
                 OnPointerEnterWhenDeselectable(eventData);
