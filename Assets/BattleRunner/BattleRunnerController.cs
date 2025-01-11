@@ -1,4 +1,5 @@
 using System;
+using BattleDataModel;
 using GlobalScripts;
 using UnityEngine;
 
@@ -9,6 +10,8 @@ namespace BattleRunner
         [SerializeField] private Canvas mapRoot;
         
         public GameplayMap GameplayMap {get; private set;}
+        public Battle Battle {get; private set;}
+        public TerritoryVisualControllerBase SelectedTerritory {get; private set;}
         
         private void Start()
         {
@@ -23,7 +26,37 @@ namespace BattleRunner
             // Instantiate data model map
             // Instantiate & init data model battle
             // Init map nodes and edges
-            // Start game?
+        }
+
+        public void SelectTerritory(TerritoryVisualControllerBase territory)
+        {
+            if (SelectedTerritory != null)
+            {
+                DeselectTerritory();
+            }
+            
+            SelectedTerritory = territory;
+            SelectedTerritory.OnSelect();
+        }
+        
+        public void DeselectTerritory()
+        {
+            if (SelectedTerritory != null)
+            {
+                SelectedTerritory.OnDeselect();
+            }
+            SelectedTerritory = null;
+        }
+        
+        public void ExecuteAttack(TerritoryVisualControllerBase territory)
+        {
+            throw new NotImplementedException();
+        }
+        
+        private void OnClickStartGame()
+        {
+            // start game
+            throw new NotImplementedException();
         }
     }
 }
