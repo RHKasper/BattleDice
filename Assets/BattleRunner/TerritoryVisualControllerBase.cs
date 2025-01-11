@@ -1,11 +1,12 @@
 using System.Linq;
 using BattleDataModel;
 using JetBrains.Annotations;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace BattleRunner
 {
-    public abstract class TerritoryVisualControllerBase : IPointerEnterHandler, IPointerClickHandler, IPointerExitHandler
+    public abstract class TerritoryVisualControllerBase : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IPointerExitHandler
     {
         public BattleRunnerController BattleRunnerController { get; private set; }
         public MapNode Territory { get; private set; }
