@@ -33,9 +33,12 @@ namespace BattleRunner
             {
                 var nodeDefinition = order[i];
                 nodeDefinition.GetComponent<TerritoryVisualControllerBase>().Initialize(this, Battle.Map.Nodes[i]);
+                Destroy(nodeDefinition);
             }
 
             // Generate Edges?
+            
+            // wait for player to start game
         }
 
         public void SelectTerritory(TerritoryVisualControllerBase territory)
