@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/BattleTest/Scenes/BattleTest.unity
     guid: c235af68740559e42bcb579559c3e749
+  - enabled: 1
+    path: Assets/Scenes/BattleRunner.unity
+    guid: 990bd17d8ffc34752b2532bb8fe90cd4
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MapMaker;
+using GlobalScripts;
 using RKUnityToolkit.UIElements;
 using RKUnityToolkit.UnityExtensions;
 using UnityEngine;
@@ -16,7 +16,7 @@ namespace MainMenu
         
         void Start()
         {
-            mapsListDisplay.DisplayList(LoadCustomMaps(), customMapDisplayElementPrefab);
+            mapsListDisplay.DisplayList(BattleLoader.GetCustomMaps(), customMapDisplayElementPrefab);
         }
 
         public void OnClickStartGameButton()
@@ -31,14 +31,9 @@ namespace MainMenu
             }
         }
 
-        private List<CustomMap> LoadCustomMaps()
+        private void StartCustomMapGame(GameplayMap gameplayMap)
         {
-            return Resources.LoadAll<CustomMap>(CustomMap.CustomMapsResourcesFolder).ToList();
-        }
-
-        private void StartCustomMapGame(CustomMap customMap)
-        {
-            throw new NotImplementedException($"Todo: Start game from Custom Map: \"{customMap.gameObject.name}\"");
+            BattleLoader.LoadBattle(gameplayMap);
         }
     }
 }
