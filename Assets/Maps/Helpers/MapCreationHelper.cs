@@ -1,19 +1,28 @@
 using BattleRunner;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 namespace Maps.Helpers
 {
     [ExecuteAlways]
     public class MapCreationHelper : MonoBehaviour
     {
-        [SerializeField] GameplayMap activeMap;
+        [SerializeField] private GameplayMap activeMap;
+        [SerializeField] private Transform edgesParent;
+        [SerializeField] private EdgeVisualControllerBase edgeVisualPrefab;
         
         private void Update()
         {
-            GameplayMapNodeDefinition[] nodes = activeMap.GetNodeDefinitionsInOrder();
+            if (!Application.isPlaying)
+            {
+                GameplayMapNodeDefinition[] nodes = activeMap.GetNodeDefinitionsInOrder();
 
-            EnsureEachNodeHasAVisualController(nodes);
-            EnsureEachNodesVisualControllerHasAppropriateEdges(nodes);
+                EnsureEachNodeHasAVisualController(nodes);
+                EnsureEachNodesVisualControllerHasAppropriateEdgeVisualControllers(nodes);
+            }
         }
 
         private void EnsureEachNodeHasAVisualController(GameplayMapNodeDefinition[] nodes)
@@ -29,46 +38,45 @@ namespace Maps.Helpers
             }
         }
 
-        private void EnsureEachNodesVisualControllerHasAppropriateEdges(GameplayMapNodeDefinition[] nodes)
+        private void EnsureEachNodesVisualControllerHasAppropriateEdgeVisualControllers(GameplayMapNodeDefinition[] nodes)
         {
+#if UNITY_EDITOR
             foreach (GameplayMapNodeDefinition node in nodes)
             {
                 var visualController = node.GetComponent<TerritoryVisualControllerBase>();
                 foreach (GameplayMapNodeDefinition adjacentNode in node.adjacentNodes)
                 {
                     var adjacentVisualController = adjacentNode.GetComponent<TerritoryVisualControllerBase>();
-                    if (!visualController.edges.ContainsKey(adjacentVisualController))
+                    visualController.edges.TryGetValue(adjacentVisualController, out var myEdge);
+                    adjacentVisualController.edges.TryGetValue(visualController, out var theirEdge);
+
+                    if (myEdge == null && theirEdge == null)
                     {
-                        visualController.edges.Add(adjacentVisualController, null);
+                        visualController.edges[adjacentVisualController] = (EdgeVisualControllerBase) PrefabUtility.InstantiatePrefab(edgeVisualPrefab, edgesParent);
+                        adjacentVisualController.edges[visualController] = visualController.edges[adjacentVisualController];
+                    }
+                    else if (myEdge == null)
+                    {
+                        visualController.edges[adjacentVisualController] = theirEdge;
+                    }
+                    else if (theirEdge == null)
+                    {
+                        adjacentVisualController.edges[visualController] = myEdge;
+                    }
+                    else if(myEdge != theirEdge)
+                    {
+                        Debug.LogError("Mismatched edge references on " + node.gameObject.name + " and " + adjacentNode.gameObject.name);
                     }
 
-                    if (!adjacentVisualController.edges.ContainsKey(visualController))
-                    {
-                        adjacentVisualController.edges.Add(visualController, null);
-                    }
-                    
-                    // var myEdge = visualController.edges[adjacentVisualController];
-                    // var theirEdge = adjacentVisualController.edges[adjacentVisualController];
-                    //
-                    // if (myEdge == null)
-                    // {
-                    //     if (theirEdge == null)
-                    //     {
-                    //         // both null; create a new one
-                    //     }
-                    //     else
-                    //     {
-                    //         visualController.edges[adjacentVisualController] = theirEdge;
-                    //     }
-                    // }
-                    // else if (theirEdge == null)
-                    // {
-                    //     adjacentVisualController.edges[adjacentVisualController] = myEdge;
-                    // }
-                    
                     // ensure edge controller points to nodes
+                    var edge = visualController.edges[adjacentVisualController];
+                    if (!edge.Connects(visualController, adjacentVisualController))
+                    {
+                        edge.OverrideEnds(visualController, adjacentVisualController);
+                    }
                 }
             }
+#endif
         }
     }
 }
