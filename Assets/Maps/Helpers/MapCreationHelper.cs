@@ -21,6 +21,7 @@ namespace Maps.Helpers
                 GameplayMapNodeDefinition[] nodes = activeMap.GetNodeDefinitionsInOrder();
 
                 EnsureEachNodeHasAVisualController(nodes);
+                EnsureEachConnectionGoesBothWays(nodes);
                 EnsureEachNodesVisualControllerHasAppropriateEdgeVisualControllers(nodes);
             }
         }
@@ -34,6 +35,23 @@ namespace Maps.Helpers
                 {
                     Debug.LogError("Could not find Territory VisualController. Adding a BasicTerritoryVisualController to " + node.gameObject.name);
                     node.gameObject.AddComponent<BasicTerritoryVisualController>();
+                }
+            }
+        }
+        
+        private void EnsureEachConnectionGoesBothWays(GameplayMapNodeDefinition[] nodes)
+        {
+            foreach (GameplayMapNodeDefinition node in nodes)
+            {
+                foreach (GameplayMapNodeDefinition adjacentNode in node.adjacentNodes)
+                {
+                    if (!adjacentNode.adjacentNodes.Contains(node))
+                    {
+                        adjacentNode.adjacentNodes.Add(node);
+#if UNITY_EDITOR
+                        EditorUtility.SetDirty(adjacentNode);
+#endif
+                    }
                 }
             }
         }
