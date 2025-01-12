@@ -35,11 +35,6 @@ namespace BattleRunner
                 nodeDefinition.GetComponent<TerritoryVisualControllerBase>().Initialize(this, Battle.Map.Nodes[i]);
                 Destroy(nodeDefinition);
             }
-            
-            // Link Nodes to Edge Visuals
-            
-            
-            // wait for player to start game
         }
 
         public void SelectTerritory(TerritoryVisualControllerBase territory)
