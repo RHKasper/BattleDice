@@ -1,0 +1,4 @@
+{
+  "name": "Maps.EditorTools",
+  "references":[ "Maps", "Maps.Helpers" ]
+}

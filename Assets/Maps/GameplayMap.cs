@@ -8,6 +8,8 @@ namespace Maps
 {
     public class GameplayMap : MonoBehaviour
     {
+        [SerializeField] private Transform territoriesParent;
+
         public RectTransform RectTransform => GetComponent<RectTransform>();
 
         public Map GenerateMapData()
@@ -35,7 +37,7 @@ namespace Maps
 
         public GameplayMapNodeDefinition[] GetNodeDefinitionsInOrder()
         {
-            return gameObject.GetComponentsInDirectChildren<GameplayMapNodeDefinition>();
+            return territoriesParent.GetComponentsInDirectChildren<GameplayMapNodeDefinition>();
         }
     }
 }
