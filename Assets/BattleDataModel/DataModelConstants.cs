@@ -1,6 +1,6 @@
 namespace BattleDataModel
 {
-    public static class Constants
+    public static class DataModelConstants
     {
         public const int MaxDiceInTerritory = 8;
     }

@@ -107,7 +107,7 @@ namespace BattleTest.MapVisuals
         
         public void ShowNumDice()
         {
-            diceFill.fillAmount = _mapNode.NumDice / (float)Constants.MaxDiceInTerritory;
+            diceFill.fillAmount = _mapNode.NumDice / (float)DataModelConstants.MaxDiceInTerritory;
             UpdateText();
         }
 

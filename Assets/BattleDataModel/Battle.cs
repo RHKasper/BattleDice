@@ -185,7 +185,7 @@ namespace BattleDataModel
             HashSet<MapNode> largestContiguousTerritory = Map.GetLargestContiguousGroupOfTerritories(playerIndex);
             int reinforcementsCount = largestContiguousTerritory.Count;
             List<MapNode> ownedNodes = Map.GetTerritoriesOwnedByPlayer(playerIndex);
-            List<MapNode> ownedNodesWithRoomForReinforcements = ownedNodes.Where(n => n.NumDice < Constants.MaxDiceInTerritory).ToList();
+            List<MapNode> ownedNodesWithRoomForReinforcements = ownedNodes.Where(n => n.NumDice < DataModelConstants.MaxDiceInTerritory).ToList();
 
             ApplyingReinforcements?.Invoke(this, new BattleEvents.ApplyingReinforcementsArgs(playerIndex, reinforcementsCount));
             
@@ -205,7 +205,7 @@ namespace BattleDataModel
                 randomTerritory.NumDice++;
                 AppliedReinforcementDie?.Invoke(this, new BattleEvents.AppliedReinforcementDieArgs(randomTerritory));
                 
-                if (randomTerritory.NumDice == Constants.MaxDiceInTerritory)
+                if (randomTerritory.NumDice == DataModelConstants.MaxDiceInTerritory)
                 {
                     ownedNodesWithRoomForReinforcements.RemoveAt(randomTerritoryIndex);
                 }
@@ -239,7 +239,7 @@ namespace BattleDataModel
         private void ValidateNumStartingReinforcements(int startingReinforcements)
         {
             int leastNumTerritories = _players.Min(p => Map.GetNumTerritoriesOwnedByPlayer(p.PlayerIndex));
-            int leastRoomForReinforcements = leastNumTerritories * (Constants.MaxDiceInTerritory - 1);
+            int leastRoomForReinforcements = leastNumTerritories * (DataModelConstants.MaxDiceInTerritory - 1);
 
             if (startingReinforcements > leastRoomForReinforcements)
             {

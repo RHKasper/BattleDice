@@ -7,16 +7,16 @@ namespace GlobalScripts.EditorTools.DiceImageGenerator
         [SerializeField] private MeshRenderer dieBody;
         [SerializeField] private MeshRenderer[] pips;
 
-        public void ApplyBodyMaterial(Material material)
+        public void ApplyBodyColor(Color color)
         {
-            dieBody.material = material;
+            dieBody.material.color = color;
         }
 
-        public void ApplyPipMaterial(Material material)
+        public void ApplyPipColor(Color color)
         {
             foreach (MeshRenderer pip in pips)
             {
-                pip.material = material;
+                pip.material.color = color;
             }
         }
     }

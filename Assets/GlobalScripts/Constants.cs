@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BattleTest.Scripts
+namespace GlobalScripts
 {
-    public static class PlayerColors
+    public static class Constants
     {
         public static readonly List<Color> Colors = new()
         {

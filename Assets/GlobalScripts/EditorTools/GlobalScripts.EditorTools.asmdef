@@ -2,7 +2,8 @@
     "name": "GlobalScripts.EditorTools",
     "rootNamespace": "",
     "references": [
-        "GUID:607ddcc11fa519b419fafc16da8ff8d4"
+        "GUID:607ddcc11fa519b419fafc16da8ff8d4",
+        "GUID:976bb49a1a0d432891f4f7d64bc6fc91"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
