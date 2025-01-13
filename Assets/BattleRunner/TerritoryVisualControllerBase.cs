@@ -26,10 +26,12 @@ namespace BattleRunner
             Territory = territory;
             BattleRunnerController.Battle.StartingTerritoriesAssigned += OnStartingTerritoriesAssigned;
             BattleRunnerController.Battle.StartingReinforcementsAllocated += OnStartingReinforcementsAllocated;
+            BattleRunnerController.Battle.TurnEnded += OnTurnEnded;
+            BattleRunnerController.SelectedTerritoryChanged += OnSelectedTerritoryChanged;
             
             OnInitialize();
         }
-        
+
         public void UpdateState()
         {
             if (_attacking)
@@ -55,6 +57,10 @@ namespace BattleRunner
             else if (IsSelected())
             {
                 SetState(State.Selected);
+            }
+            else if (IsSelectable())
+            {
+                SetState(State.Selectable);
             }
             else if (IsValidAttackTarget())
             {
@@ -129,14 +135,29 @@ namespace BattleRunner
         }
         
         private void OnStartingTerritoriesAssigned(object sender, BattleEvents.StartingTerritoriesAssignedArgs e) => UpdateInfo();
-        private void OnStartingReinforcementsAllocated(object sender, BattleEvents.StartingReinforcementsAllocatedArgs e) => UpdateInfo();
+        private void OnStartingReinforcementsAllocated(object sender, BattleEvents.StartingReinforcementsAllocatedArgs e)
+        {
+            UpdateInfo();
+            UpdateState();
+        }
+        
+        private void OnTurnEnded(object sender, BattleEvents.TurnEndedArgs e)
+        {
+            UpdateState();
+        }
 
+        private void OnSelectedTerritoryChanged()
+        {
+            UpdateState();
+        }
+        
         public enum State
         {
             Normal,
             HoverSelectable,
             HoverDeselectable,
             HoverAttackable,
+            Selectable,
             Selected,
             Attackable,
             Attacking,

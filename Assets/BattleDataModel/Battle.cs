@@ -97,9 +97,7 @@ namespace BattleDataModel
             
             StartingReinforcementsAllocated?.Invoke(this, new BattleEvents.StartingReinforcementsAllocatedArgs(this));
         }
-
-       
-
+        
         public void Attack(MapNode attackingTerritory, MapNode defendingTerritory)
         {
             Debug.Log("node " + attackingTerritory.NodeIndex + " attacks node " + defendingTerritory.NodeIndex);

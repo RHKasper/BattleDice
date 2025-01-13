@@ -10,6 +10,7 @@ namespace BattleRunner
     public class BattleRunnerController : MonoBehaviour
     {
         public event Action BattleStarted;
+        public event Action SelectedTerritoryChanged;
         
         [SerializeField] private Canvas mapRoot;
         [SerializeField] private GraphicRaycaster mapCanvasGraphicRaycaster;
@@ -58,6 +59,7 @@ namespace BattleRunner
             
             SelectedTerritory = territory;
             territory.UpdateState();
+            SelectedTerritoryChanged?.Invoke();
         }
         
         public void DeselectTerritory()
@@ -67,6 +69,7 @@ namespace BattleRunner
                 SelectedTerritory.UpdateState();
             }
             SelectedTerritory = null;
+            SelectedTerritoryChanged?.Invoke();
         }
         
         public void ExecuteAttack(TerritoryVisualControllerBase targetTerritory)

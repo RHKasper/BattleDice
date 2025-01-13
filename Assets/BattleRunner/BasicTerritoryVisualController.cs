@@ -40,7 +40,7 @@ namespace BattleRunner
                     break;
                 case State.HoverSelectable:
                     selectionHighlight.gameObject.SetActive(true);
-                    selectionHighlight.SetAlpha(.5f);
+                    selectionHighlight.SetAlpha(.75f);
                     break;
                 case State.HoverDeselectable:
                     selectionHighlight.gameObject.SetActive(true);
@@ -49,6 +49,10 @@ namespace BattleRunner
                 case State.HoverAttackable:
                     attackableHighlight.gameObject.SetActive(true);
                     attackableHighlight.SetAlpha(1);
+                    break;
+                case State.Selectable:
+                    selectionHighlight.gameObject.SetActive(true);
+                    selectionHighlight.SetAlpha(.5f);
                     break;
                 case State.Selected:
                     selectionHighlight.gameObject.SetActive(true);
