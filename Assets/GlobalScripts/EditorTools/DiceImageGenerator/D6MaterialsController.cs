@@ -7,16 +7,16 @@ namespace GlobalScripts.EditorTools.DiceImageGenerator
         [SerializeField] private MeshRenderer dieBody;
         [SerializeField] private MeshRenderer[] pips;
 
-        public void ApplyBodyMaterial(Material sharedMaterial)
+        public void ApplyBodyMaterial(Material material)
         {
-            dieBody.sharedMaterial = sharedMaterial;
+            dieBody.material = material;
         }
 
-        public void ApplyPipMaterial(Material sharedMaterial)
+        public void ApplyPipMaterial(Material material)
         {
             foreach (MeshRenderer pip in pips)
             {
-                pip.sharedMaterial = sharedMaterial;
+                pip.material = material;
             }
         }
     }
