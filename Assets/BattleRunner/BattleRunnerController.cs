@@ -51,21 +51,23 @@ namespace BattleRunner
             }
             
             SelectedTerritory = territory;
-            SelectedTerritory.OnSelect();
+            territory.UpdateState();
         }
         
         public void DeselectTerritory()
         {
             if (SelectedTerritory != null)
             {
-                SelectedTerritory.OnDeselect();
+                SelectedTerritory.UpdateState();
             }
             SelectedTerritory = null;
         }
         
-        public void ExecuteAttack(TerritoryVisualControllerBase territory)
+        public void ExecuteAttack(TerritoryVisualControllerBase targetTerritory)
         {
-            throw new NotImplementedException();
+            // todo: trigger attack
+            SelectedTerritory.UpdateState();
+            targetTerritory.UpdateState();
         }
         
         public void OnClickStartGame()

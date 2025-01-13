@@ -1,42 +1,62 @@
+using System;
+using GraphicExtensions;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace BattleRunner
 {
     public class BasicTerritoryVisualController : TerritoryVisualControllerBase
     {
-        public override void OnPointerExit(PointerEventData eventData)
-        {
-            Debug.Log("OnPointerExit");
-        }
-
-        public override void OnSelect()
-        {
-        }
-
-        public override void OnDeselect()
-        {
-        }
-
+        [SerializeField] private Image selectionHighlight;
+        [SerializeField] private Image attackableHighlight;
+        
         protected override void OnInitialize()
         {
+            SetState(State.Normal);
         }
-
-        protected override void OnPointerEnterWhenSelectable(PointerEventData eventData)
+        
+        public override void SetState(State state)
         {
-        }
-
-        protected override void OnPointerEnterWhenDeselectable(PointerEventData eventData)
-        {
-        }
-
-        protected override void OnPointerEnterWhenAttackable(PointerEventData eventData)
-        {
-        }
-
-        protected override void OnPointerEnterWhenUninteractable(PointerEventData eventData)
-        {
+            // if setting to anything but normal, reset to normal first
+            if (state != State.Normal)
+            {
+                SetState(State.Normal);
+            }
             
+            switch (state)
+            {
+                case State.Normal:
+                    selectionHighlight.gameObject.SetActive(false);
+                    attackableHighlight.gameObject.SetActive(false);
+                    break;
+                case State.HoverSelectable:
+                    selectionHighlight.gameObject.SetActive(true);
+                    selectionHighlight.SetAlpha(.5f);
+                    break;
+                case State.HoverDeselectable:
+                    selectionHighlight.gameObject.SetActive(true);
+                    selectionHighlight.SetAlpha(.5f);
+                    break;
+                case State.HoverAttackable:
+                    attackableHighlight.gameObject.SetActive(true);
+                    attackableHighlight.SetAlpha(1);
+                    break;
+                case State.Selected:
+                    selectionHighlight.gameObject.SetActive(true);
+                    selectionHighlight.SetAlpha(1);
+                    break;
+                case State.Attackable:
+                    attackableHighlight.gameObject.SetActive(true);
+                    attackableHighlight.SetAlpha(.5f);
+                    break;
+                case State.Attacking:
+                    break;
+                case State.Defending:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
+            }
         }
     }
 }

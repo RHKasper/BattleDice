@@ -15,7 +15,10 @@ namespace BattleRunner
         
         public BattleRunnerController BattleRunnerController { get; private set; }
         public MapNode Territory { get; private set; }
-        
+
+        private bool _pointerOver;
+        private bool _attacking;
+        private bool _beingAttacked;
         
         public void Initialize(BattleRunnerController battleRunnerController, MapNode territory)
         {
@@ -24,34 +27,62 @@ namespace BattleRunner
             Debug.Log("Territory ID : " + territory.NodeIndex);
             OnInitialize();
         }
-        
-        public void OnPointerEnter(PointerEventData eventData)
+
+        public void UpdateState()
         {
-            if (IsSelected())
+            if (_attacking)
             {
-                OnPointerEnterWhenDeselectable(eventData);
+                SetState(State.Attacking);
             }
-            else if (IsValidAttacker())
+            else if (_beingAttacked)
             {
-                OnPointerEnterWhenSelectable(eventData);
+                SetState(State.Defending);
             }
-            else if (IsValidAttackTarget()) 
+            else if (_pointerOver && IsSelectable())
             {
-                OnPointerEnterWhenAttackable(eventData);
+                SetState(State.HoverSelectable);
+            }
+            else if (_pointerOver && IsSelected())
+            {
+                SetState(State.HoverDeselectable);
+            }
+            else if (_pointerOver && IsValidAttackTarget())
+            {
+                SetState(State.HoverAttackable);
+            }
+            else if (IsSelected())
+            {
+                SetState(State.Selected);
+            }
+            else if (IsValidAttackTarget())
+            {
+                SetState(State.Attackable);
             }
             else
             {
-                OnPointerEnterWhenUninteractable(eventData);
+                SetState(State.Normal);
             }
         }
 
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            _pointerOver = true;
+            UpdateState();
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            _pointerOver = false;
+            UpdateState();
+        }
+        
         public void OnPointerClick(PointerEventData eventData)
         {
             if (IsSelected())
             {
                 BattleRunnerController.DeselectTerritory();
             }
-            else if (IsValidAttacker())
+            else if (IsSelectable())
             {
                 BattleRunnerController.SelectTerritory(this);
             }
@@ -61,22 +92,16 @@ namespace BattleRunner
             }
         }
         
-        public abstract void OnPointerExit(PointerEventData eventData);
-        public abstract void OnSelect();
-        public abstract void OnDeselect();
+        public abstract void SetState(State state);
         
         protected abstract void OnInitialize();
-        protected abstract void OnPointerEnterWhenSelectable(PointerEventData eventData);
-        protected abstract void OnPointerEnterWhenDeselectable(PointerEventData eventData);
-        protected abstract void OnPointerEnterWhenAttackable(PointerEventData eventData);
-        protected abstract void OnPointerEnterWhenUninteractable(PointerEventData eventData);
         
         private bool IsSelected()
         {
             return BattleRunnerController.SelectedTerritory == this;
         }
         
-        private bool IsValidAttacker()
+        private bool IsSelectable()
         {
             bool belongsToActivePlayer = Territory.OwnerPlayerIndex == BattleRunnerController.Battle.ActivePlayer.PlayerIndex;
             bool noTerritoryIsSelected = BattleRunnerController.SelectedTerritory == null;
@@ -94,6 +119,18 @@ namespace BattleRunner
             
             bool isValidAttackTarget = !belongsToActivePlayer && isAdjacentToSelectedTerritory;
             return isValidAttackTarget;
+        }
+        
+        public enum State
+        {
+            Normal,
+            HoverSelectable,
+            HoverDeselectable,
+            HoverAttackable,
+            Selected,
+            Attackable,
+            Attacking,
+            Defending,
         }
     }
 }
