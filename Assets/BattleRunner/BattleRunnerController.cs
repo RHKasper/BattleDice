@@ -3,12 +3,15 @@ using BattleDataModel;
 using GlobalScripts;
 using Maps;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace BattleRunner
 {
     public class BattleRunnerController : MonoBehaviour
     {
         [SerializeField] private Canvas mapRoot;
+        [SerializeField] private GraphicRaycaster mapCanvasGraphicRaycaster;
+        [SerializeField] private Button startGameButton;
         
         public GameplayMap GameplayMap {get; private set;}
         public Battle Battle {get; private set;}
@@ -35,6 +38,9 @@ namespace BattleRunner
                 nodeDefinition.GetComponent<TerritoryVisualControllerBase>().Initialize(this, Battle.Map.Nodes[i]);
                 Destroy(nodeDefinition);
             }
+            
+            // for testing, auto start. In the future, player will start
+            OnClickStartGame();
         }
 
         public void SelectTerritory(TerritoryVisualControllerBase territory)
@@ -62,10 +68,10 @@ namespace BattleRunner
             throw new NotImplementedException();
         }
         
-        private void OnClickStartGame()
+        public void OnClickStartGame()
         {
-            // start game
-            throw new NotImplementedException();
+            startGameButton.gameObject.SetActive(false);
+            mapCanvasGraphicRaycaster.enabled = true;
         }
     }
 }

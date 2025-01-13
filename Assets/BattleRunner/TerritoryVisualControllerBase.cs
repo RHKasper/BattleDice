@@ -27,9 +27,6 @@ namespace BattleRunner
         
         public void OnPointerEnter(PointerEventData eventData)
         {
-            Debug.Log("Node ID: " + Territory.NodeIndex);
-            return;
-            
             if (IsSelected())
             {
                 OnPointerEnterWhenDeselectable(eventData);
