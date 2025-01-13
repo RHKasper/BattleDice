@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace GlobalScripts.EditorTools.DiceImageGenerator
@@ -25,7 +27,13 @@ namespace GlobalScripts.EditorTools.DiceImageGenerator
             }
         }
 
-        public void CaptureDieFaceImages()
+        [ContextMenu("Generate Face Images")]
+        public void GenerateFaceImages()
+        {
+            StartCoroutine(CaptureDieFaceImages());
+        }
+
+        private IEnumerator CaptureDieFaceImages()
         {
             orthoFacesCamera.gameObject.SetActive(true);
             
@@ -35,12 +43,14 @@ namespace GlobalScripts.EditorTools.DiceImageGenerator
                 {
                     FaceObjects[i].gameObject.SetActive(true);
                     FaceObjects[i].ApplyBodyColor(playerColor);
-                    
+                    yield return null;
                     //capture and save image
                     
                     FaceObjects[i].gameObject.SetActive(false);
                 }
             }
+            
+            orthoFacesCamera.gameObject.SetActive(false);
         }
     }
 }
