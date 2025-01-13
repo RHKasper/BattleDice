@@ -15,6 +15,7 @@ namespace GlobalScripts
         public static GameplayMap SelectedMapPrefab { get; private set; }
         public static int PlayerCount { get; private set; }
         public static int RandomSeed { get; private set; } = int.MinValue;
+        public static int StartingReinforcements { get; private set; } = -1;
 
         public static void LoadBattle(GameplayMap map)
         {
@@ -37,6 +38,11 @@ namespace GlobalScripts
             if (RandomSeed == int.MinValue)
             {
                 RandomSeed = DateTime.Now.Millisecond;
+            }
+
+            if (StartingReinforcements == -1)
+            {
+                StartingReinforcements = 5;
             }
         }
 

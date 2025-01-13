@@ -24,10 +24,12 @@ namespace BattleRunner
         {
             BattleRunnerController = battleRunnerController;
             Territory = territory;
-            Debug.Log("Territory ID : " + territory.NodeIndex);
+            BattleRunnerController.Battle.StartingTerritoriesAssigned += OnStartingTerritoriesAssigned;
+            BattleRunnerController.Battle.StartingReinforcementsAllocated += OnStartingReinforcementsAllocated;
+            
             OnInitialize();
         }
-
+        
         public void UpdateState()
         {
             if (_attacking)
@@ -92,6 +94,11 @@ namespace BattleRunner
             }
         }
         
+        /// <summary>
+        /// Update ownership and die count visuals
+        /// </summary>
+        public abstract void UpdateInfo();
+        
         public abstract void SetState(State state);
         
         protected abstract void OnInitialize();
@@ -121,6 +128,9 @@ namespace BattleRunner
             return isValidAttackTarget;
         }
         
+        private void OnStartingTerritoriesAssigned(object sender, BattleEvents.StartingTerritoriesAssignedArgs e) => UpdateInfo();
+        private void OnStartingReinforcementsAllocated(object sender, BattleEvents.StartingReinforcementsAllocatedArgs e) => UpdateInfo();
+
         public enum State
         {
             Normal,

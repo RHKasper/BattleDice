@@ -67,6 +67,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   edges:
     _serializedList: []
+  tempText: {fileID: 2538469956791136769}
   selectionHighlight: {fileID: 6030995071825966951}
   attackableHighlight: {fileID: 3191378100610752887}
 --- !u!114 &3995595897689680877
@@ -226,12 +227,12 @@ GameObject:
   - component: {fileID: 4124347620312219237}
   - component: {fileID: 2538469956791136769}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: TempText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &218317123598886655
 RectTransform:
   m_ObjectHideFlags: 0
@@ -279,9 +280,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'ID: ?
-
-    Owner: ?
+  m_text: 'Owner: ?
 
     Dice: ?
 
@@ -312,7 +311,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 12.35
+  m_fontSize: 14.6
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -541,7 +540,7 @@ RectTransform:
   m_AnchorMin: {x: 0.177782, y: 0.177782}
   m_AnchorMax: {x: 0.822218, y: 0.822218}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 17.4913, y: 17.4913}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &786274602843872649
 CanvasRenderer:

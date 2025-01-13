@@ -9,6 +9,8 @@ namespace BattleRunner
 {
     public class BattleRunnerController : MonoBehaviour
     {
+        public event Action BattleStarted;
+        
         [SerializeField] private Canvas mapRoot;
         [SerializeField] private GraphicRaycaster mapCanvasGraphicRaycaster;
         [SerializeField] private Button startGameButton;
@@ -38,6 +40,10 @@ namespace BattleRunner
                 nodeDefinition.GetComponent<TerritoryVisualControllerBase>().Initialize(this, Battle.Map.Nodes[i]);
                 Destroy(nodeDefinition);
             }
+            
+            // Assign territories and initial reinforcements
+            Battle.RandomlyAssignTerritories();
+            Battle.RandomlyAllocateStartingReinforcements(BattleLoader.StartingReinforcements);
             
             // for testing, auto start. In the future, player will start
             OnClickStartGame();
@@ -74,6 +80,8 @@ namespace BattleRunner
         {
             startGameButton.gameObject.SetActive(false);
             mapCanvasGraphicRaycaster.enabled = true;
+            
+            BattleStarted?.Invoke();
         }
     }
 }
