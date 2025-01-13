@@ -1,0 +1,16 @@
+{
+    "name": "GlobalScripts.EditorTools",
+    "rootNamespace": "",
+    "references": [
+        "GUID:607ddcc11fa519b419fafc16da8ff8d4"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
