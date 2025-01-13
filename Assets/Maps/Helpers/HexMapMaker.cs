@@ -2,6 +2,9 @@ using RKUnityToolkit.UnityExtensions;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Vector2Extensions;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Maps.Helpers
 {
@@ -16,6 +19,7 @@ namespace Maps.Helpers
         [ContextMenu("Create Hex Board")]
         public void CreateHexBoard()
         {
+            #if UNITY_EDITOR
             GameObject boardParent = new GameObject("Generated Hex Board (" + columns + " by " + height + ")");
             boardParent.transform.SetParent(parent);
             RectTransform parentRectTransform = boardParent.AddComponent<RectTransform>();
@@ -33,7 +37,7 @@ namespace Maps.Helpers
                 {
                     float yPosition = tileWidthAndHeight * ((i % 2 == 0 ? .5f : 1) + j);
                     
-                    GameplayMapNodeDefinition tile = Instantiate(prefab, parentRectTransform);
+                    GameplayMapNodeDefinition tile = (GameplayMapNodeDefinition)PrefabUtility.InstantiatePrefab(prefab, parentRectTransform);
                     RectTransform tileRectTransform = tile.GetComponent<RectTransform>();
                     tileRectTransform.pivot = new Vector2(0.5f, 0.5f);
                     tileRectTransform.anchorMin = Vector2.zero;
@@ -43,6 +47,7 @@ namespace Maps.Helpers
             }
 
             ConnectAdjacents(parentRectTransform);
+            #endif
         }
 
         // this is super inefficient, and I don't think it's worth optimizing

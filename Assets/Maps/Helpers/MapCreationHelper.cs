@@ -1,3 +1,4 @@
+using System.Linq;
 using BattleRunner;
 using UnityEngine;
 
@@ -21,11 +22,12 @@ namespace Maps.Helpers
                 GameplayMapNodeDefinition[] nodes = activeMap.GetNodeDefinitionsInOrder();
 
                 EnsureEachNodeHasAVisualController(nodes);
+                RemoveConnectionsToNull(nodes);
                 EnsureEachConnectionGoesBothWays(nodes);
                 EnsureEachNodesVisualControllerHasAppropriateEdgeVisualControllers(nodes);
             }
         }
-
+        
         private void EnsureEachNodeHasAVisualController(GameplayMapNodeDefinition[] nodes)
         {
             foreach (GameplayMapNodeDefinition node in nodes)
@@ -35,6 +37,30 @@ namespace Maps.Helpers
                 {
                     Debug.LogError("Could not find Territory VisualController. Adding a BasicTerritoryVisualController to " + node.gameObject.name);
                     node.gameObject.AddComponent<BasicTerritoryVisualController>();
+                }
+            }
+        }
+        
+        private void RemoveConnectionsToNull(GameplayMapNodeDefinition[] nodes)
+        {
+            foreach (GameplayMapNodeDefinition node in nodes)
+            {
+                for (var i = node.adjacentNodes.Count - 1; i >= 0; i--)
+                {
+                    if (node.adjacentNodes[i] == null)
+                    {
+                        node.adjacentNodes.RemoveAt(i);
+                    }
+                }
+                
+                var visualController = node.gameObject.GetComponent<TerritoryVisualControllerBase>();
+
+                foreach (var edgeKey in visualController.edges.Keys.ToArray())
+                {
+                    if (!edgeKey || !visualController.edges[edgeKey])
+                    {
+                        visualController.edges.Remove(edgeKey);
+                    }
                 }
             }
         }

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 namespace Maps.EditorTools
 {
     [CustomEditor(typeof(SpriteSwapController))]
+    [CanEditMultipleObjects]
     public class SpriteSwapControllerEditor : Editor
     {
         private SerializedProperty spriteIndexProp;
