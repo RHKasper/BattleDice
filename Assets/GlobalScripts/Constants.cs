@@ -25,10 +25,16 @@ namespace GlobalScripts
         
         public static string OutputDirectoryRoot => Path.Combine(Application.dataPath, "Resources", "Dice");
         public static string FacesOutputDirectory => Path.Combine(OutputDirectoryRoot, "Faces");
+        public static string ThreeQuartersViewOutputDirectory => Path.Combine(OutputDirectoryRoot, "ThreeQuarters");
 
         public static string GetFaceSpriteFilePath(int playerIndex, int dieValue)
         {
             return Path.Combine(FacesOutputDirectory, $"p{playerIndex}_{dieValue}.png");
+        }
+
+        public static string GetThreeQuartersSpriteFilePath(int playerIndex)
+        {
+            return Path.Combine(ThreeQuartersViewOutputDirectory, $"p{playerIndex}.png");
         }
     }
 }
