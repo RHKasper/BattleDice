@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 namespace GlobalScripts
@@ -20,5 +21,14 @@ namespace GlobalScripts
             new Color(255/255f, 255/255f, 153/255f),
             new Color(177/255f, 89/255f, 40/255f)
         };
+        
+        
+        public static string OutputDirectoryRoot => Path.Combine(Application.dataPath, "Resources", "Dice");
+        public static string FacesOutputDirectory => Path.Combine(OutputDirectoryRoot, "Faces");
+
+        public static string GetFaceSpriteFilePath(int playerIndex, int dieValue)
+        {
+            return Path.Combine(FacesOutputDirectory, $"p{playerIndex}_{dieValue}.png");
+        }
     }
 }
