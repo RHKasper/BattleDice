@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Serialization;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -26,6 +27,10 @@ namespace GlobalScripts.EditorTools.DiceImageGenerator
         [SerializeField] private Camera threeQuartersCamera;
         [SerializeField] private D6MaterialsController threeQuartersD6;
 
+        [Header("Die Stacks")] 
+        [SerializeField] private Camera dieStacksCamera;
+        [SerializeField] private D6MaterialsController[] stackDice;
+
         private D6MaterialsController[] FaceObjects => new[] { face1, face2, face3, face4, face5, face6 };
         
         private void Start()
@@ -34,6 +39,15 @@ namespace GlobalScripts.EditorTools.DiceImageGenerator
             foreach (D6MaterialsController faceObject in FaceObjects)
             {
                 faceObject.gameObject.SetActive(false);
+            }
+            
+            threeQuartersCamera.gameObject.SetActive(false);
+            threeQuartersD6.gameObject.SetActive(false);
+            
+            dieStacksCamera.gameObject.SetActive(false);
+            foreach (D6MaterialsController die in stackDice)
+            {
+                die.gameObject.SetActive(false);
             }
         }
 
@@ -50,6 +64,7 @@ namespace GlobalScripts.EditorTools.DiceImageGenerator
         private IEnumerator CaptureImages()
         {
             #if UNITY_EDITOR
+            yield return CaptureDieStackImages();
             yield return CaptureThreeQuartersImages();
             yield return CaptureDieFaceImages();
             AssetDatabase.Refresh();
@@ -97,6 +112,34 @@ namespace GlobalScripts.EditorTools.DiceImageGenerator
             AssetDatabase.Refresh();
         }
 
+        private IEnumerator CaptureDieStackImages()
+        {
+            dieStacksCamera.gameObject.SetActive(true);
+
+            for (var playerIndex = 0; playerIndex < Constants.Colors.Count; playerIndex++)
+            {
+                var playerColor = Constants.Colors[playerIndex];
+
+                for (int i = 0; i < stackDice.Length; i++)
+                {
+                    for (int j = 0; j < stackDice.Length; j++)
+                    {
+                        stackDice[j].ApplyBodyColor(playerColor);
+                        stackDice[j].gameObject.SetActive(j < i + 1);
+                        yield return null;
+                        CaptureImage(dieStacksCamera, ImageResolution, ImageResolution, Constants.GetDieStackSpriteFilePath(playerIndex, i + 1));
+                    }
+                }
+            }
+
+            dieStacksCamera.gameObject.SetActive(false);
+            foreach (var stackDie in stackDice)
+            {
+                stackDie.gameObject.SetActive(false);
+            }
+            
+            AssetDatabase.Refresh();
+        }
         
         public static void CaptureImage(Camera camera, int width, int height, string filePath)
         {
