@@ -90,7 +90,12 @@ namespace BattleDataModel
                 
                 for (int i = 0; i < startingReinforcements; i++)
                 {
-                    playerNodes[player.PlayerIndex][Rng.Next(0, nodes.Count)].NumDice++;
+                    MapNode territoryToReinforce = playerNodes[player.PlayerIndex][Rng.Next(0, nodes.Count)]; 
+                    territoryToReinforce.NumDice++;
+                    if (territoryToReinforce.NumDice == 8)
+                    {
+                        nodes.Remove(territoryToReinforce);
+                    }
                     // todo: trigger dice changed event?
                 }
             }
