@@ -32,7 +32,7 @@ namespace GlobalScripts
 
             if (PlayerCount == 0)
             {
-                PlayerCount = 3;
+                PlayerCount = 6;
             }
 
             if (RandomSeed == int.MinValue)
@@ -46,7 +46,7 @@ namespace GlobalScripts
             }
         }
 
-        public static Battle ConstructBattle()
+        public static Battle ConstructBattle(GameplayMap mapInstance)
         {
             var players = new List<Player>();
             for (int i = 0; i < PlayerCount; i++)
@@ -54,7 +54,7 @@ namespace GlobalScripts
                 players.Add(new Player(i));    
             }
             
-            Battle b = new Battle(SelectedMapPrefab.GenerateMapData(), players, RandomSeed);
+            Battle b = new Battle(mapInstance.GenerateMapData(), players, RandomSeed);
             return b;
         }
         

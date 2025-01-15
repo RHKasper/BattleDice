@@ -5,6 +5,7 @@ using BattleDataModel;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 
 namespace BattleRunner
 {
@@ -19,6 +20,7 @@ namespace BattleRunner
         private bool _pointerOver;
         private bool _attacking;
         private bool _beingAttacked;
+        public bool HighlightedToShowLargestContiguousGroupOfTerritories {get; set;}
         
         public void Initialize(BattleRunnerController battleRunnerController, MapNode territory)
         {
@@ -34,7 +36,11 @@ namespace BattleRunner
 
         public void UpdateState()
         {
-            if (_attacking)
+            if (HighlightedToShowLargestContiguousGroupOfTerritories)
+            {
+                SetState(State.HighlightedToShowLargestContiguousGroupOfTerritories);
+            }
+            else if (_attacking)
             {
                 SetState(State.Attacking);
             }
@@ -162,6 +168,7 @@ namespace BattleRunner
             Attackable,
             Attacking,
             Defending,
+            HighlightedToShowLargestContiguousGroupOfTerritories,
         }
     }
 }

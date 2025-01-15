@@ -1,4 +1,6 @@
 using System;
+using ColorExtensions;
+using GlobalScripts;
 using GraphicExtensions;
 using TMPro;
 using UnityEngine;
@@ -12,6 +14,7 @@ namespace BattleRunner
         [SerializeField] private TextMeshProUGUI tempText;
         [SerializeField] private Image selectionHighlight;
         [SerializeField] private Image attackableHighlight;
+        [SerializeField] private Image contiguousTerritoriesHighlight;
         
         protected override void OnInitialize()
         {
@@ -37,6 +40,7 @@ namespace BattleRunner
                 case State.Normal:
                     selectionHighlight.gameObject.SetActive(false);
                     attackableHighlight.gameObject.SetActive(false);
+                    contiguousTerritoriesHighlight.gameObject.SetActive(false);
                     break;
                 case State.HoverSelectable:
                     selectionHighlight.gameObject.SetActive(true);
@@ -65,6 +69,10 @@ namespace BattleRunner
                 case State.Attacking:
                     break;
                 case State.Defending:
+                    break;
+                case State.HighlightedToShowLargestContiguousGroupOfTerritories:
+                    contiguousTerritoriesHighlight.gameObject.SetActive(true);
+                    contiguousTerritoriesHighlight.color = Constants.Colors[Territory.OwnerPlayerIndex].WithAlpha(.75f);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(state), state, null);

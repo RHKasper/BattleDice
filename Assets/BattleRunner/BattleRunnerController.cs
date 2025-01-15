@@ -32,7 +32,7 @@ namespace BattleRunner
             GameplayMap.RectTransform.anchoredPosition = Vector2.zero;
             
             // Construct data model battle
-            Battle = BattleLoader.ConstructBattle();
+            Battle = BattleLoader.ConstructBattle(GameplayMap);
             
             // Link nodes to node visuals
             var order = GameplayMap.GetNodeDefinitionsInOrder();

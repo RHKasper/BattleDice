@@ -42,7 +42,7 @@ namespace BattleRunner.UI
             foreach (Player player in battleRunnerController.Battle.Players)
             {
                 var box = Instantiate(playerInfoBoxPrefab, playerInfoBoxesParent);
-                box.SetData(player.PlayerIndex, battleRunnerController.Battle.Map);
+                box.Initialize(player.PlayerIndex, battleRunnerController.GameplayMap, battleRunnerController.Battle.Map);
                 _playerInfoBoxes.Add(player.PlayerIndex, box);
             }
         }
@@ -51,8 +51,8 @@ namespace BattleRunner.UI
         {
             UserCueSequencer.EnqueueCueWithDelayAfter(() =>
             {
-                _playerInfoBoxes[args.AttackingPlayerId].SetData(args.AttackingPlayerId, battleRunnerController.Battle.Map);
-                _playerInfoBoxes[args.DefendingPlayerId].SetData(args.DefendingPlayerId, battleRunnerController.Battle.Map);
+                _playerInfoBoxes[args.AttackingPlayerId].RefreshData();
+                _playerInfoBoxes[args.DefendingPlayerId].RefreshData();
             }, "Show attack results in Player Status Panels");
         }
         
@@ -72,7 +72,7 @@ namespace BattleRunner.UI
         
         private void OnAppliedReinforcements(object sender, BattleEvents.AppliedReinforcementsArgs e)
         {
-            UserCueSequencer.EnqueueCueWithDelayAfter(() => _playerInfoBoxes[e.PlayerIndex].SetData(e.PlayerIndex, battleRunnerController.Battle.Map), "Show total dice changed from reinforcements");
+            UserCueSequencer.EnqueueCueWithDelayAfter(() => _playerInfoBoxes[e.PlayerIndex].RefreshData(), "Show total dice changed from reinforcements");
         }
         
         private void OnTurnEnded(object sender, BattleEvents.TurnEndedArgs e)

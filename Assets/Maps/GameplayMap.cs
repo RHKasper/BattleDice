@@ -12,6 +12,8 @@ namespace Maps
 
         public RectTransform RectTransform => GetComponent<RectTransform>();
 
+        private Dictionary<MapNode, GameObject> _territoryGameObjects = new();
+
         public Map GenerateMapData()
         {
             GameplayMapNodeDefinition[] nodeDefinitions = GetNodeDefinitionsInOrder();
@@ -22,6 +24,7 @@ namespace Maps
             {
                 nodes[i] = new MapNode(i);
                 indices[nodeDefinitions[i]] = i;
+                _territoryGameObjects.Add(nodes[i], nodeDefinitions[i].gameObject);
             }
 
             for (int i = 0; i < nodeDefinitions.Length; i++)
@@ -38,6 +41,11 @@ namespace Maps
         public GameplayMapNodeDefinition[] GetNodeDefinitionsInOrder()
         {
             return territoriesParent.GetComponentsInDirectChildren<GameplayMapNodeDefinition>();
+        }
+
+        public GameObject GetTerritoryGameObject(MapNode territory)
+        {
+            return _territoryGameObjects[territory];
         }
     }
 }
