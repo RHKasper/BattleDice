@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using BattleDataModel;
 using GlobalScripts;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace BattleRunner.UI
 {
@@ -29,7 +28,6 @@ namespace BattleRunner.UI
             battleRunnerController.Battle.AttackFinished += OnAttackFinished;
             battleRunnerController.Battle.PlayerEliminated += OnPlayerEliminated;
             battleRunnerController.Battle.GameEnded += OnGameEnded;
-            battleRunnerController.Battle.AppliedReinforcementDie += OnAppliedReinforcementDie;
             battleRunnerController.Battle.AppliedReinforcements += OnAppliedReinforcements;
             battleRunnerController.Battle.TurnEnded += OnTurnEnded;
         }
@@ -64,10 +62,6 @@ namespace BattleRunner.UI
         private void OnGameEnded(object sender, BattleEvents.GameEndedArgs e)
         {
             UserCueSequencer.EnqueueCueWithDelayAfter(() => _playerInfoBoxes[e.WinningPlayerIndex].RefreshData(), "Show winner visuals");
-        }
-        
-        private void OnAppliedReinforcementDie(object sender, BattleEvents.AppliedReinforcementDieArgs e)
-        {
         }
         
         private void OnAppliedReinforcements(object sender, BattleEvents.AppliedReinforcementsArgs e)
