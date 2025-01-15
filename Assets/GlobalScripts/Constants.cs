@@ -27,33 +27,33 @@ namespace GlobalScripts
         
         public static string GetFaceSpriteFilePath(int playerIndex, int dieValue)
         {
-            return Path.Combine(ResourcesDirectory, GetDieFaceSpritesPathFromResources(playerIndex, dieValue));
+            return Path.Combine(ResourcesDirectory, GetDieFaceSpritesPathFromResources(playerIndex, dieValue) + ".png");
         }
 
         public static string GetThreeQuartersSpriteFilePath(int playerIndex)
         {
-            return Path.Combine(ResourcesDirectory, GetThreeQuartersDieSpritesPathFromResources(playerIndex));
+            return Path.Combine(ResourcesDirectory, GetThreeQuartersDieSpritesPathFromResources(playerIndex) + ".png");
         }
         
         public static string GetDieStackSpriteFilePath(int playerIndex, int numDice)
         {
-            return Path.Combine(ResourcesDirectory, GetDieStackSpritesPathFromResources(playerIndex, numDice));
+            return Path.Combine(ResourcesDirectory, GetDieStackSpritesPathFromResources(playerIndex, numDice) + ".png");
         }
         
 
         public static string GetDieFaceSpritesPathFromResources(int playerIndex, int dieValue)
         {
-            return Path.Combine("Dice", "Faces", $"face_p{playerIndex}_{dieValue}.png");   
+            return Path.Combine("Dice", "Faces", $"face_p{playerIndex}_{dieValue}");   
         }
 
         public static string GetThreeQuartersDieSpritesPathFromResources(int playerIndex)
         {
-            return Path.Combine("Dice", "ThreeQuarters", $"three_quarters_p{playerIndex}.png");
+            return Path.Combine("Dice", "ThreeQuarters", $"three_quarters_p{playerIndex}");
         }
         
         public static string GetDieStackSpritesPathFromResources(int playerIndex, int dieCount)
         {
-            return Path.Combine("Dice", "Stacks", $"die_stack_p{playerIndex}_{dieCount}.png");
+            return Path.Combine("Dice", "Stacks", $"die_stack_p{playerIndex}_{dieCount}");
         }
     }
 }

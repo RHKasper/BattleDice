@@ -23,6 +23,7 @@ namespace BattleRunner.UI
             int totalDice = territories.Sum(t => t.NumDice);
 
             dieImage.sprite = Resources.Load<Sprite>(Constants.GetThreeQuartersDieSpritesPathFromResources(playerIndex));
+            border.color = Constants.Colors[playerIndex];
             text.text = territories.Count + "|" + reinforcementCount;
         }
 
