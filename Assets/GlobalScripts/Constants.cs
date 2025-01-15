@@ -23,24 +23,37 @@ namespace GlobalScripts
         };
         
         
-        public static string OutputDirectoryRoot => Path.Combine(Application.dataPath, "Resources", "Dice");
-        public static string FacesOutputDirectory => Path.Combine(OutputDirectoryRoot, "Faces");
-        public static string ThreeQuartersViewOutputDirectory => Path.Combine(OutputDirectoryRoot, "ThreeQuarters");
-        public static string DieStacksOutputDirectory => Path.Combine(OutputDirectoryRoot, "Stacks");
-
+        public static string ResourcesDirectory => Path.Combine(Application.dataPath, "Resources");
+        
         public static string GetFaceSpriteFilePath(int playerIndex, int dieValue)
         {
-            return Path.Combine(FacesOutputDirectory, $"p{playerIndex}_{dieValue}.png");
+            return Path.Combine(ResourcesDirectory, GetDieFaceSpritesPathFromResources(playerIndex, dieValue));
         }
 
         public static string GetThreeQuartersSpriteFilePath(int playerIndex)
         {
-            return Path.Combine(ThreeQuartersViewOutputDirectory, $"p{playerIndex}.png");
+            return Path.Combine(ResourcesDirectory, GetThreeQuartersDieSpritesPathFromResources(playerIndex));
         }
         
         public static string GetDieStackSpriteFilePath(int playerIndex, int numDice)
         {
-            return Path.Combine(DieStacksOutputDirectory, $"p{playerIndex}_{numDice}.png");
+            return Path.Combine(ResourcesDirectory, GetDieStackSpritesPathFromResources(playerIndex, numDice));
+        }
+        
+
+        public static string GetDieFaceSpritesPathFromResources(int playerIndex, int dieValue)
+        {
+            return Path.Combine("Dice", "Faces", $"face_p{playerIndex}_{dieValue}.png");   
+        }
+
+        public static string GetThreeQuartersDieSpritesPathFromResources(int playerIndex)
+        {
+            return Path.Combine("Dice", "ThreeQuarters", $"three_quarters_p{playerIndex}.png");
+        }
+        
+        public static string GetDieStackSpritesPathFromResources(int playerIndex, int dieCount)
+        {
+            return Path.Combine("Dice", "Stacks", $"die_stack_p{playerIndex}_{dieCount}.png");
         }
     }
 }

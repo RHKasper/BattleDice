@@ -9,6 +9,7 @@ namespace BattleRunner
 {
     public class BattleRunnerController : MonoBehaviour
     {
+        public event Action BattleInitialized;
         public event Action BattleStarted;
         public event Action SelectedTerritoryChanged;
         
@@ -45,6 +46,8 @@ namespace BattleRunner
             // Assign territories and initial reinforcements
             Battle.RandomlyAssignTerritories();
             Battle.RandomlyAllocateStartingReinforcements(BattleLoader.StartingReinforcements);
+            BattleInitialized?.Invoke();
+            
             
             // for testing, auto start. In the future, player will start
             OnClickStartGame();

@@ -1,13 +1,13 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using BattleTest.Scripts;
 using GenericsExtensions;
 using GlobalScripts;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using UserCueSequencer = BattleTest.Scripts.UserCueSequencer;
 
 namespace BattleTest.UI.RollDisplayPanel
 {
