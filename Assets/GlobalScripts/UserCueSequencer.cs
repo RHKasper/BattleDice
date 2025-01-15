@@ -48,6 +48,15 @@ namespace GlobalScripts
             }, AlwaysTrue);
             EnqueueCue(cue);
         }
+
+        public static void Wait(float seconds)
+        {
+            Cue cue = new Cue("Wait " + seconds + " seconds", async () =>
+            {
+                await WebGlUtil.WebGlSafeDelay(seconds * 1000);
+            }, AlwaysTrue);
+            EnqueueCue(cue);
+        }
         
         public static void ClearQueuedCues()
         {
@@ -65,7 +74,7 @@ namespace GlobalScripts
                 Cue cue = DequeueToNextValidCue();
                 if (cue != null)
                 {
-                    Debug.Log("Proceessing Cue: " + cue.Name);
+                    Debug.Log("Processing Cue: " + cue.Name);
                     await cue.AsyncAction();
                 }
                 else

@@ -1,6 +1,7 @@
 using System;
 using BattleDataModel;
 using BattleRunner.UI;
+using BattleRunner.UI.RollDisplayPanel;
 using GlobalScripts;
 using Maps;
 using UnityEngine;
@@ -18,6 +19,7 @@ namespace BattleRunner
         [SerializeField] private GraphicRaycaster mapCanvasGraphicRaycaster;
         [SerializeField] private Button startGameButton;
         [SerializeField] private Button endTurnButton;
+        [SerializeField] private AttackRollsPanelController attackRollsPanel;
         
         public GameplayMap GameplayMap {get; private set;}
         public Battle Battle {get; private set;}
@@ -27,6 +29,7 @@ namespace BattleRunner
         {
             startGameButton.gameObject.SetActive(true);
             endTurnButton.gameObject.SetActive(false);
+            attackRollsPanel.gameObject.SetActive(false);
             
 #if UNITY_EDITOR
             BattleLoader.EnsureInitialized();

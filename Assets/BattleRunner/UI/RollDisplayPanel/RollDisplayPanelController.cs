@@ -1,32 +1,36 @@
 using System.Linq;
 using System.Threading.Tasks;
+using BattleTest.UI.RollDisplayPanel;
 using GenericsExtensions;
 using GlobalScripts;
 using TMPro;
 using UnityEngine;
-using UserCueSequencer = BattleTest.Scripts.UserCueSequencer;
 
-namespace BattleTest.UI.RollDisplayPanel
+namespace BattleRunner.UI.RollDisplayPanel
 {
     public class RollDisplayPanelController : MonoBehaviour
     {
         [SerializeField] private DieRollUiController[] dieRollUiControllers;
-        [SerializeField] private Sprite[] dieFaceSprites;
         [SerializeField] private TextMeshProUGUI resultsText;
 
-        private void Awake()
+        public async Task ShowDiceRoll(int[] diceRoll, int playerIndex)
         {
-            Debug.Assert(dieFaceSprites.Length == 6);
-        }
-
-        public async Task ShowDiceRoll(int[] diceRoll)
-        {
+            var dieFaceSprites = new[]
+            {
+                Resources.Load<Sprite>(Constants.GetDieFaceSpritesPathFromResources(playerIndex, 1)),
+                Resources.Load<Sprite>(Constants.GetDieFaceSpritesPathFromResources(playerIndex, 2)),
+                Resources.Load<Sprite>(Constants.GetDieFaceSpritesPathFromResources(playerIndex, 3)),
+                Resources.Load<Sprite>(Constants.GetDieFaceSpritesPathFromResources(playerIndex, 4)),
+                Resources.Load<Sprite>(Constants.GetDieFaceSpritesPathFromResources(playerIndex, 5)),
+                Resources.Load<Sprite>(Constants.GetDieFaceSpritesPathFromResources(playerIndex, 6)),
+            };
+            
             for (int i = 0; i < dieRollUiControllers.Length; i++)
             {
                 dieRollUiControllers[i].gameObject.SetActive(i < diceRoll.Length);
             }
             
-            float endTime = Time.time + .001f * UserCueSequencer.DefaultCueDelayMs * 3;
+            float endTime = Time.time + .001f * UserCueSequencer.DefaultCueDelayMs * 5;
             float pipChangeTimeInterval = UserCueSequencer.DefaultCueDelayMs / 10.0f;
             
             while (Time.time < endTime)
