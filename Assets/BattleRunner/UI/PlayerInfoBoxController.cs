@@ -14,43 +14,39 @@ namespace BattleRunner.UI
     public class PlayerInfoBoxController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         [SerializeField] private ProceduralImage border;
+        [SerializeField] private ProceduralImage activePlayerBorder;
         [SerializeField] private Image dieImage;
         [SerializeField] private GameObject winnerVisuals;
         [SerializeField] private TextMeshProUGUI text;
 
         private int _playerIndex;
         private GameplayMap _gameplayMap;
-        private Map _map;
+        private Battle _battle;
 
-        public void Initialize(int playerIndex, GameplayMap gameplayMap, Map map)
+        public void Initialize(int playerIndex, GameplayMap gameplayMap, Battle battle)
         {
             _playerIndex = playerIndex;
             _gameplayMap = gameplayMap;
-            _map = map;
+            _battle = battle;
             RefreshData();
         }
 
         public void RefreshData()
         {
-            var territories = _map.GetTerritories(_playerIndex);
-            int reinforcementCount = _map.GetLargestContiguousGroupOfTerritories(_playerIndex).Count;
+            var territories = _battle.Map.GetTerritories(_playerIndex);
+            int reinforcementCount = _battle.Map.GetLargestContiguousGroupOfTerritories(_playerIndex).Count;
 
             dieImage.sprite = Resources.Load<Sprite>(Constants.GetThreeQuartersDieSpritesPathFromResources(_playerIndex));
             border.color = Constants.Colors[_playerIndex];
+            activePlayerBorder.color = Constants.Colors[_playerIndex];
             text.text = territories.Count + "|" + reinforcementCount;
-        }
-        
-        public void SetData(int playerIndex, Map map)
-        {
-            // todo: delete
+            
+            activePlayerBorder.gameObject.SetActive(_battle.ActivePlayer.PlayerIndex == _playerIndex);
         }
 
-        public void SetHighlightActive(bool active) => border.gameObject.SetActive(active);
-        public void SetEliminatedVisualsActive(bool active) => gameObject.SetActive(active);
-        public void SetWinnerVisualsActive(bool active) => winnerVisuals.SetActive(active);
         public void OnPointerEnter(PointerEventData eventData)
         {
-            HashSet<MapNode> territories = _map.GetLargestContiguousGroupOfTerritories(_playerIndex);
+            HashSet<MapNode> territories = _battle.Map.GetLargestContiguousGroupOfTerritories(_playerIndex);
             foreach (MapNode territory in territories)
             {
                 var visualController = _gameplayMap.GetTerritoryGameObject(territory).GetComponent<TerritoryVisualControllerBase>();
@@ -61,7 +57,7 @@ namespace BattleRunner.UI
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            foreach (MapNode territory in _map.Nodes.Values)
+            foreach (MapNode territory in _battle.Map.Nodes.Values)
             {
                 var visualController = _gameplayMap.GetTerritoryGameObject(territory).GetComponent<TerritoryVisualControllerBase>();
                 visualController.HighlightedToShowLargestContiguousGroupOfTerritories = false;

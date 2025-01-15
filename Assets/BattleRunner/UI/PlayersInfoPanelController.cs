@@ -42,7 +42,7 @@ namespace BattleRunner.UI
             foreach (Player player in battleRunnerController.Battle.Players)
             {
                 var box = Instantiate(playerInfoBoxPrefab, playerInfoBoxesParent);
-                box.Initialize(player.PlayerIndex, battleRunnerController.GameplayMap, battleRunnerController.Battle.Map);
+                box.Initialize(player.PlayerIndex, battleRunnerController.GameplayMap, battleRunnerController.Battle);
                 _playerInfoBoxes.Add(player.PlayerIndex, box);
             }
         }
@@ -58,12 +58,12 @@ namespace BattleRunner.UI
         
         private void OnPlayerEliminated(object sender, BattleEvents.PlayerEliminatedArgs e)
         {
-            UserCueSequencer.EnqueueCueWithDelayAfter(() => _playerInfoBoxes[e.EliminatedPlayerIndex].SetEliminatedVisualsActive(true), "Show player elimination");
+            UserCueSequencer.EnqueueCueWithDelayAfter(() => _playerInfoBoxes[e.EliminatedPlayerIndex].RefreshData(), "Show player elimination");
         }
 
         private void OnGameEnded(object sender, BattleEvents.GameEndedArgs e)
         {
-            UserCueSequencer.EnqueueCueWithDelayAfter(() => _playerInfoBoxes[e.WinningPlayerIndex].SetWinnerVisualsActive(true), "Show winner visuals");
+            UserCueSequencer.EnqueueCueWithDelayAfter(() => _playerInfoBoxes[e.WinningPlayerIndex].RefreshData(), "Show winner visuals");
         }
         
         private void OnAppliedReinforcementDie(object sender, BattleEvents.AppliedReinforcementDieArgs e)
@@ -79,8 +79,8 @@ namespace BattleRunner.UI
         {
             UserCueSequencer.EnqueueCueWithDelayAfter(() =>
             {
-                _playerInfoBoxes[e.PrevActivePlayerIndex].SetHighlightActive(false);
-                _playerInfoBoxes[e.NewActivePlayerIndex].SetHighlightActive(true);
+                _playerInfoBoxes[e.PrevActivePlayerIndex].RefreshData();
+                _playerInfoBoxes[e.NewActivePlayerIndex].RefreshData();
             }, "Show active player changed");
         }
     }
