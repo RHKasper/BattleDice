@@ -27,14 +27,14 @@ namespace BattleRunner
             tempText.SetText("Initialized");
         }
 
-        public override void UpdateInfo()
+        protected override void UpdateInfo()
         {
             tempText.SetText("Owner: " + Territory.OwnerPlayerIndex + "\nDice: " + Territory.NumDice);
             ownerPlayerImage.color = Constants.Colors[Territory.OwnerPlayerIndex];
             diceImage.sprite = Resources.Load<Sprite>(Constants.GetDieStackSpritesPathFromResources(Territory.OwnerPlayerIndex, Territory.NumDice));
         }
 
-        public override void SetState(State state)
+        protected override void SetState(State state)
         {
             // if setting to anything but normal, reset to normal first
             if (state != State.Normal)

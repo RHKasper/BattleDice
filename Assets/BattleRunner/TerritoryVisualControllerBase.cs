@@ -26,7 +26,6 @@ namespace BattleRunner
         {
             BattleRunnerController = battleRunnerController;
             Territory = territory;
-            BattleRunnerController.Battle.StartingTerritoriesAssigned += OnStartingTerritoriesAssigned;
             BattleRunnerController.Battle.StartingReinforcementsAllocated += OnStartingReinforcementsAllocated;
             BattleRunnerController.Battle.TurnEnded += OnTurnEnded;
             BattleRunnerController.SelectedTerritoryChanged += OnSelectedTerritoryChanged;
@@ -36,6 +35,7 @@ namespace BattleRunner
 
         public void UpdateState()
         {
+            UpdateInfo();
             if (HighlightedToShowLargestContiguousGroupOfTerritories)
             {
                 SetState(State.HighlightedToShowLargestContiguousGroupOfTerritories);
@@ -102,16 +102,17 @@ namespace BattleRunner
             }
             else if (IsValidAttackTarget()) 
             {
-                BattleRunnerController.ExecuteAttack(this);
+                BattleRunnerController.ExecuteAttack(BattleRunnerController.SelectedTerritory, this);
+                BattleRunnerController.DeselectTerritory();
             }
         }
         
         /// <summary>
         /// Update ownership and die count visuals
         /// </summary>
-        public abstract void UpdateInfo();
-        
-        public abstract void SetState(State state);
+        protected abstract void UpdateInfo();
+
+        protected abstract void SetState(State state);
         
         protected abstract void OnInitialize();
         
@@ -140,10 +141,8 @@ namespace BattleRunner
             return isValidAttackTarget;
         }
         
-        private void OnStartingTerritoriesAssigned(object sender, BattleEvents.StartingTerritoriesAssignedArgs e) => UpdateInfo();
         private void OnStartingReinforcementsAllocated(object sender, BattleEvents.StartingReinforcementsAllocatedArgs e)
         {
-            UpdateInfo();
             UpdateState();
         }
         

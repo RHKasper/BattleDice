@@ -1,5 +1,6 @@
 using System;
 using BattleDataModel;
+using BattleRunner.UI;
 using GlobalScripts;
 using Maps;
 using UnityEngine;
@@ -16,6 +17,7 @@ namespace BattleRunner
         [SerializeField] private Canvas mapRoot;
         [SerializeField] private GraphicRaycaster mapCanvasGraphicRaycaster;
         [SerializeField] private Button startGameButton;
+        [SerializeField] private PlayersInfoPanelController playersInfoPanelController;
         
         public GameplayMap GameplayMap {get; private set;}
         public Battle Battle {get; private set;}
@@ -75,11 +77,16 @@ namespace BattleRunner
             SelectedTerritoryChanged?.Invoke();
         }
         
-        public void ExecuteAttack(TerritoryVisualControllerBase targetTerritory)
+        public void ExecuteAttack(TerritoryVisualControllerBase attackingTerritory, TerritoryVisualControllerBase targetTerritory)
         {
-            Battle.Attack(SelectedTerritory.Territory, targetTerritory.Territory);
-            SelectedTerritory.UpdateState();
-            targetTerritory.UpdateState();
+            Battle.Attack(attackingTerritory.Territory, targetTerritory.Territory);
+            
+            UserCueSequencer.EnqueueCueWithDelayAfter(() => Debug.Log("Todo: roll attack and defense dice"), "Roll attack and Defense Dice");
+            UserCueSequencer.EnqueueCueWithNoDelay(() =>
+            {
+                attackingTerritory.UpdateState();
+                targetTerritory.UpdateState();
+            }, "Show attack results");
         }
         
         public void OnClickStartGame()

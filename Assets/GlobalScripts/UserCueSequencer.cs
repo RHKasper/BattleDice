@@ -39,6 +39,16 @@ namespace GlobalScripts
             EnqueueCue(cue);
         }
         
+        public static void EnqueueCueWithNoDelay(Action action, string cueName)
+        {
+            Cue cue = new Cue(cueName, async () =>
+            {
+                action.Invoke();
+                await Task.Yield();
+            }, AlwaysTrue);
+            EnqueueCue(cue);
+        }
+        
         public static void ClearQueuedCues()
         {
             _queueOfCues.Clear();
