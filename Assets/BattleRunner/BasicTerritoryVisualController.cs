@@ -11,7 +11,12 @@ namespace BattleRunner
 {
     public class BasicTerritoryVisualController : TerritoryVisualControllerBase
     {
+        [Header("UI Elements")]
         [SerializeField] private TextMeshProUGUI tempText;
+        [SerializeField] private Image ownerPlayerImage;
+        [SerializeField] private Image diceImage;
+        
+        [Header("UI Highlights")]
         [SerializeField] private Image selectionHighlight;
         [SerializeField] private Image attackableHighlight;
         [SerializeField] private Image contiguousTerritoriesHighlight;
@@ -25,6 +30,8 @@ namespace BattleRunner
         public override void UpdateInfo()
         {
             tempText.SetText("Owner: " + Territory.OwnerPlayerIndex + "\nDice: " + Territory.NumDice);
+            ownerPlayerImage.color = Constants.Colors[Territory.OwnerPlayerIndex];
+            diceImage.sprite = Resources.Load<Sprite>(Constants.GetDieStackSpritesPathFromResources(Territory.OwnerPlayerIndex, Territory.NumDice));
         }
 
         public override void SetState(State state)

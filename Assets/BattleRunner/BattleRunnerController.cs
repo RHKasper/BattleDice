@@ -77,7 +77,7 @@ namespace BattleRunner
         
         public void ExecuteAttack(TerritoryVisualControllerBase targetTerritory)
         {
-            // todo: trigger attack
+            Battle.Attack(SelectedTerritory.Territory, targetTerritory.Territory);
             SelectedTerritory.UpdateState();
             targetTerritory.UpdateState();
         }
