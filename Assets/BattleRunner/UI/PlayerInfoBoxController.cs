@@ -14,7 +14,7 @@ namespace BattleRunner.UI
     public class PlayerInfoBoxController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         [SerializeField] private ProceduralImage border;
-        [SerializeField] private ProceduralImage activePlayerBorder;
+        [SerializeField] private Image background;
         [SerializeField] private Image dieImage;
         [SerializeField] private GameObject winnerVisuals;
         [SerializeField] private TextMeshProUGUI text;
@@ -35,13 +35,12 @@ namespace BattleRunner.UI
         {
             var territories = _battle.Map.GetTerritories(_playerIndex);
             int reinforcementCount = _battle.Map.GetLargestContiguousGroupOfTerritories(_playerIndex).Count;
-
-            dieImage.sprite = Resources.Load<Sprite>(Constants.GetThreeQuartersDieSpritesPathFromResources(_playerIndex));
-            border.color = Constants.Colors[_playerIndex];
-            activePlayerBorder.color = Constants.Colors[_playerIndex];
-            text.text = territories.Count + " | " + reinforcementCount;
+            bool isActivePlayer = _battle.ActivePlayer.PlayerIndex == _playerIndex;
             
-            activePlayerBorder.gameObject.SetActive(_battle.ActivePlayer.PlayerIndex == _playerIndex);
+            dieImage.sprite = Resources.Load<Sprite>(Constants.GetThreeQuartersDieSpritesPathFromResources(_playerIndex));
+            border.color = isActivePlayer ? Color.white : Constants.Colors[_playerIndex];
+            background.color = isActivePlayer ? Constants.Colors[_playerIndex] : Color.white;
+            text.text = territories.Count + " | " + reinforcementCount;
         }
 
         public void OnPointerEnter(PointerEventData eventData)
