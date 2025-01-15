@@ -42,7 +42,7 @@ namespace GlobalScripts
 
             if (StartingReinforcements == -1)
             {
-                StartingReinforcements = 5;
+                StartingReinforcements = 50;
             }
         }
 

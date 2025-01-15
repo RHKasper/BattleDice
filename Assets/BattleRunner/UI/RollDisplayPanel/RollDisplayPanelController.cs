@@ -15,6 +15,9 @@ namespace BattleRunner.UI.RollDisplayPanel
 
         public async Task ShowDiceRoll(int[] diceRoll, int playerIndex)
         {
+            gameObject.SetActive(true);
+            resultsText.SetText("");
+            
             var dieFaceSprites = new[]
             {
                 Resources.Load<Sprite>(Constants.GetDieFaceSpritesPathFromResources(playerIndex, 1)),
