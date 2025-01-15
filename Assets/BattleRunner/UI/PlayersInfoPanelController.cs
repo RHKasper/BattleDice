@@ -28,7 +28,6 @@ namespace BattleRunner.UI
             battleRunnerController.Battle.AttackFinished += OnAttackFinished;
             battleRunnerController.Battle.PlayerEliminated += OnPlayerEliminated;
             battleRunnerController.Battle.GameEnded += OnGameEnded;
-            battleRunnerController.Battle.AppliedReinforcements += OnAppliedReinforcements;
             battleRunnerController.Battle.TurnEnded += OnTurnEnded;
         }
 
@@ -62,11 +61,6 @@ namespace BattleRunner.UI
         private void OnGameEnded(object sender, BattleEvents.GameEndedArgs e)
         {
             UserCueSequencer.EnqueueCueWithDelayAfter(() => _playerInfoBoxes[e.WinningPlayerIndex].RefreshData(), "Show winner visuals");
-        }
-        
-        private void OnAppliedReinforcements(object sender, BattleEvents.AppliedReinforcementsArgs e)
-        {
-            UserCueSequencer.EnqueueCueWithDelayAfter(() => _playerInfoBoxes[e.PlayerIndex].RefreshData(), "Show total dice changed from reinforcements");
         }
         
         private void OnTurnEnded(object sender, BattleEvents.TurnEndedArgs e)

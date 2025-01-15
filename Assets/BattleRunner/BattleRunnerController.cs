@@ -17,7 +17,7 @@ namespace BattleRunner
         [SerializeField] private Canvas mapRoot;
         [SerializeField] private GraphicRaycaster mapCanvasGraphicRaycaster;
         [SerializeField] private Button startGameButton;
-        [SerializeField] private PlayersInfoPanelController playersInfoPanelController;
+        [SerializeField] private Button endTurnButton;
         
         public GameplayMap GameplayMap {get; private set;}
         public Battle Battle {get; private set;}
@@ -25,6 +25,9 @@ namespace BattleRunner
         
         private void Start()
         {
+            startGameButton.gameObject.SetActive(true);
+            endTurnButton.gameObject.SetActive(false);
+            
 #if UNITY_EDITOR
             BattleLoader.EnsureInitialized();
 #endif
@@ -92,9 +95,15 @@ namespace BattleRunner
         public void OnClickStartGame()
         {
             startGameButton.gameObject.SetActive(false);
+            endTurnButton.gameObject.SetActive(true);
             mapCanvasGraphicRaycaster.enabled = true;
             
             BattleStarted?.Invoke();
+        }
+        
+        public void OnClickEndTurn()
+        {
+            Battle.EndTurn();
         }
     }
 }
