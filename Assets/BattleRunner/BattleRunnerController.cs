@@ -35,9 +35,9 @@ namespace BattleRunner
             endTurnButton.gameObject.SetActive(false);
             attackRollsPanel.gameObject.SetActive(false);
             
-#if UNITY_EDITOR
+            // todo: maybe remove this?
             BattleLoader.EnsureInitialized();
-#endif
+            
             // Instantiate selected map
             GameplayMap = Instantiate(BattleLoader.SelectedMapPrefab, mapRoot.transform);
             GameplayMap.RectTransform.anchoredPosition = Vector2.zero;
