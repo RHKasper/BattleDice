@@ -1,12 +1,13 @@
+#if UNITY_EDITOR
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Serialization;
-#if UNITY_EDITOR
+
 using UnityEditor;
-#endif
 
 namespace GlobalScripts.EditorTools.DiceImageGenerator
 {
@@ -181,3 +182,4 @@ namespace GlobalScripts.EditorTools.DiceImageGenerator
         }
     }
 }
+#endif

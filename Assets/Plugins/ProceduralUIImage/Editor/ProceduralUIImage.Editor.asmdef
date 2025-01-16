@@ -1,9 +1,8 @@
 {
-    "name": "Maps.EditorTools",
+    "name": "ProceduralUIImage.Editor",
     "rootNamespace": "",
     "references": [
-        "Maps",
-        "Maps.Helpers"
+        "GUID:536e1131643cb45f6b11298634db7fea"
     ],
     "includePlatforms": [
         "Editor"
