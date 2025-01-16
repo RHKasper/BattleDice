@@ -14,6 +14,8 @@ namespace GlobalScripts
         private static readonly Queue<Cue> _queueOfCues = new();
         private static bool _alive = true;
 
+        public static bool CurrentlyProcessingCues { get; private set; }
+        
         public static void EnqueueCue(Cue cue)
         {
             _queueOfCues.Enqueue(cue);
@@ -74,11 +76,13 @@ namespace GlobalScripts
                 Cue cue = DequeueToNextValidCue();
                 if (cue != null)
                 {
+                    CurrentlyProcessingCues = true;
                     Debug.Log("Processing Cue: " + cue.Name);
                     await cue.AsyncAction();
                 }
                 else
                 {
+                    CurrentlyProcessingCues = false;
                     await Task.Yield();
                 }
             }

@@ -29,6 +29,7 @@ namespace BattleRunner
 
         protected override void UpdateInfo()
         {
+            Debug.Log("BasicTerritoryVisualController.UpdateInfo");
             tempText.SetText("Owner: " + Territory.OwnerPlayerIndex + "\nDice: " + Territory.NumDice);
             ownerPlayerImage.color = Constants.Colors[Territory.OwnerPlayerIndex];
             diceImage.sprite = Resources.Load<Sprite>(Constants.GetDieStackSpritesPathFromResources(Territory.OwnerPlayerIndex, Territory.NumDice));

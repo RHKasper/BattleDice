@@ -21,6 +21,8 @@ namespace BattleRunner
         [SerializeField] private Button endTurnButton;
         [SerializeField] private AttackRollsPanelController attackRollsPanel;
         
+        private bool _battleStarted;
+        
         public GameplayMap GameplayMap {get; private set;}
         public Battle Battle {get; private set;}
         public TerritoryVisualControllerBase SelectedTerritory {get; private set;}
@@ -61,6 +63,11 @@ namespace BattleRunner
             OnClickStartGame();
         }
 
+        private void Update()
+        {
+            mapCanvasGraphicRaycaster.enabled = !UserCueSequencer.CurrentlyProcessingCues && _battleStarted;
+        }
+
         public void SelectTerritory(TerritoryVisualControllerBase territory)
         {
             if (SelectedTerritory != null)
@@ -90,6 +97,7 @@ namespace BattleRunner
             UserCueSequencer.EnqueueCueWithDelayAfter(() => Debug.Log("Todo: roll attack and defense dice"), "Roll attack and Defense Dice");
             UserCueSequencer.EnqueueCueWithNoDelay(() =>
             {
+                DeselectTerritory();
                 attackingTerritory.UpdateState();
                 targetTerritory.UpdateState();
             }, "Show attack results");
@@ -99,7 +107,7 @@ namespace BattleRunner
         {
             startGameButton.gameObject.SetActive(false);
             endTurnButton.gameObject.SetActive(true);
-            mapCanvasGraphicRaycaster.enabled = true;
+            _battleStarted = true;
             
             BattleStarted?.Invoke();
         }

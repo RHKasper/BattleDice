@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AYellowpaper.SerializedCollections;
 using BattleDataModel;
+using GlobalScripts;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -103,7 +104,6 @@ namespace BattleRunner
             else if (IsValidAttackTarget()) 
             {
                 BattleRunnerController.ExecuteAttack(BattleRunnerController.SelectedTerritory, this);
-                BattleRunnerController.DeselectTerritory();
             }
         }
         
@@ -143,17 +143,19 @@ namespace BattleRunner
         
         private void OnStartingReinforcementsAllocated(object sender, BattleEvents.StartingReinforcementsAllocatedArgs e)
         {
-            UpdateState();
+            UserCueSequencer.EnqueueCueWithNoDelay(UpdateState, nameof(TerritoryVisualControllerBase) + "." + nameof(OnStartingReinforcementsAllocated));
         }
         
         private void OnTurnEnded(object sender, BattleEvents.TurnEndedArgs e)
         {
             UpdateState();
+            //UserCueSequencer.EnqueueCueWithNoDelay(UpdateState, nameof(TerritoryVisualControllerBase) + "." + nameof(OnTurnEnded));
         }
 
         private void OnSelectedTerritoryChanged()
         {
             UpdateState();
+            //UserCueSequencer.EnqueueCueWithNoDelay(UpdateState, nameof(TerritoryVisualControllerBase) + "." + nameof(OnSelectedTerritoryChanged));
         }
         
         public enum State

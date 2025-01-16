@@ -33,6 +33,7 @@ namespace BattleRunner.UI
 
         public void RefreshData()
         {
+            Debug.Log("RefreshData");
             var territories = _battle.Map.GetTerritories(_playerIndex);
             int reinforcementCount = _battle.Map.GetLargestContiguousGroupOfTerritories(_playerIndex).Count;
             bool isActivePlayer = _battle.ActivePlayer.PlayerIndex == _playerIndex;
@@ -45,23 +46,29 @@ namespace BattleRunner.UI
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            HashSet<MapNode> territories = _battle.Map.GetLargestContiguousGroupOfTerritories(_playerIndex);
-            foreach (MapNode territory in territories)
+            UserCueSequencer.EnqueueCueWithNoDelay(() =>
             {
-                var visualController = _gameplayMap.GetTerritoryGameObject(territory).GetComponent<TerritoryVisualControllerBase>();
-                visualController.HighlightedToShowLargestContiguousGroupOfTerritories = true;
-                visualController.UpdateState();
-            }
+                HashSet<MapNode> territories = _battle.Map.GetLargestContiguousGroupOfTerritories(_playerIndex);
+                foreach (MapNode territory in territories)
+                {
+                    var visualController = _gameplayMap.GetTerritoryGameObject(territory).GetComponent<TerritoryVisualControllerBase>();
+                    visualController.HighlightedToShowLargestContiguousGroupOfTerritories = true;
+                    visualController.UpdateState();
+                }    
+            }, "Showing largest Contiguous Group Of Territories");
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            foreach (MapNode territory in _battle.Map.Nodes.Values)
+            UserCueSequencer.EnqueueCueWithNoDelay(() =>
             {
-                var visualController = _gameplayMap.GetTerritoryGameObject(territory).GetComponent<TerritoryVisualControllerBase>();
-                visualController.HighlightedToShowLargestContiguousGroupOfTerritories = false;
-                visualController.UpdateState();
-            }
+                foreach (MapNode territory in _battle.Map.Nodes.Values)
+                {
+                    var visualController = _gameplayMap.GetTerritoryGameObject(territory).GetComponent<TerritoryVisualControllerBase>();
+                    visualController.HighlightedToShowLargestContiguousGroupOfTerritories = false;
+                    visualController.UpdateState();
+                }
+            }, "Hiding largest Contiguous Group Of Territories");
         }
     }
 }
