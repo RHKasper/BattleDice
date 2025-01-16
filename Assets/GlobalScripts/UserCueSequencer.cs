@@ -41,13 +41,19 @@ namespace GlobalScripts
             EnqueueCue(cue);
         }
         
-        public static void EnqueueCueWithNoDelay(Action action, string cueName)
+        public static void EnqueueCueWithOneFrameDelay(Action action, string cueName)
         {
-            Cue cue = new Cue(cueName, async () =>
+            Cue cue = new Cue(cueName, () =>
             {
                 action.Invoke();
-                await Task.Yield();
+                return null;
             }, AlwaysTrue);
+            EnqueueCue(cue);
+        }
+
+        public static void EnqueueCueWithNoDelay(Action action, string cueName)
+        {
+            Cue cue = new Cue(cueName, action, AlwaysTrue);
             EnqueueCue(cue);
         }
 
@@ -78,7 +84,14 @@ namespace GlobalScripts
                 {
                     CurrentlyProcessingCues = true;
                     Debug.Log("Processing Cue: " + cue.Name);
-                    await cue.AsyncAction();
+                    if(cue.AsyncAction != null)
+                    {
+                        await cue.AsyncAction();
+                    }
+                    else
+                    {
+                        cue.SynchronousAction();
+                    }
                 }
                 else
                 {
@@ -118,6 +131,7 @@ namespace GlobalScripts
         public class Cue
         {
             public string Name;
+            public Action SynchronousAction;
             public Func<Task> AsyncAction;
             public Func<bool> IsValid;
 
@@ -125,6 +139,13 @@ namespace GlobalScripts
             {
                 Name = cueName;
                 AsyncAction = asyncAction;
+                IsValid = isValid;
+            }
+
+            public Cue(string cueName, Action synchronousAction, Func<bool> isValid)
+            {
+                Name = cueName;
+                SynchronousAction = synchronousAction;
                 IsValid = isValid;
             }
         }
