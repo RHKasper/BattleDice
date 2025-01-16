@@ -107,6 +107,8 @@ namespace BattleRunner
             }
         }
         
+        public void OverrideState(State state) => SetState(state);
+        
         /// <summary>
         /// Update ownership and die count visuals
         /// </summary>

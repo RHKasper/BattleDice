@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace BattleTest.UI.RollDisplayPanel
+namespace BattleRunner.UI.RollDisplayPanel
 {
     public class DieRollUiController : MonoBehaviour
     {

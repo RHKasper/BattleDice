@@ -92,8 +92,9 @@ namespace BattleRunner
         
         public void ExecuteAttack(TerritoryVisualControllerBase attackingTerritory, TerritoryVisualControllerBase targetTerritory)
         {
+            Debug.Log("ExecuteAttack");
             Battle.Attack(attackingTerritory.Territory, targetTerritory.Territory);
-            
+            SetAllTerritoriesToNormalState();
             UserCueSequencer.EnqueueCueWithDelayAfter(() => Debug.Log("Todo: roll attack and defense dice"), "Roll attack and Defense Dice");
             UserCueSequencer.EnqueueCueWithNoDelay(() =>
             {
@@ -115,6 +116,15 @@ namespace BattleRunner
         public void OnClickEndTurn()
         {
             Battle.EndTurn();
+        }
+
+        private void SetAllTerritoriesToNormalState()
+        {
+            foreach (MapNode territory in Battle.Map.Nodes.Values)
+            {
+                var visualController = GameplayMap.GetTerritoryGameObject(territory).GetComponent<TerritoryVisualControllerBase>();
+                //visualController.OverrideState(TerritoryVisualControllerBase.State.Normal);
+            }
         }
     }
 }

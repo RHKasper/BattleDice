@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using BattleDataModel;
-using BattleTest.UI.RollDisplayPanel;
 using GlobalScripts;
 using UnityEngine;
 
@@ -36,6 +35,7 @@ namespace BattleRunner.UI.RollDisplayPanel
 
         private void OnRollingAttack(object sender, BattleEvents.RollingAttackArgs e)
         {
+            Debug.Log("OnRollingAttack");
             UserCueSequencer.EnqueueCueWithNoDelay(ShowBlank, "Show attack roll display");
             UserCueSequencer.EnqueueCueWithDelayAfter(gameObject, async () => await attackerRollDisplayPanel.ShowDiceRoll(e.AttackRoll, e.AttackingPlayerId), "show attacker roll");
             UserCueSequencer.EnqueueCueWithDelayAfter(gameObject, async () => await defenderRollDisplayPanel.ShowDiceRoll(e.DefenseRoll, e.DefendingPlayerId), "show defender roll");
