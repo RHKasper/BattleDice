@@ -130,10 +130,14 @@ namespace BattleDataModel
         public class AppliedReinforcementDieArgs : EventArgs
         {
             public readonly MapNode Territory;
+            public readonly int CurrentNumDice;
+            public readonly int NumReinforcementsLeftUnapplied;
 
-            public AppliedReinforcementDieArgs(MapNode territory)
+            public AppliedReinforcementDieArgs(MapNode territory, int currentNumDice, int numReinforcementsLeftUnapplied)
             {
                 Territory = territory;
+                CurrentNumDice = currentNumDice;
+                NumReinforcementsLeftUnapplied = numReinforcementsLeftUnapplied;
             }
         }
         

@@ -114,6 +114,11 @@ namespace BattleRunner
         public void OverrideState(State state) => SetState(state);
         
         /// <summary>
+        /// Used during the end-of-turn reinforcements visuals to show each die getting assigned to a territory
+        /// </summary>
+        public abstract void ShowNumDice(int numDice);
+        
+        /// <summary>
         /// Update ownership and die count visuals
         /// </summary>
         protected abstract void UpdateInfo();
@@ -154,10 +159,9 @@ namespace BattleRunner
         
         private void OnTurnEnded(object sender, BattleEvents.TurnEndedArgs e)
         {
-            UpdateState();
-            //UserCueSequencer.EnqueueCueWithNoDelay(UpdateState, nameof(TerritoryVisualControllerBase) + "." + nameof(OnTurnEnded));
+            UserCueSequencer.EnqueueCueWithNoDelay(UpdateState, nameof(TerritoryVisualControllerBase) + "." + nameof(OnTurnEnded));
         }
-
+        
         private void OnSelectedTerritoryChanged()
         {
             UpdateState();

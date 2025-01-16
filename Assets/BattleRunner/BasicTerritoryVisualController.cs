@@ -27,11 +27,18 @@ namespace BattleRunner
             tempText.SetText("Initialized");
         }
 
+        public override void ShowNumDice(int numDice)
+        {
+            Debug.Log("ShowNumDice");
+            diceImage.sprite = Resources.Load<Sprite>(Constants.GetDieStackSpritesPathFromResources(Territory.OwnerPlayerIndex, Territory.NumDice));
+        }
+
         protected override void UpdateInfo()
         {
+            Debug.Log("UpdateInfo");
             tempText.SetText("Owner: " + Territory.OwnerPlayerIndex + "\nDice: " + Territory.NumDice);
             ownerPlayerImage.color = Constants.Colors[Territory.OwnerPlayerIndex];
-            diceImage.sprite = Resources.Load<Sprite>(Constants.GetDieStackSpritesPathFromResources(Territory.OwnerPlayerIndex, Territory.NumDice));
+            ShowNumDice(Territory.NumDice);
         }
 
         protected override void SetState(State state)

@@ -1,6 +1,7 @@
 using System;
 using BattleDataModel;
 using BattleRunner.UI;
+using BattleRunner.UI.ReinforcementDicePanel;
 using BattleRunner.UI.RollDisplayPanel;
 using GlobalScripts;
 using Maps;
@@ -20,6 +21,7 @@ namespace BattleRunner
         [SerializeField] private Button startGameButton;
         [SerializeField] private Button endTurnButton;
         [SerializeField] private AttackRollsPanelController attackRollsPanel;
+        [SerializeField] private ReinforcementDicePanelController reinforcementDicePanel;
         
         private bool _battleStarted;
         
@@ -43,6 +45,8 @@ namespace BattleRunner
             // Construct data model battle
             Battle = BattleLoader.ConstructBattle(GameplayMap);
             Battle.RollingAttack += OnRollingAttack;
+            Battle.ApplyingReinforcements += OnApplyingReinforcements;
+            Battle.AppliedReinforcementDie += OnAppliedReinforcementDie;
             
             // Link nodes to node visuals
             var order = GameplayMap.GetNodeDefinitionsInOrder();
@@ -62,7 +66,7 @@ namespace BattleRunner
             // for testing, auto start. In the future, player will start
             OnClickStartGame();
         }
-
+        
         private void Update()
         {
             mapCanvasGraphicRaycaster.enabled = !UserCueSequencer.CurrentlyProcessingCues && _battleStarted;
@@ -145,6 +149,24 @@ namespace BattleRunner
                 defendingTerritoryVisual.UpdateState();
                 
             }, "Show Attack Results");
+        }
+        
+        private void OnApplyingReinforcements(object sender, BattleEvents.ApplyingReinforcementsArgs e)
+        {
+            UserCueSequencer.EnqueueCueWithDelayAfter(() =>
+            {
+                reinforcementDicePanel.ShowReinforcementDice(e.NumReinforcements, e.PlayerIndex);
+            }, nameof(BattleRunnerController) + "." + nameof(OnApplyingReinforcements));
+        }
+        
+        private void OnAppliedReinforcementDie(object sender, BattleEvents.AppliedReinforcementDieArgs e)
+        {
+            UserCueSequencer.EnqueueCueWithDelayAfter(() =>
+            {
+                var territoryVisualController = GameplayMap.GetTerritoryGameObject(e.Territory).GetComponent<TerritoryVisualControllerBase>();
+                territoryVisualController.ShowNumDice(e.CurrentNumDice);
+                reinforcementDicePanel.ShowReinforcementDice(e.NumReinforcementsLeftUnapplied, e.Territory.OwnerPlayerIndex);
+            }, nameof(BattleRunnerController) + "." + nameof(OnAppliedReinforcementDie));
         }
     }
 }

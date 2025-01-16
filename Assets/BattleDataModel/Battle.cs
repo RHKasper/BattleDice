@@ -208,7 +208,7 @@ namespace BattleDataModel
                 MapNode randomTerritory = ownedNodesWithRoomForReinforcements[randomTerritoryIndex];
                 orderedReinforcements.Add(randomTerritory);
                 randomTerritory.NumDice++;
-                AppliedReinforcementDie?.Invoke(this, new BattleEvents.AppliedReinforcementDieArgs(randomTerritory));
+                AppliedReinforcementDie?.Invoke(this, new BattleEvents.AppliedReinforcementDieArgs(randomTerritory, randomTerritory.NumDice, reinforcementsCount - i - 1));
                 
                 if (randomTerritory.NumDice == DataModelConstants.MaxDiceInTerritory)
                 {
