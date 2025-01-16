@@ -95,7 +95,8 @@ namespace BattleRunner
             Debug.Log("ExecuteAttack");
             Battle.Attack(attackingTerritory.Territory, targetTerritory.Territory);
             SetAllTerritoriesToNormalState();
-            UserCueSequencer.EnqueueCueWithDelayAfter(() => Debug.Log("Todo: roll attack and defense dice"), "Roll attack and Defense Dice");
+            // todo: move AttackRollsPanelController.OnRolling code here and delete OnRolling event
+            
             UserCueSequencer.EnqueueCueWithNoDelay(() =>
             {
                 DeselectTerritory();

@@ -88,7 +88,10 @@ namespace BattleRunner
         public void OnPointerExit(PointerEventData eventData)
         {
             _pointerOver = false;
-            UpdateState();
+            if (!UserCueSequencer.CurrentlyProcessingCues)
+            {
+                UpdateState();
+            }
         }
         
         public void OnPointerClick(PointerEventData eventData)

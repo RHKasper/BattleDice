@@ -33,7 +33,6 @@ namespace BattleRunner.UI
 
         public void RefreshData()
         {
-            Debug.Log("RefreshData");
             var territories = _battle.Map.GetTerritories(_playerIndex);
             int reinforcementCount = _battle.Map.GetLargestContiguousGroupOfTerritories(_playerIndex).Count;
             bool isActivePlayer = _battle.ActivePlayer.PlayerIndex == _playerIndex;

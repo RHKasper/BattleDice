@@ -35,11 +35,15 @@ namespace BattleRunner.UI.RollDisplayPanel
 
         private void OnRollingAttack(object sender, BattleEvents.RollingAttackArgs e)
         {
-            Debug.Log("OnRollingAttack");
             UserCueSequencer.EnqueueCueWithNoDelay(ShowBlank, "Show attack roll display");
             UserCueSequencer.EnqueueCueWithDelayAfter(gameObject, async () => await attackerRollDisplayPanel.ShowDiceRoll(e.AttackRoll, e.AttackingPlayerId), "show attacker roll");
             UserCueSequencer.EnqueueCueWithDelayAfter(gameObject, async () => await defenderRollDisplayPanel.ShowDiceRoll(e.DefenseRoll, e.DefendingPlayerId), "show defender roll");
-            // todo: cue up the territory ownership change over
+            UserCueSequencer.Wait(.1f);
+            UserCueSequencer.EnqueueCueWithNoDelay(() =>
+            {
+                battleRunnerController.GameplayMap.GetTerritoryGameObject(e.AttackingTerritory).GetComponent<TerritoryVisualControllerBase>().UpdateState();
+                battleRunnerController.GameplayMap.GetTerritoryGameObject(e.DefendingTerritory).GetComponent<TerritoryVisualControllerBase>().UpdateState();
+            }, "Show Attack Results");
             UserCueSequencer.Wait(.5f);
             UserCueSequencer.EnqueueCueWithDelayAfter(gameObject, async () =>
             {
