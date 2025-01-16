@@ -36,13 +36,13 @@ namespace BattleRunner
 #if UNITY_EDITOR
             BattleLoader.EnsureInitialized();
 #endif
-            
             // Instantiate selected map
             GameplayMap = Instantiate(BattleLoader.SelectedMapPrefab, mapRoot.transform);
             GameplayMap.RectTransform.anchoredPosition = Vector2.zero;
             
             // Construct data model battle
             Battle = BattleLoader.ConstructBattle(GameplayMap);
+            Battle.RollingAttack += OnRollingAttack;
             
             // Link nodes to node visuals
             var order = GameplayMap.GetNodeDefinitionsInOrder();
@@ -92,17 +92,8 @@ namespace BattleRunner
         
         public void ExecuteAttack(TerritoryVisualControllerBase attackingTerritory, TerritoryVisualControllerBase targetTerritory)
         {
-            Debug.Log("ExecuteAttack");
-            Battle.Attack(attackingTerritory.Territory, targetTerritory.Territory);
             SetAllTerritoriesToNormalState();
-            // todo: move AttackRollsPanelController.OnRolling code here and delete OnRolling event
-            
-            UserCueSequencer.EnqueueCueWithNoDelay(() =>
-            {
-                DeselectTerritory();
-                attackingTerritory.UpdateState();
-                targetTerritory.UpdateState();
-            }, "Show attack results");
+            Battle.Attack(attackingTerritory.Territory, targetTerritory.Territory);
         }
         
         public void OnClickStartGame()
@@ -124,8 +115,30 @@ namespace BattleRunner
             foreach (MapNode territory in Battle.Map.Nodes.Values)
             {
                 var visualController = GameplayMap.GetTerritoryGameObject(territory).GetComponent<TerritoryVisualControllerBase>();
-                //visualController.OverrideState(TerritoryVisualControllerBase.State.Normal);
+                visualController.OverrideState(TerritoryVisualControllerBase.State.Normal);
             }
+        }
+        
+        private void OnRollingAttack(object sender, BattleEvents.RollingAttackArgs e)
+        {
+            UserCueSequencer.EnqueueCueWithNoDelay(attackRollsPanel.ShowBlank, "Show attack roll display");
+            UserCueSequencer.EnqueueCueWithDelayAfter(gameObject, async () => await attackRollsPanel.RunAttackRoll(e.AttackRoll, e.AttackingPlayerId), "show attacker roll");
+            UserCueSequencer.EnqueueCueWithDelayAfter(gameObject, async () => await attackRollsPanel.RunDefenseRoll(e.DefenseRoll, e.DefendingPlayerId), "show defender roll");
+            
+            UserCueSequencer.Wait(.25f);
+            UserCueSequencer.EnqueueCueWithNoDelay(() =>
+            {
+                DeselectTerritory();
+                attackRollsPanel.Hide();
+                GameplayMap.GetTerritoryGameObject(e.AttackingTerritory).GetComponent<TerritoryVisualControllerBase>().UpdateState();
+                GameplayMap.GetTerritoryGameObject(e.DefendingTerritory).GetComponent<TerritoryVisualControllerBase>().UpdateState();
+            }, "Show Attack Results");
+
+            
+            // UserCueSequencer.EnqueueCueWithDelayAfter(() =>
+            // {
+            //     attackRollsPanel.Hide();
+            // }, "hide attack roll displays");
         }
     }
 }
