@@ -15,13 +15,14 @@ namespace BattleRunner
         [SerializedDictionary("Adjacent Territory", "Edge Object")]
         [SerializeField] public SerializedDictionary<TerritoryVisualControllerBase, EdgeVisualControllerBase> edges = new();
         
+        private bool _pointerOver;
+        
         public BattleRunnerController BattleRunnerController { get; private set; }
         public MapNode Territory { get; private set; }
-
-        private bool _pointerOver;
-        private bool _attacking;
-        private bool _beingAttacked;
+        public bool Attacking { get; set; }
+        public bool BeingAttacked { get; set; }
         public bool HighlightedToShowLargestContiguousGroupOfTerritories {get; set;}
+        
         
         public void Initialize(BattleRunnerController battleRunnerController, MapNode territory)
         {
@@ -41,11 +42,11 @@ namespace BattleRunner
             {
                 SetState(State.HighlightedToShowLargestContiguousGroupOfTerritories);
             }
-            else if (_attacking)
+            else if (Attacking)
             {
                 SetState(State.Attacking);
             }
-            else if (_beingAttacked)
+            else if (BeingAttacked)
             {
                 SetState(State.Defending);
             }

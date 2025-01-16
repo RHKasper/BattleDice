@@ -93,6 +93,11 @@ namespace BattleRunner
         public void ExecuteAttack(TerritoryVisualControllerBase attackingTerritory, TerritoryVisualControllerBase targetTerritory)
         {
             SetAllTerritoriesToNormalState();
+            attackingTerritory.Attacking = true;
+            targetTerritory.BeingAttacked = true;
+            attackingTerritory.UpdateState();
+            targetTerritory.UpdateState();
+            
             Battle.Attack(attackingTerritory.Territory, targetTerritory.Territory);
         }
         
@@ -130,15 +135,16 @@ namespace BattleRunner
             {
                 DeselectTerritory();
                 attackRollsPanel.Hide();
-                GameplayMap.GetTerritoryGameObject(e.AttackingTerritory).GetComponent<TerritoryVisualControllerBase>().UpdateState();
-                GameplayMap.GetTerritoryGameObject(e.DefendingTerritory).GetComponent<TerritoryVisualControllerBase>().UpdateState();
+                
+                var attackingTerritoryVisual = GameplayMap.GetTerritoryGameObject(e.AttackingTerritory).GetComponent<TerritoryVisualControllerBase>();
+                attackingTerritoryVisual.Attacking = false;
+                attackingTerritoryVisual.UpdateState();
+                
+                var defendingTerritoryVisual = GameplayMap.GetTerritoryGameObject(e.DefendingTerritory).GetComponent<TerritoryVisualControllerBase>();
+                defendingTerritoryVisual.BeingAttacked = false;
+                defendingTerritoryVisual.UpdateState();
+                
             }, "Show Attack Results");
-
-            
-            // UserCueSequencer.EnqueueCueWithDelayAfter(() =>
-            // {
-            //     attackRollsPanel.Hide();
-            // }, "hide attack roll displays");
         }
     }
 }

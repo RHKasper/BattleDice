@@ -74,8 +74,12 @@ namespace BattleRunner
                     attackableHighlight.SetAlpha(.5f);
                     break;
                 case State.Attacking:
+                    selectionHighlight.gameObject.SetActive(true);
+                    selectionHighlight.SetAlpha(1);
                     break;
                 case State.Defending:
+                    attackableHighlight.gameObject.SetActive(true);
+                    attackableHighlight.SetAlpha(1f);
                     break;
                 case State.HighlightedToShowLargestContiguousGroupOfTerritories:
                     contiguousTerritoriesHighlight.gameObject.SetActive(true);
