@@ -70,6 +70,11 @@ namespace BattleRunner
         private void Update()
         {
             mapCanvasGraphicRaycaster.enabled = !UserCueSequencer.CurrentlyProcessingCues && _battleStarted;
+            
+            if (Input.GetKeyDown(KeyCode.Escape) && !UserCueSequencer.CurrentlyProcessingCues)
+            {
+                DeselectTerritory();   
+            }
         }
 
         public void SelectTerritory(TerritoryVisualControllerBase territory)
@@ -86,12 +91,12 @@ namespace BattleRunner
         
         public void DeselectTerritory()
         {
-            if (SelectedTerritory != null)
+            if (SelectedTerritory)
             {
                 SelectedTerritory.UpdateState();
+                SelectedTerritory = null;
+                SelectedTerritoryChanged?.Invoke();
             }
-            SelectedTerritory = null;
-            SelectedTerritoryChanged?.Invoke();
         }
         
         public void ExecuteAttack(TerritoryVisualControllerBase attackingTerritory, TerritoryVisualControllerBase targetTerritory)
