@@ -62,7 +62,6 @@ namespace BattleRunner
             Battle.RandomlyAllocateStartingReinforcements(BattleLoader.StartingReinforcements);
             BattleInitialized?.Invoke();
             
-            
             // for testing, auto start. In the future, player will start
             OnClickStartGame();
         }
@@ -70,10 +69,16 @@ namespace BattleRunner
         private void Update()
         {
             mapCanvasGraphicRaycaster.enabled = !UserCueSequencer.CurrentlyProcessingCues && _battleStarted;
+            endTurnButton.interactable = !Battle.ActivePlayer.IsAiPlayer;
             
             if (Input.GetKeyDown(KeyCode.Escape) && !UserCueSequencer.CurrentlyProcessingCues)
             {
                 DeselectTerritory();   
+            }
+
+            if (!UserCueSequencer.CurrentlyProcessingCues && Battle.ActivePlayer.IsAiPlayer)
+            {
+                UserCueSequencer.EnqueueCueWithDelayBefore(() => Battle.ActivePlayer.AiStrategy!.PlayTurn(Battle, Battle.ActivePlayer), "Play AI Turn");
             }
         }
 

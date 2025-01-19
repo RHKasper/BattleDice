@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using BattleDataModel;
+using BattleDataModel.AiPlayerStrategies;
 using Maps;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -42,16 +43,17 @@ namespace GlobalScripts
 
             if (StartingReinforcements == -1)
             {
-                StartingReinforcements = 50;
+                StartingReinforcements = 12;
             }
         }
 
         public static Battle ConstructBattle(GameplayMap mapInstance)
         {
             var players = new List<Player>();
-            for (int i = 0; i < PlayerCount; i++)
+            players.Add(new Player(0));
+            for (int i = 1; i < PlayerCount; i++)
             {
-                players.Add(new Player(i));    
+                players.Add(new Player(i, new AggressiveAiStrategy()));    
             }
             
             Battle b = new Battle(mapInstance.GenerateMapData(), players, RandomSeed);

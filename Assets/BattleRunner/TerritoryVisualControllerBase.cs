@@ -50,6 +50,10 @@ namespace BattleRunner
             {
                 SetState(State.Defending);
             }
+            else if (!IsLocalHumanPlayersTurn())
+            {
+                SetState(State.Normal);
+            }
             else if (_pointerOver && IsSelectable())
             {
                 SetState(State.HoverSelectable);
@@ -97,17 +101,20 @@ namespace BattleRunner
         
         public void OnPointerClick(PointerEventData eventData)
         {
-            if (IsSelected())
+            if (IsLocalHumanPlayersTurn())
             {
-                BattleRunnerController.DeselectTerritory();
-            }
-            else if (IsSelectable())
-            {
-                BattleRunnerController.SelectTerritory(this);
-            }
-            else if (IsValidAttackTarget()) 
-            {
-                BattleRunnerController.ExecuteAttack(BattleRunnerController.SelectedTerritory, this);
+                if (IsSelected())
+                {
+                    BattleRunnerController.DeselectTerritory();
+                }
+                else if (IsSelectable())
+                {
+                    BattleRunnerController.SelectTerritory(this);
+                }
+                else if (IsValidAttackTarget()) 
+                {
+                    BattleRunnerController.ExecuteAttack(BattleRunnerController.SelectedTerritory, this);
+                }   
             }
         }
         
@@ -126,6 +133,11 @@ namespace BattleRunner
         protected abstract void SetState(State state);
         
         protected abstract void OnInitialize();
+
+        private bool IsLocalHumanPlayersTurn()
+        {
+            return !BattleRunnerController.Battle.ActivePlayer.IsAiPlayer;
+        }
         
         private bool IsSelected()
         {
