@@ -50,6 +50,16 @@ namespace GlobalScripts
             }, AlwaysTrue);
             EnqueueCue(cue);
         }
+        
+        public static void EnqueueCueWithDelayBefore(Func<Task> asyncAction, string cueName)
+        {
+            Cue cue = new Cue(cueName, async () =>
+            {
+                await WebGlUtil.WebGlSafeDelay(DefaultCueDelayMs);
+                await asyncAction.Invoke();
+            }, AlwaysTrue);
+            EnqueueCue(cue);
+        }
 
         
         public static void EnqueueCueWithOneFrameDelay(Action action, string cueName)

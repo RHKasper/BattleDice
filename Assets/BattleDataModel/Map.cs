@@ -89,7 +89,7 @@ namespace BattleDataModel
             return largestYet;
         }
 
-        public List<MapNode> GetTerritoriesOwnedByPlayer(int owningPlayerId) => _nodes.Values.Where(n => n.OwnerPlayerIndex == owningPlayerId).ToList();
-        public int GetNumTerritoriesOwnedByPlayer(int owningPlayerId) => _nodes.Values.Count(n => n.OwnerPlayerIndex == owningPlayerId);
+        public List<MapNode> GetTerritoriesOwnedByPlayer(int playerIndex) => _nodes.Values.Where(n => n.OwnerPlayerIndex == playerIndex).ToList();
+        public int GetNumTerritoriesOwnedByPlayer(int playerIndex) => _nodes.Values.Count(n => n.OwnerPlayerIndex == playerIndex);
     }
 }

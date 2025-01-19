@@ -33,7 +33,7 @@ namespace GlobalScripts
 
             if (PlayerCount == 0)
             {
-                PlayerCount = 6;
+                PlayerCount = 3;
             }
 
             if (RandomSeed == int.MinValue)

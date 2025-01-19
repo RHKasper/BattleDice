@@ -76,9 +76,12 @@ namespace BattleRunner
                 DeselectTerritory();   
             }
 
-            if (!UserCueSequencer.CurrentlyProcessingCues && Battle.ActivePlayer.IsAiPlayer)
+            if (!UserCueSequencer.CurrentlyProcessingCues && Battle.ActivePlayer.IsAiPlayer)// && Input.GetKeyDown(KeyCode.N))
             {
-                UserCueSequencer.EnqueueCueWithDelayBefore(() => Battle.ActivePlayer.AiStrategy!.PlayTurn(Battle, Battle.ActivePlayer), "Play AI Turn");
+                UserCueSequencer.EnqueueCueWithNoDelay(() =>
+                {
+                    Battle.ActivePlayer.AiStrategy!.PlayNextMove(Battle, Battle.ActivePlayer);
+                }, "Play Next AI Move");
             }
         }
 
@@ -107,11 +110,6 @@ namespace BattleRunner
         public void ExecuteAttack(TerritoryVisualControllerBase attackingTerritory, TerritoryVisualControllerBase targetTerritory)
         {
             SetAllTerritoriesToNormalState();
-            attackingTerritory.Attacking = true;
-            targetTerritory.BeingAttacked = true;
-            attackingTerritory.UpdateState();
-            targetTerritory.UpdateState();
-            
             Battle.Attack(attackingTerritory.Territory, targetTerritory.Territory);
         }
         
@@ -140,6 +138,17 @@ namespace BattleRunner
         
         private void OnRollingAttack(object sender, BattleEvents.RollingAttackArgs e)
         {
+            var attackingTerritoryVisualController = GameplayMap.GetTerritoryVisualController(e.AttackingTerritory);
+            var defendingTerritoryVisualController = GameplayMap.GetTerritoryVisualController(e.DefendingTerritory);
+            
+            UserCueSequencer.EnqueueCueWithNoDelay(() =>
+            {
+                attackingTerritoryVisualController.Attacking = true;
+                defendingTerritoryVisualController.BeingAttacked = true;
+                attackingTerritoryVisualController.UpdateState(false);
+                defendingTerritoryVisualController.UpdateState(false);    
+            }, "Show attacking and defending states");
+            
             UserCueSequencer.EnqueueCueWithNoDelay(attackRollsPanel.ShowBlank, "Show attack roll display");
             UserCueSequencer.EnqueueCueWithDelayAfter(gameObject, async () => await attackRollsPanel.RunAttackRoll(e.AttackRoll, e.AttackingPlayerId), "show attacker roll");
             UserCueSequencer.EnqueueCueWithDelayAfter(gameObject, async () => await attackRollsPanel.RunDefenseRoll(e.DefenseRoll, e.DefendingPlayerId), "show defender roll");
@@ -150,13 +159,11 @@ namespace BattleRunner
                 DeselectTerritory();
                 attackRollsPanel.Hide();
                 
-                var attackingTerritoryVisual = GameplayMap.GetTerritoryGameObject(e.AttackingTerritory).GetComponent<TerritoryVisualControllerBase>();
-                attackingTerritoryVisual.Attacking = false;
-                attackingTerritoryVisual.UpdateState();
+                attackingTerritoryVisualController.Attacking = false;
+                attackingTerritoryVisualController.UpdateState();
                 
-                var defendingTerritoryVisual = GameplayMap.GetTerritoryGameObject(e.DefendingTerritory).GetComponent<TerritoryVisualControllerBase>();
-                defendingTerritoryVisual.BeingAttacked = false;
-                defendingTerritoryVisual.UpdateState();
+                defendingTerritoryVisualController.BeingAttacked = false;
+                defendingTerritoryVisualController.UpdateState();
                 
             }, "Show Attack Results");
         }

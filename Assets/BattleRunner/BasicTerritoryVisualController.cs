@@ -33,7 +33,7 @@ namespace BattleRunner
             diceImage.sprite = Resources.Load<Sprite>(Constants.GetDieStackSpritesPathFromResources(Territory.OwnerPlayerIndex, Territory.NumDice));
         }
 
-        protected override void UpdateInfo()
+        protected override void UpdateGameData()
         {
             Debug.Log("UpdateInfo");
             tempText.SetText("Owner: " + Territory.OwnerPlayerIndex + "\nDice: " + Territory.NumDice);

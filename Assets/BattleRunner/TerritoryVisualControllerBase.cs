@@ -35,9 +35,16 @@ namespace BattleRunner
             OnInitialize();
         }
 
-        public void UpdateState()
+        public void UpdateState() => UpdateState(true);
+        
+        public void UpdateState(bool updateGameData)
         {
-            UpdateInfo();
+            if (updateGameData)
+            {
+                UpdateGameData();
+            }
+            
+            
             if (HighlightedToShowLargestContiguousGroupOfTerritories)
             {
                 SetState(State.HighlightedToShowLargestContiguousGroupOfTerritories);
@@ -128,7 +135,7 @@ namespace BattleRunner
         /// <summary>
         /// Update ownership and die count visuals
         /// </summary>
-        protected abstract void UpdateInfo();
+        protected abstract void UpdateGameData();
 
         protected abstract void SetState(State state);
         
