@@ -24,6 +24,7 @@ namespace BattleRunner
         [SerializeField] private ReinforcementDicePanelController reinforcementDicePanel;
         
         private bool _battleStarted;
+        private bool _battleEnded;
         
         public GameplayMap GameplayMap {get; private set;}
         public Battle Battle {get; private set;}
@@ -47,6 +48,7 @@ namespace BattleRunner
             Battle.RollingAttack += OnRollingAttack;
             Battle.ApplyingReinforcements += OnApplyingReinforcements;
             Battle.AppliedReinforcementDie += OnAppliedReinforcementDie;
+            Battle.GameEnded += OnGameEnded;
             
             // Link nodes to node visuals
             var order = GameplayMap.GetNodeDefinitionsInOrder();
@@ -68,7 +70,7 @@ namespace BattleRunner
         
         private void Update()
         {
-            mapCanvasGraphicRaycaster.enabled = !UserCueSequencer.CurrentlyProcessingCues && _battleStarted;
+            mapCanvasGraphicRaycaster.enabled = !UserCueSequencer.CurrentlyProcessingCues && _battleStarted && !_battleEnded;
             endTurnButton.interactable = !Battle.ActivePlayer.IsAiPlayer;
             
             if (Input.GetKeyDown(KeyCode.Escape) && !UserCueSequencer.CurrentlyProcessingCues)
@@ -196,6 +198,13 @@ namespace BattleRunner
                 territoryVisualController.ShowNumDice(e.CurrentNumDice);
                 reinforcementDicePanel.ShowReinforcementDice(e.NumReinforcementsLeftUnapplied, e.Territory.OwnerPlayerIndex);
             }, nameof(BattleRunnerController) + "." + nameof(OnAppliedReinforcementDie));
+        }
+
+        private void OnGameEnded(object sender, BattleEvents.GameEndedArgs e)
+        {
+            _battleEnded = true;
+            endTurnButton.gameObject.SetActive(false);
+            Debug.Log("Game won by " + e.WinningPlayerIndex);
         }
     }
 }
