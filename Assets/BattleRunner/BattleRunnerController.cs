@@ -127,6 +127,18 @@ namespace BattleRunner
             Battle.EndTurn();
         }
 
+#if DEBUG || UNITY_EDITOR
+        public void OnClickEliminateNextOpponent()
+        {
+            Battle.EliminateNextAiPlayer();
+
+            foreach (MapNode territory in Battle.Map.Nodes.Values)
+            {
+                GameplayMap.GetTerritoryVisualController(territory).UpdateState();
+            }
+        }
+#endif
+        
         private void SetAllTerritoriesToNormalState()
         {
             foreach (MapNode territory in Battle.Map.Nodes.Values)

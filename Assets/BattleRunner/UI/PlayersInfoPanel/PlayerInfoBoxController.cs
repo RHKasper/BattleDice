@@ -41,6 +41,8 @@ namespace BattleRunner.UI
             border.color = isActivePlayer ? Color.white : Constants.Colors[_playerIndex];
             background.color = isActivePlayer ? Constants.Colors[_playerIndex] : Color.white;
             text.text = territories.Count + " | " + reinforcementCount;
+
+            gameObject.SetActive(!_battle.GetPlayer(_playerIndex).Eliminated);
         }
 
         public void OnPointerEnter(PointerEventData eventData)

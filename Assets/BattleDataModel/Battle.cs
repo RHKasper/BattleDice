@@ -35,6 +35,8 @@ namespace BattleDataModel
             _players = players.ToList();
             Map = map;
             Rng = new Random(randomSeed);
+
+            Debug.Assert(_players.TrueForAll(p => _players[p.PlayerIndex] == p));
         }
 
         /// <summary>
@@ -164,6 +166,33 @@ namespace BattleDataModel
             TurnEnded?.Invoke(this, new(prevActivePlayerIndex, _activePlayerIndex));
         }
 
+        public Player GetPlayer(int playerIndex)
+        {
+            return _players[playerIndex];
+        }
+
+#if DEBUG || UNITY_EDITOR
+        public void EliminateNextAiPlayer()
+        {
+            var playerToEliminate = _players.FirstOrDefault(p => p.Eliminated == false && p.IsAiPlayer);
+            if (playerToEliminate != null)
+            {
+                var playerToOwnTerritories = _players.First(p => !p.IsAiPlayer);
+                foreach (MapNode territory in Map.GetTerritoriesOwnedByPlayer(playerToEliminate.PlayerIndex))
+                {
+                    territory.OwnerPlayerIndex = playerToOwnTerritories.PlayerIndex;
+                }
+                
+                EliminatePlayer(playerToEliminate.PlayerIndex, playerToOwnTerritories.PlayerIndex);
+            }
+            else
+            {
+                throw new Exception("No AI Players remain");
+            }
+        }
+#endif
+        
+        
         private int GetIndexOfNextNonEliminatedPlayer(int startIndex)
         {
             int indexToCheck = (startIndex + 1) % _players.Count;

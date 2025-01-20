@@ -3,7 +3,7 @@ using BattleDataModel;
 using GlobalScripts;
 using UnityEngine;
 
-namespace BattleRunner.UI
+namespace BattleRunner.UI.PlayersInfoPanel
 {
     public class PlayersInfoPanelController : MonoBehaviour
     {
