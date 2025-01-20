@@ -5,6 +5,7 @@ using BattleRunner.UI.ReinforcementDicePanel;
 using BattleRunner.UI.RollDisplayPanel;
 using GlobalScripts;
 using Maps;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -209,6 +210,7 @@ namespace BattleRunner
             endTurnButton.gameObject.SetActive(false);
             Debug.Log("Game won by " + e.WinningPlayerIndex);
             gameOverUi.SetActive(true);
+            gameOverUi.GetComponentInChildren<TextMeshProUGUI>().SetText("Game won by " + e.WinningPlayerIndex);
         }
     }
 }
