@@ -18,6 +18,7 @@ namespace BattleRunner
         
         [SerializeField] private Canvas mapRoot;
         [SerializeField] private GraphicRaycaster mapCanvasGraphicRaycaster;
+        [SerializeField] private GameObject gameOverUi;
         [SerializeField] private Button startGameButton;
         [SerializeField] private Button endTurnButton;
         [SerializeField] private AttackRollsPanelController attackRollsPanel;
@@ -32,9 +33,11 @@ namespace BattleRunner
         
         private void Start()
         {
+            // Set initial UI states
             startGameButton.gameObject.SetActive(true);
             endTurnButton.gameObject.SetActive(false);
             attackRollsPanel.gameObject.SetActive(false);
+            gameOverUi.gameObject.SetActive(false);
             
             // todo: maybe remove this?
             BattleLoader.EnsureInitialized();
@@ -205,6 +208,7 @@ namespace BattleRunner
             _battleEnded = true;
             endTurnButton.gameObject.SetActive(false);
             Debug.Log("Game won by " + e.WinningPlayerIndex);
+            gameOverUi.SetActive(true);
         }
     }
 }
