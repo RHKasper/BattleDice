@@ -40,7 +40,7 @@ namespace BattleRunner.UI
             dieImage.sprite = Resources.Load<Sprite>(Constants.GetThreeQuartersDieSpritesPathFromResources(_playerIndex));
             border.color = isActivePlayer ? Color.white : Constants.Colors[_playerIndex];
             background.color = isActivePlayer ? Constants.Colors[_playerIndex] : Color.white;
-            text.text = territories.Count + " | " + reinforcementCount;
+            text.text = territories.Sum(t => t.NumDice) + " | " + territories.Count + " | " + reinforcementCount;
 
             gameObject.SetActive(!_battle.GetPlayer(_playerIndex).Eliminated);
         }

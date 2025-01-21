@@ -12,6 +12,21 @@ namespace BattleDataModel.AiPlayerStrategies
             bool thirtyPercentMoreDice = totalDiceForEachPlayer.All(p => p.Key == attackingTerritory.OwnerPlayerIndex || p.Value * 1.3f < totalDiceForEachPlayer[attackingTerritory.OwnerPlayerIndex]);
             bool fiftyPercentMoreDice = totalDiceForEachPlayer.All(p => p.Key == attackingTerritory.OwnerPlayerIndex || p.Value * 1.5f < totalDiceForEachPlayer[attackingTerritory.OwnerPlayerIndex]);
             
+            
+            
+            // if target territory is part of an enemy's largest region, rate it higher
+            if (battle.Map.GetLargestContiguousGroupOfTerritories(defendingTerritory.OwnerPlayerIndex).Contains(defendingTerritory))
+            {
+                score++;
+            }
+            
+            // if owning target territory would add 2+ territories to the attacker's largest region, rate it higher
+            if (AiStrategyHelpers.CapturingTerritoryWouldGrowLargestRegion(attackingTerritory, defendingTerritory, myReinforcementTerritories))
+            {
+                score += 2;
+            }
+            
+            // attack conservatively based on how dominant this player is in num dice
             if (fiftyPercentMoreDice)
             {
                 if (attackingTerritory.NumDice > defendingTerritory.NumDice)
@@ -48,18 +63,10 @@ namespace BattleDataModel.AiPlayerStrategies
                 {
                     score++;
                 }
-            }
-            
-            // if target territory is part of an enemy's largest region, rate it higher
-            if (battle.Map.GetLargestContiguousGroupOfTerritories(defendingTerritory.OwnerPlayerIndex).Contains(defendingTerritory))
-            {
-                score++;
-            }
-            
-            // if owning target territory would add 2+ territories to the attacker's largest region, rate it higher
-            if (AiStrategyHelpers.CapturingTerritoryWouldGrowLargestRegion(attackingTerritory, defendingTerritory, myReinforcementTerritories))
-            {
-                score += 2;
+                else
+                {
+                    score = 0;
+                }
             }
             
             float chanceOfSuccess = AiStrategyHelpers.GetNormalizedChanceOfWinningAttack(attackingTerritory, defendingTerritory);
