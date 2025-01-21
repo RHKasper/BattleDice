@@ -18,7 +18,7 @@ namespace BattleDataModel
         {
             HashSet<int> nodeIds = new HashSet<int>();
 
-            foreach (MapNode node in map.Nodes.Values)
+            foreach (MapNode node in map.Territories.Values)
             {
                 if (nodeIds.Contains(node.NodeIndex))
                 {
@@ -32,15 +32,15 @@ namespace BattleDataModel
         private static void CheckThatAllNodesAreContiguous(Map map)
         {
             int largestContiguousArea = map.GetLargestContiguousGroupOfTerritories(null).Count;
-            if (largestContiguousArea != map.Nodes.Count)
+            if (largestContiguousArea != map.Territories.Count)
             {
-                throw new Exception("Not all nodes in this map are connected. Largest contiguous territory is " + largestContiguousArea + " while there are " + map.Nodes.Count + " nodes total");
+                throw new Exception("Not all nodes in this map are connected. Largest contiguous territory is " + largestContiguousArea + " while there are " + map.Territories.Count + " nodes total");
             }
         }
 
         private static void CheckThatNoNodeIsConnectedToItself(Map map)
         {
-            foreach (MapNode node in map.Nodes.Values)
+            foreach (MapNode node in map.Territories.Values)
             {
                 if (node.AdjacentMapNodes.Contains(node))
                 {
@@ -51,7 +51,7 @@ namespace BattleDataModel
 
         private static void CheckThatAllConnectionsAreTwoWay(Map map)
         {
-            foreach (MapNode node in map.Nodes.Values)
+            foreach (MapNode node in map.Territories.Values)
             {
                 foreach (MapNode adjacentMapNode in node.AdjacentMapNodes)
                 {

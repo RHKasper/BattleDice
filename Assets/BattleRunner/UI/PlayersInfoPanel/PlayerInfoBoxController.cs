@@ -63,7 +63,7 @@ namespace BattleRunner.UI
         {
             UserCueSequencer.EnqueueCueWithNoDelay(() =>
             {
-                foreach (MapNode territory in _battle.Map.Nodes.Values)
+                foreach (MapNode territory in _battle.Map.Territories.Values)
                 {
                     var visualController = _gameplayMap.GetTerritoryGameObject(territory).GetComponent<TerritoryVisualControllerBase>();
                     visualController.HighlightedToShowLargestContiguousGroupOfTerritories = false;

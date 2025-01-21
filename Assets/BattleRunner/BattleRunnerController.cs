@@ -59,7 +59,7 @@ namespace BattleRunner
             for (var i = 0; i < order.Length; i++)
             {
                 var nodeDefinition = order[i];
-                nodeDefinition.GetComponent<TerritoryVisualControllerBase>().Initialize(this, Battle.Map.Nodes[i]);
+                nodeDefinition.GetComponent<TerritoryVisualControllerBase>().Initialize(this, Battle.Map.Territories[i]);
                 Destroy(nodeDefinition);
             }
             
@@ -138,7 +138,7 @@ namespace BattleRunner
         {
             Battle.EliminateNextAiPlayer();
 
-            foreach (MapNode territory in Battle.Map.Nodes.Values)
+            foreach (MapNode territory in Battle.Map.Territories.Values)
             {
                 GameplayMap.GetTerritoryVisualController(territory).UpdateState();
             }
@@ -147,7 +147,7 @@ namespace BattleRunner
         
         private void SetAllTerritoriesToNormalState()
         {
-            foreach (MapNode territory in Battle.Map.Nodes.Values)
+            foreach (MapNode territory in Battle.Map.Territories.Values)
             {
                 var visualController = GameplayMap.GetTerritoryGameObject(territory).GetComponent<TerritoryVisualControllerBase>();
                 visualController.OverrideState(TerritoryVisualControllerBase.State.Normal);

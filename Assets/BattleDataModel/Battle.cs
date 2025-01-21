@@ -47,7 +47,7 @@ namespace BattleDataModel
         {
             // todo: optimize all this to avoid so much memory allocation and inefficient CPU usage
             
-            List<MapNode> shuffledNodes = Map.Nodes.Values.OrderBy(_ => Rng.Next()).ToList();
+            List<MapNode> shuffledNodes = Map.Territories.Values.OrderBy(_ => Rng.Next()).ToList();
             List<Player> shuffledPlayers = _players.ToList();
             
             for (var i = 0; i < shuffledNodes.Count; i++)
@@ -68,7 +68,7 @@ namespace BattleDataModel
         public void RandomlyAllocateStartingReinforcements(int startingReinforcements)
         {
             ValidateNumStartingReinforcements(startingReinforcements);
-            if (Map.Nodes.Values.Any(n => n.OwnerPlayerIndex == -1))
+            if (Map.Territories.Values.Any(n => n.OwnerPlayerIndex == -1))
             {
                 throw new Exception("All map territories (nodes) must belong to a player before starting reinforcements are applied");
             }
@@ -80,7 +80,7 @@ namespace BattleDataModel
                 playerNodes[player.PlayerIndex] = new();
             }
 
-            foreach (var mapNode in Map.Nodes.Values)
+            foreach (var mapNode in Map.Territories.Values)
             {
                 mapNode.NumDice = 1;
                 playerNodes[mapNode.OwnerPlayerIndex].Add(mapNode);

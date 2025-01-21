@@ -7,25 +7,25 @@ namespace BattleDataModel
 {
     public class Map
     {
-        private readonly Dictionary<int, MapNode> _nodes;
+        private readonly Dictionary<int, MapNode> _territories;
 
-        public IReadOnlyDictionary<int, MapNode> Nodes => _nodes;
+        public IReadOnlyDictionary<int, MapNode> Territories => _territories;
 
         public Map(MapNode rootNode)
         {
             Stack<MapNode> nodesToProcess = new();
             nodesToProcess.Push(rootNode);
             
-            _nodes = new Dictionary<int, MapNode>();
+            _territories = new Dictionary<int, MapNode>();
 
             while (nodesToProcess.Any())
             {
                 MapNode currentNode = nodesToProcess.Pop();
-                _nodes.Add(currentNode.NodeIndex, currentNode);
+                _territories.Add(currentNode.NodeIndex, currentNode);
 
                 foreach (MapNode adjacentMapNode in currentNode.AdjacentMapNodes)
                 {
-                    if (!nodesToProcess.Contains(adjacentMapNode) && !_nodes.ContainsKey(adjacentMapNode.NodeIndex))
+                    if (!nodesToProcess.Contains(adjacentMapNode) && !_territories.ContainsKey(adjacentMapNode.NodeIndex))
                     {
                         nodesToProcess.Push(adjacentMapNode);
                     }
@@ -39,7 +39,7 @@ namespace BattleDataModel
         {
             HashSet<MapNode> territories = new();
 
-            foreach (var node in _nodes.Values)
+            foreach (var node in _territories.Values)
             {
                 if (node.OwnerPlayerIndex == owningPlayerId)
                 {
@@ -54,7 +54,7 @@ namespace BattleDataModel
         {
             HashSet<MapNode> largestYet = new();
 
-            foreach (var node in _nodes.Values)
+            foreach (var node in _territories.Values)
             {
                 if ((!owningPlayerId.HasValue || node.OwnerPlayerIndex == owningPlayerId) && !largestYet.Contains(node))
                 {
@@ -89,7 +89,7 @@ namespace BattleDataModel
             return largestYet;
         }
 
-        public List<MapNode> GetTerritoriesOwnedByPlayer(int playerIndex) => _nodes.Values.Where(n => n.OwnerPlayerIndex == playerIndex).ToList();
-        public int GetNumTerritoriesOwnedByPlayer(int playerIndex) => _nodes.Values.Count(n => n.OwnerPlayerIndex == playerIndex);
+        public List<MapNode> GetTerritoriesOwnedByPlayer(int playerIndex) => _territories.Values.Where(n => n.OwnerPlayerIndex == playerIndex).ToList();
+        public int GetNumTerritoriesOwnedByPlayer(int playerIndex) => _territories.Values.Count(n => n.OwnerPlayerIndex == playerIndex);
     }
 }

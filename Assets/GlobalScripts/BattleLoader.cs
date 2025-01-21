@@ -50,7 +50,7 @@ namespace GlobalScripts
         public static Battle ConstructBattle(GameplayMap mapInstance)
         {
             var players = new List<Player>();
-            players.Add(new Player(0));
+            players.Add(new Player(0, new DefensiveAiStrategy()));
             for (int i = 1; i < PlayerCount; i++)
             {
                 players.Add(new Player(i, new AggressiveAiStrategy()));    
