@@ -34,7 +34,8 @@ namespace BattleDataModel.AiPlayerStrategies
             
             float chanceOfSuccess = AiStrategyHelpers.GetNormalizedChanceOfWinningAttack(attackingTerritory, defendingTerritory);
             
-            if (chanceOfSuccess < .46f)
+            // only attack with even dice when the stack is 5 or greater
+            if (attackingTerritory.NumDice == defendingTerritory.NumDice && attackingTerritory.NumDice < 5)
             {
                 return 0;
             }
