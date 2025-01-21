@@ -34,6 +34,11 @@ namespace BattleDataModel.AiPlayerStrategies
             
             float chanceOfSuccess = AiStrategyHelpers.GetNormalizedChanceOfWinningAttack(attackingTerritory, defendingTerritory);
             
+            if (chanceOfSuccess < .46f)
+            {
+                return 0;
+            }
+            
             return score * chanceOfSuccess;
         }
     }
