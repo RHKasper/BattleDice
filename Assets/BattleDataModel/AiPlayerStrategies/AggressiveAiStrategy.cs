@@ -14,11 +14,10 @@ namespace BattleDataModel.AiPlayerStrategies
         {
             float score = 1;
 
-            // if target territory has an adjacent territory that would be attackable next, rate it higher
-            // todo: extend this logic to look for longer attackable chains
-            if (defendingTerritory.AdjacentNodes.Any(t => t.OwnerPlayerIndex != attackingTerritory.OwnerPlayerIndex && t.NumDice < defendingTerritory.NumDice))
+            // if target territory is part of an attack chain, rate it higher
+            if (AiStrategyHelpers.IsStartOfAnAttackChain(attackingTerritory, defendingTerritory, out int chainLength))
             {
-                score++;
+                score += chainLength - 1;
             }
             
             // if target territory is part of an enemy's largest region, rate it higher
@@ -28,15 +27,12 @@ namespace BattleDataModel.AiPlayerStrategies
             }
             
             // if owning target territory would add 2+ territories to the attacker's largest region, rate it higher
-            if (myReinforcementTerritories.Contains(attackingTerritory) && defendingTerritory.AdjacentNodes.Any(t => t.OwnerPlayerIndex == attackingTerritory.OwnerPlayerIndex && !myReinforcementTerritories.Contains(t)))
+            if (AiStrategyHelpers.CapturingTerritoryWouldGrowLargestRegion(attackingTerritory, defendingTerritory, myReinforcementTerritories))
             {
                 score++;
             }
             
-            // todo: fancy graph logic to check if taking this node would separate an opponent's largest region
-            // todo: fancy graph logic to check if taking this node would connect multiple territories belonging to this player
-
-            float chanceOfSuccess = GetNormalizedChanceOfWinningAttack(attackingTerritory, defendingTerritory);
+            float chanceOfSuccess = AiStrategyHelpers.GetNormalizedChanceOfWinningAttack(attackingTerritory, defendingTerritory);
             
             return score * chanceOfSuccess;
         }
