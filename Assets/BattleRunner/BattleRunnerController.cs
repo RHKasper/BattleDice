@@ -206,11 +206,15 @@ namespace BattleRunner
 
         private void OnGameEnded(object sender, BattleEvents.GameEndedArgs e)
         {
-            _battleEnded = true;
-            endTurnButton.gameObject.SetActive(false);
-            Debug.Log("Game won by " + e.WinningPlayerIndex);
-            gameOverUi.SetActive(true);
-            gameOverUi.GetComponentInChildren<TextMeshProUGUI>().SetText("Game won by " + e.WinningPlayerIndex);
+            UserCueSequencer.EnqueueCueWithDelayBefore(() =>
+            {
+                _battleEnded = true;
+                endTurnButton.gameObject.SetActive(false);
+                Debug.Log("Game won by " + e.WinningPlayerIndex);
+                gameOverUi.SetActive(true);
+                gameOverUi.GetComponentInChildren<TextMeshProUGUI>().SetText("Game won by " + e.WinningPlayerIndex);    
+            }, "Handle Game End");
+            
         }
     }
 }
