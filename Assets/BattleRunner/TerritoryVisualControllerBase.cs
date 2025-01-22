@@ -98,13 +98,7 @@ namespace BattleRunner
         {
             _pointerOver = true;
             UpdateState();
-            
-            bool canReachWeakTerritoryOfActivePlayer = AiStrategyHelpers.CanReachWeakTerritoryOfTargetPlayer(Territory, Battle.ActivePlayer.PlayerIndex);
-            bool capturingTerritoryWouldGrowLargestRegionByTwoOrMore = AiStrategyHelpers.CapturingTerritoryWouldGrowLargestRegionByTwoOrMore(Territory, Battle.Map.GetLargestContiguousGroupOfTerritories(Battle.ActivePlayer.PlayerIndex));
-            //bool isStartOfAnAttackChain = AiStrategyHelpers.IsStartOfAnAttackChain()
-
-            Debug.Log("Can Reach Weak Territory of Active Player: " + canReachWeakTerritoryOfActivePlayer);
-            Debug.Log("Capturing Territory Would Grow Largest Region by Two or More: " + capturingTerritoryWouldGrowLargestRegionByTwoOrMore);
+            DebugAiStrategyHelpers();
         }
 
         public void OnPointerExit(PointerEventData eventData)
@@ -195,6 +189,26 @@ namespace BattleRunner
         {
             UpdateState();
             //UserCueSequencer.EnqueueCueWithNoDelay(UpdateState, nameof(TerritoryVisualControllerBase) + "." + nameof(OnSelectedTerritoryChanged));
+        }
+        
+        private void DebugAiStrategyHelpers()
+        {
+            bool canReachWeakTerritoryOfActivePlayer = AiStrategyHelpers.CanReachWeakTerritoryOfTargetPlayer(Territory, Battle.ActivePlayer.PlayerIndex);
+            bool capturingTerritoryWouldGrowLargestRegionByTwoOrMore = AiStrategyHelpers.CapturingTerritoryWouldGrowLargestRegionByTwoOrMore(Territory, Battle.Map.GetLargestContiguousGroupOfTerritories(Battle.ActivePlayer.PlayerIndex));
+            
+            int longestAttackChain = 0;
+            foreach (MapNode mapNode in Territory.AdjacentNodes)
+            {
+                if (mapNode.OwnerPlayerIndex != Territory.OwnerPlayerIndex)
+                {
+                    int attackChainLength = AiStrategyHelpers.GetAttackChainLength(Territory, mapNode);
+                    longestAttackChain = Mathf.Max(longestAttackChain, attackChainLength);
+                }
+            }
+            
+            Debug.Log("Longest Attack Chain: " + longestAttackChain);
+            Debug.Log("Can Reach Weak Territory of Active Player: " + canReachWeakTerritoryOfActivePlayer);
+            Debug.Log("Capturing Territory Would Grow Largest Region by Two or More: " + capturingTerritoryWouldGrowLargestRegionByTwoOrMore);
         }
         
         public enum State

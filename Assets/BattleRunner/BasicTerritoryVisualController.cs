@@ -34,7 +34,7 @@ namespace BattleRunner
 
         protected override void UpdateGameData()
         {
-            tempText.SetText("Owner: " + Territory.OwnerPlayerIndex + "\nDice: " + Territory.NumDice);
+            tempText.SetText(Territory.NodeIndex.ToString());
             ownerPlayerImage.color = Constants.Colors[Territory.OwnerPlayerIndex];
             ShowNumDice(Territory.NumDice);
         }

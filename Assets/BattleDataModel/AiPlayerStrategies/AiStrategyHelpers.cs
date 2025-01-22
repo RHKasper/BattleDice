@@ -67,7 +67,7 @@ namespace BattleDataModel.AiPlayerStrategies
 
         public static bool CanReachWeakTerritoryOfTargetPlayer(MapNode attackerTerritory, int targetPlayerID)
         {
-            var chains = BreadthFirstTraversal(attackerTerritory, (chain, node) =>
+            var chains = BreadthFirstTraversal(new AttackChain(attackerTerritory), (chain, node) =>
             {
                 bool isEnemy = node.OwnerPlayerIndex != attackerTerritory.OwnerPlayerIndex;
                 bool isWeak = node.NumDice < attackerTerritory.NumDice - chain.NumberOfAttacks;
@@ -77,9 +77,16 @@ namespace BattleDataModel.AiPlayerStrategies
             return chains.Any(c => c.Territories.Any(t => t.OwnerPlayerIndex == targetPlayerID));
         }
 
-        public static bool IsStartOfAnAttackChain(MapNode attackingTerritory, MapNode defendingTerritory, out int attackChainLength)
+        public static int GetAttackChainLength(MapNode attackingTerritory, MapNode defendingTerritory)
         {
-            var attackChains = BreadthFirstTraversal(defendingTerritory, (chain, mapNode) =>
+            bool isWeak = defendingTerritory.NumDice < attackingTerritory.NumDice;
+
+            if (!isWeak)
+            {
+                return 0;
+            }
+            
+            var attackChains = BreadthFirstTraversal(new AttackChain(attackingTerritory, defendingTerritory), (chain, mapNode) =>
             {
                 bool isNotYetPartOfChain = chain.Territories.Contains(mapNode) == false;
                 bool isEnemy = mapNode.OwnerPlayerIndex != attackingTerritory.OwnerPlayerIndex;
@@ -87,13 +94,12 @@ namespace BattleDataModel.AiPlayerStrategies
                 return isNotYetPartOfChain && isEnemy && isWeak;
             });
 
-            attackChainLength = attackChains.Last().NumberOfAttacks;
-            return attackChainLength > 1;
+            return attackChains.Last().NumberOfAttacks;
         }
 
-        private static List<AttackChain> BreadthFirstTraversal(MapNode startPoint, Func<AttackChain, MapNode, bool> acceptanceCriteria, Func<List<AttackChain>, bool> endCondition = null)
+        private static List<AttackChain> BreadthFirstTraversal(AttackChain startingChain, Func<AttackChain, MapNode, bool> acceptanceCriteria, Func<List<AttackChain>, bool> endCondition = null)
         {
-            List<AttackChain> chains = new List<AttackChain> { new(startPoint) };
+            List<AttackChain> chains = new List<AttackChain> {startingChain};
 
             for (int i = 0; i < chains.Count; i++)
             {
@@ -133,7 +139,7 @@ namespace BattleDataModel.AiPlayerStrategies
             {
                 Territories = new LinkedList<MapNode>();
                 Territories.AddFirst(attackingTerritory);
-                Territories.AddFirst(defendingTerritory);
+                Territories.AddLast(defendingTerritory);
             }
 
             public AttackChain(AttackChain baseChain, MapNode endOfNewChain)

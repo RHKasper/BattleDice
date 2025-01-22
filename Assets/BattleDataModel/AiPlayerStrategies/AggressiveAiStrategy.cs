@@ -13,11 +13,12 @@ namespace BattleDataModel.AiPlayerStrategies
         protected override float GetDesirabilityScoreForPotentialAttack(MapNode attackingTerritory, MapNode defendingTerritory, Battle battle, HashSet<MapNode> myReinforcementTerritories)
         {
             float score = 1;
+            int attackChainLength = AiStrategyHelpers.GetAttackChainLength(attackingTerritory, defendingTerritory);
 
             // if target territory is part of a longer attack chain, rate it higher
-            if (AiStrategyHelpers.IsStartOfAnAttackChain(attackingTerritory, defendingTerritory, out int chainLength))
+            if (attackChainLength > 1)
             {
-                score += chainLength;
+                score += attackChainLength - 1;
             }
             
             // if target territory is part of an enemy's largest region, rate it higher
