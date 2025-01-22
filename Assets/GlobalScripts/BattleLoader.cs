@@ -33,7 +33,7 @@ namespace GlobalScripts
 
             if (PlayerCount == 0)
             {
-                PlayerCount = 3;
+                PlayerCount = 2;
             }
 
             if (RandomSeed == int.MinValue)
@@ -49,11 +49,11 @@ namespace GlobalScripts
 
         public static Battle ConstructBattle(GameplayMap mapInstance)
         {
-            var players = new List<Player>();
-            players.Add(new Player(0, new DefensiveAiStrategy()));
+            var players = new List<Player> { new(0) };
+            
             for (int i = 1; i < PlayerCount; i++)
             {
-                players.Add(new Player(i, new AggressiveAiStrategy()));    
+                players.Add(new Player(i, i % 2 == 0 ? new AggressiveAiStrategy() : new DefensiveAiStrategy()));    
             }
             
             Battle b = new Battle(mapInstance.GenerateMapData(), players, RandomSeed);
