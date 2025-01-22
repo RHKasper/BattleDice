@@ -98,7 +98,7 @@ namespace BattleRunner
         {
             _pointerOver = true;
             UpdateState();
-            DebugAiStrategyHelpers();
+            //DebugAiStrategyHelpers();
         }
 
         public void OnPointerExit(PointerEventData eventData)
