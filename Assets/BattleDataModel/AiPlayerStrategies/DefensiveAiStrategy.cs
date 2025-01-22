@@ -54,7 +54,7 @@ namespace BattleDataModel.AiPlayerStrategies
                 }
                 else
                 {
-                    score = 0;
+                    return 0;
                 }
             }
             else
@@ -65,7 +65,7 @@ namespace BattleDataModel.AiPlayerStrategies
                 }
                 else
                 {
-                    score = 0;
+                    return 0;
                 }
             }
             
