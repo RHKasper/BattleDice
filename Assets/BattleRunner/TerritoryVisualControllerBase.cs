@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AYellowpaper.SerializedCollections;
 using BattleDataModel;
+using BattleDataModel.AiPlayerStrategies;
 using GlobalScripts;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -22,6 +23,8 @@ namespace BattleRunner
         public bool Attacking { get; set; }
         public bool BeingAttacked { get; set; }
         public bool HighlightedToShowLargestContiguousGroupOfTerritories {get; set;}
+
+        protected Battle Battle => BattleRunnerController.Battle;
         
         
         public void Initialize(BattleRunnerController battleRunnerController, MapNode territory)
@@ -95,6 +98,13 @@ namespace BattleRunner
         {
             _pointerOver = true;
             UpdateState();
+            
+            bool canReachWeakTerritoryOfActivePlayer = AiStrategyHelpers.CanReachWeakTerritoryOfTargetPlayer(Territory, Battle.ActivePlayer.PlayerIndex);
+            bool capturingTerritoryWouldGrowLargestRegionByTwoOrMore = AiStrategyHelpers.CapturingTerritoryWouldGrowLargestRegionByTwoOrMore(Territory, Battle.Map.GetLargestContiguousGroupOfTerritories(Battle.ActivePlayer.PlayerIndex));
+            //bool isStartOfAnAttackChain = AiStrategyHelpers.IsStartOfAnAttackChain()
+
+            Debug.Log("Can Reach Weak Territory of Active Player: " + canReachWeakTerritoryOfActivePlayer);
+            Debug.Log("Capturing Territory Would Grow Largest Region by Two or More: " + capturingTerritoryWouldGrowLargestRegionByTwoOrMore);
         }
 
         public void OnPointerExit(PointerEventData eventData)

@@ -21,7 +21,7 @@ namespace BattleDataModel.AiPlayerStrategies
             }
             
             // if owning target territory would add 2+ territories to the attacker's largest region, rate it higher
-            if (AiStrategyHelpers.CapturingTerritoryWouldGrowLargestRegion(attackingTerritory, defendingTerritory, myReinforcementTerritories))
+            if (AiStrategyHelpers.CapturingTerritoryWouldGrowLargestRegionByTwoOrMore(defendingTerritory, myReinforcementTerritories))
             {
                 score += 2;
             }

@@ -57,16 +57,12 @@ namespace BattleDataModel.AiPlayerStrategies
             return GetNormalizedChanceOfWinningAttack(attacker.NumDice, defender.NumDice);
         }
         
-        public static bool CapturingTerritoryWouldGrowLargestRegion(MapNode attackingTerritory, MapNode defendingTerritory, HashSet<MapNode> myReinforcementTerritories)
+        public static bool CapturingTerritoryWouldGrowLargestRegionByTwoOrMore(MapNode defendingTerritory, HashSet<MapNode> myLargestRegion)
         {
-            bool attackingTerritoryIsInLargestRegion = myReinforcementTerritories.Contains(attackingTerritory);
-            bool defendingTerritoryHasAlliedAdjacentsNotInLargestRegion = defendingTerritory.AdjacentNodes.Any(t =>
-                t.OwnerPlayerIndex == attackingTerritory.OwnerPlayerIndex && !myReinforcementTerritories.Contains(t));
-            
-            bool defendingTerritoryHasAlliedAdjacentsInLargestRegion =  defendingTerritory.AdjacentNodes.Any(t =>
-                t.OwnerPlayerIndex == attackingTerritory.OwnerPlayerIndex && myReinforcementTerritories.Contains(t));
-            
-            return attackingTerritoryIsInLargestRegion ? defendingTerritoryHasAlliedAdjacentsNotInLargestRegion : defendingTerritoryHasAlliedAdjacentsInLargestRegion;
+            int playerIndex = myLargestRegion.First().OwnerPlayerIndex;
+            bool adjacentTerritoryIsInMyLargestRegion = defendingTerritory.AdjacentNodes.Any(myLargestRegion.Contains);
+            bool adjacentAlliedTerritoryIsNotInMyLargestRegion = defendingTerritory.AdjacentNodes.Any( t=> t.OwnerPlayerIndex == playerIndex && !myLargestRegion.Contains(t));
+            return adjacentTerritoryIsInMyLargestRegion && adjacentAlliedTerritoryIsNotInMyLargestRegion;
         }
 
         public static bool CanReachWeakTerritoryOfTargetPlayer(MapNode attackerTerritory, int targetPlayerID)
