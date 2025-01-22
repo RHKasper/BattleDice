@@ -78,7 +78,7 @@ namespace BattleDataModel.AiPlayerStrategies
                 return isEnemy && isWeak;
             });
 
-            return chains.Any(c => c.Territories.Any(t => t.OwnerPlayerIndex == targetPlayerID));z
+            return chains.Any(c => c.Territories.Any(t => t.OwnerPlayerIndex == targetPlayerID));
         }
 
         public static bool IsStartOfAnAttackChain(MapNode attackingTerritory, MapNode defendingTerritory, out int attackChainLength)
