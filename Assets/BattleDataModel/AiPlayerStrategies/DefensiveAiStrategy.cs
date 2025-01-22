@@ -12,8 +12,6 @@ namespace BattleDataModel.AiPlayerStrategies
             bool thirtyPercentMoreDice = totalDiceForEachPlayer.All(p => p.Key == attackingTerritory.OwnerPlayerIndex || p.Value * 1.3f < totalDiceForEachPlayer[attackingTerritory.OwnerPlayerIndex]);
             bool fiftyPercentMoreDice = totalDiceForEachPlayer.All(p => p.Key == attackingTerritory.OwnerPlayerIndex || p.Value * 1.5f < totalDiceForEachPlayer[attackingTerritory.OwnerPlayerIndex]);
             
-            
-            
             // if target territory is part of an enemy's largest region, rate it higher
             if (battle.Map.GetLargestContiguousGroupOfTerritories(defendingTerritory.OwnerPlayerIndex).Contains(defendingTerritory))
             {
@@ -69,9 +67,23 @@ namespace BattleDataModel.AiPlayerStrategies
                 }
             }
             
+            // if attacking would unlock a big stack, do not attack
+            if (AttackWouldUnlockABigStack(attackingTerritory, defendingTerritory))
+            {
+                return 0;
+            }
+            
             float chanceOfSuccess = AiStrategyHelpers.GetNormalizedChanceOfWinningAttack(attackingTerritory, defendingTerritory);
 
             return score * chanceOfSuccess;
+        }
+
+        private static bool AttackWouldUnlockABigStack(MapNode attackingTerritory, MapNode defendingTerritory)
+        {
+            return defendingTerritory.AdjacentNodes.Any(t => t.OwnerPlayerIndex != attackingTerritory.OwnerPlayerIndex &&
+                                                             !AiStrategyHelpers.CanReachWeakTerritoryOfTargetPlayer(t,
+                                                                 attackingTerritory.OwnerPlayerIndex) &&
+                                                             t.NumDice > attackingTerritory.NumDice);
         }
 
         private static Dictionary<int, int> GetTotalDiceForEachPlayer(Battle battle)
@@ -90,5 +102,6 @@ namespace BattleDataModel.AiPlayerStrategies
 
             return playerTotalDice;
         }
+        
     }
 }
