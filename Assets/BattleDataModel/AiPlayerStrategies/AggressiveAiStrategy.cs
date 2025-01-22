@@ -14,10 +14,10 @@ namespace BattleDataModel.AiPlayerStrategies
         {
             float score = 1;
 
-            // if target territory is part of an attack chain, rate it higher
+            // if target territory is part of a longer attack chain, rate it higher
             if (AiStrategyHelpers.IsStartOfAnAttackChain(attackingTerritory, defendingTerritory, out int chainLength))
             {
-                score += chainLength - 1;
+                score += chainLength;
             }
             
             // if target territory is part of an enemy's largest region, rate it higher

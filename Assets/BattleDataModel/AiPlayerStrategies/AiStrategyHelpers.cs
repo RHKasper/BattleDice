@@ -69,52 +69,87 @@ namespace BattleDataModel.AiPlayerStrategies
             return attackingTerritoryIsInLargestRegion ? defendingTerritoryHasAlliedAdjacentsNotInLargestRegion : defendingTerritoryHasAlliedAdjacentsInLargestRegion;
         }
 
+        public static bool CanReachWeakTerritoryOfTargetPlayer(MapNode attackerTerritory, int targetPlayerID)
+        {
+            var chains = BreadthFirstTraversal(attackerTerritory, (chain, node) =>
+            {
+                bool isEnemy = node.OwnerPlayerIndex != attackerTerritory.OwnerPlayerIndex;
+                bool isWeak = node.NumDice < attackerTerritory.NumDice - chain.NumberOfAttacks;
+                return isEnemy && isWeak;
+            });
+
+            return chains.Any(c => c.Territories.Any(t => t.OwnerPlayerIndex == targetPlayerID));z
+        }
+
         public static bool IsStartOfAnAttackChain(MapNode attackingTerritory, MapNode defendingTerritory, out int attackChainLength)
         {
-            List<AttackChain> chains = new List<AttackChain> { new(defendingTerritory) };
+            var attackChains = BreadthFirstTraversal(defendingTerritory, (chain, mapNode) =>
+            {
+                bool isNotYetPartOfChain = chain.Territories.Contains(mapNode) == false;
+                bool isEnemy = mapNode.OwnerPlayerIndex != attackingTerritory.OwnerPlayerIndex;
+                bool isWeak = mapNode.NumDice < attackingTerritory.NumDice - chain.NumberOfAttacks;
+                return isNotYetPartOfChain && isEnemy && isWeak;
+            });
+
+            attackChainLength = attackChains.Last().NumberOfAttacks;
+            return attackChainLength > 1;
+        }
+
+        private static List<AttackChain> BreadthFirstTraversal(MapNode startPoint, Func<AttackChain, MapNode, bool> acceptanceCriteria, Func<List<AttackChain>, bool> endCondition = null)
+        {
+            List<AttackChain> chains = new List<AttackChain> { new(startPoint) };
 
             for (int i = 0; i < chains.Count; i++)
             {
                 AttackChain chain = chains[i];
-                MapNode currentEndOfChain = chain.TerritoriesLL.Last.Value;
+                MapNode currentEndOfChain = chain.Territories.Last.Value;
                 
                 foreach (MapNode mapNode in currentEndOfChain.AdjacentNodes)
                 {
-                    bool isNotYetPartOfChain = chain.TerritoriesLL.Contains(mapNode) == false;
-                    bool isEnemy = mapNode.OwnerPlayerIndex != attackingTerritory.OwnerPlayerIndex;
-                    bool hasMoreDice = attackingTerritory.NumDice - chain.TerritoriesLL.Count > mapNode.NumDice;
-
-                    if (isNotYetPartOfChain && isEnemy && hasMoreDice)
+                    if(acceptanceCriteria.Invoke(chain, mapNode))
                     {
                         chains.Add(new AttackChain(chain, mapNode));
                     }
-                }   
+                }
+
+                if (endCondition != null &&  endCondition.Invoke(chains))
+                {
+                    break;
+                }
             }
 
-            attackChainLength = chains.Last().TerritoriesLL.Count;
-            return attackChainLength > 1;
+            return chains;
         }
 
         private class AttackChain
         {
-            public LinkedList<MapNode> TerritoriesLL { get; }
+            public LinkedList<MapNode> Territories { get; }
 
-            public AttackChain(MapNode defendingTerritory)
+            public int NumberOfAttacks => Territories.Count - 1;
+
+            public AttackChain(MapNode attackingTerritory)
             {
-                TerritoriesLL = new LinkedList<MapNode>();
-                TerritoriesLL.AddFirst(defendingTerritory);
+                Territories = new LinkedList<MapNode>();
+                Territories.AddFirst(attackingTerritory);
+            }
+            
+            public AttackChain(MapNode attackingTerritory, MapNode defendingTerritory)
+            {
+                Territories = new LinkedList<MapNode>();
+                Territories.AddFirst(attackingTerritory);
+                Territories.AddFirst(defendingTerritory);
             }
 
             public AttackChain(AttackChain baseChain, MapNode endOfNewChain)
             {
-                TerritoriesLL = new LinkedList<MapNode>();
+                Territories = new LinkedList<MapNode>();
 
-                foreach (var territory in baseChain.TerritoriesLL)
+                foreach (var territory in baseChain.Territories)
                 {
-                    TerritoriesLL.AddLast(territory);
+                    Territories.AddLast(territory);
                 }
 
-                TerritoriesLL.AddLast(endOfNewChain);
+                Territories.AddLast(endOfNewChain);
             }
         }
     }
