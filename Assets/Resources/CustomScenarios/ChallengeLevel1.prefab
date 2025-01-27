@@ -1002,7 +1002,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 0
+  ownerPlayerIndex: 0
   numDice: 4
 --- !u!114 &3623648669414521021 stripped
 MonoBehaviour:
@@ -1129,7 +1129,7 @@ PrefabInstance:
     - target: {fileID: 3558751682465389638, guid: 001a210a2d8ff4135b86a0b16d2095f7, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: d6843127b3ad548fd8a232845943f082, type: 3}
+      objectReference: {fileID: 21300000, guid: e58424fa4dc9447d0b287cc90c3d2468, type: 3}
     - target: {fileID: 3995595897689680877, guid: 001a210a2d8ff4135b86a0b16d2095f7, type: 3}
       propertyPath: adjacentNodes.Array.size
       value: 6
@@ -1240,7 +1240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 3
+  ownerPlayerIndex: 1
   numDice: 2
 --- !u!114 &3557183041715799008 stripped
 MonoBehaviour:
@@ -2446,7 +2446,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 2
+  ownerPlayerIndex: 2
   numDice: 2
 --- !u!114 &3754240048198555494 stripped
 MonoBehaviour:
@@ -2694,7 +2694,7 @@ PrefabInstance:
     - target: {fileID: 3558751682465389638, guid: 001a210a2d8ff4135b86a0b16d2095f7, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: d6843127b3ad548fd8a232845943f082, type: 3}
+      objectReference: {fileID: 21300000, guid: e58424fa4dc9447d0b287cc90c3d2468, type: 3}
     - target: {fileID: 3995595897689680877, guid: 001a210a2d8ff4135b86a0b16d2095f7, type: 3}
       propertyPath: adjacentNodes.Array.size
       value: 4
@@ -2781,7 +2781,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 3
+  ownerPlayerIndex: 1
   numDice: 2
 --- !u!114 &3627700302968684392 stripped
 MonoBehaviour:
@@ -2908,7 +2908,7 @@ PrefabInstance:
     - target: {fileID: 3558751682465389638, guid: 001a210a2d8ff4135b86a0b16d2095f7, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: d6843127b3ad548fd8a232845943f082, type: 3}
+      objectReference: {fileID: 21300000, guid: e58424fa4dc9447d0b287cc90c3d2468, type: 3}
     - target: {fileID: 3995595897689680877, guid: 001a210a2d8ff4135b86a0b16d2095f7, type: 3}
       propertyPath: adjacentNodes.Array.size
       value: 6
@@ -3019,7 +3019,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 3
+  ownerPlayerIndex: 1
   numDice: 2
 --- !u!114 &3480838229887691597 stripped
 MonoBehaviour:
@@ -3642,7 +3642,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 0
+  ownerPlayerIndex: 0
   numDice: 1
 --- !u!1001 &1358730824789565389
 PrefabInstance:
@@ -4364,7 +4364,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 2
+  ownerPlayerIndex: 2
   numDice: 2
 --- !u!1001 &1555339347509307223
 PrefabInstance:
@@ -4723,7 +4723,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 0
+  ownerPlayerIndex: 0
   numDice: 4
 --- !u!1001 &1585143105561508862
 PrefabInstance:
@@ -5070,7 +5070,7 @@ PrefabInstance:
     - target: {fileID: 3558751682465389638, guid: 001a210a2d8ff4135b86a0b16d2095f7, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: d6843127b3ad548fd8a232845943f082, type: 3}
+      objectReference: {fileID: 21300000, guid: e58424fa4dc9447d0b287cc90c3d2468, type: 3}
     - target: {fileID: 3995595897689680877, guid: 001a210a2d8ff4135b86a0b16d2095f7, type: 3}
       propertyPath: adjacentNodes.Array.size
       value: 6
@@ -5203,7 +5203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 3
+  ownerPlayerIndex: 1
   numDice: 2
 --- !u!1001 &1658131450452419071
 PrefabInstance:
@@ -5417,7 +5417,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 2
+  ownerPlayerIndex: 2
   numDice: 2
 --- !u!1001 &1771019335764595933
 PrefabInstance:
@@ -6970,7 +6970,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 2
+  ownerPlayerIndex: 2
   numDice: 2
 --- !u!1001 &2329706950783803618
 PrefabInstance:
@@ -7423,7 +7423,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 2
+  ownerPlayerIndex: 2
   numDice: 2
 --- !u!114 &1657188158763825303 stripped
 MonoBehaviour:
@@ -8024,7 +8024,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 0
+  ownerPlayerIndex: 0
   numDice: 4
 --- !u!114 &1301703825680008659 stripped
 MonoBehaviour:
@@ -8488,7 +8488,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 2
+  ownerPlayerIndex: 2
   numDice: 2
 --- !u!114 &1683049440079910474 stripped
 MonoBehaviour:
@@ -8620,7 +8620,7 @@ PrefabInstance:
     - target: {fileID: 3558751682465389638, guid: 001a210a2d8ff4135b86a0b16d2095f7, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: d6843127b3ad548fd8a232845943f082, type: 3}
+      objectReference: {fileID: 21300000, guid: e58424fa4dc9447d0b287cc90c3d2468, type: 3}
     - target: {fileID: 3995595897689680877, guid: 001a210a2d8ff4135b86a0b16d2095f7, type: 3}
       propertyPath: adjacentNodes.Array.size
       value: 4
@@ -8710,7 +8710,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 3
+  ownerPlayerIndex: 1
   numDice: 2
 --- !u!114 &1642550987685003376 stripped
 MonoBehaviour:
@@ -9674,7 +9674,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 2
+  ownerPlayerIndex: 2
   numDice: 2
 --- !u!114 &1243786001442979880 stripped
 MonoBehaviour:
@@ -10297,7 +10297,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 0
+  ownerPlayerIndex: 0
   numDice: 1
 --- !u!224 &3567377311708509513 stripped
 RectTransform:
@@ -10407,7 +10407,7 @@ PrefabInstance:
     - target: {fileID: 3558751682465389638, guid: 001a210a2d8ff4135b86a0b16d2095f7, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: d6843127b3ad548fd8a232845943f082, type: 3}
+      objectReference: {fileID: 21300000, guid: e58424fa4dc9447d0b287cc90c3d2468, type: 3}
     - target: {fileID: 3995595897689680877, guid: 001a210a2d8ff4135b86a0b16d2095f7, type: 3}
       propertyPath: adjacentNodes.Array.size
       value: 4
@@ -10515,7 +10515,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 3
+  ownerPlayerIndex: 1
   numDice: 2
 --- !u!224 &3662922030478634886 stripped
 RectTransform:
@@ -11221,7 +11221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 2
+  ownerPlayerIndex: 2
   numDice: 2
 --- !u!224 &4064003707215250687 stripped
 RectTransform:
@@ -11459,7 +11459,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 0
+  ownerPlayerIndex: 0
   numDice: 4
 --- !u!224 &4114948130039390233 stripped
 RectTransform:
@@ -11681,7 +11681,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 2
+  ownerPlayerIndex: 2
   numDice: 2
 --- !u!224 &4211390605008015122 stripped
 RectTransform:
@@ -11791,7 +11791,7 @@ PrefabInstance:
     - target: {fileID: 3558751682465389638, guid: 001a210a2d8ff4135b86a0b16d2095f7, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: d6843127b3ad548fd8a232845943f082, type: 3}
+      objectReference: {fileID: 21300000, guid: e58424fa4dc9447d0b287cc90c3d2468, type: 3}
     - target: {fileID: 3995595897689680877, guid: 001a210a2d8ff4135b86a0b16d2095f7, type: 3}
       propertyPath: adjacentNodes.Array.size
       value: 4
@@ -11899,7 +11899,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 3
+  ownerPlayerIndex: 1
   numDice: 2
 --- !u!224 &4337526273138969530 stripped
 RectTransform:
@@ -12589,7 +12589,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 2
+  ownerPlayerIndex: 2
   numDice: 2
 --- !u!224 &4498006437226560668 stripped
 RectTransform:
@@ -13546,7 +13546,7 @@ PrefabInstance:
     - target: {fileID: 3558751682465389638, guid: 001a210a2d8ff4135b86a0b16d2095f7, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: d6843127b3ad548fd8a232845943f082, type: 3}
+      objectReference: {fileID: 21300000, guid: e58424fa4dc9447d0b287cc90c3d2468, type: 3}
     - target: {fileID: 3995595897689680877, guid: 001a210a2d8ff4135b86a0b16d2095f7, type: 3}
       propertyPath: adjacentNodes.Array.size
       value: 4
@@ -13637,7 +13637,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 3
+  ownerPlayerIndex: 1
   numDice: 2
 --- !u!114 &8241365676997698716 stripped
 MonoBehaviour:
@@ -14480,7 +14480,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 0
+  ownerPlayerIndex: 0
   numDice: 1
 --- !u!114 &8433657908119096063 stripped
 MonoBehaviour:
@@ -14819,7 +14819,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 0
+  ownerPlayerIndex: 0
   numDice: 4
 --- !u!114 &8467698559690409817 stripped
 MonoBehaviour:
@@ -16156,7 +16156,7 @@ PrefabInstance:
     - target: {fileID: 3558751682465389638, guid: 001a210a2d8ff4135b86a0b16d2095f7, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: d6843127b3ad548fd8a232845943f082, type: 3}
+      objectReference: {fileID: 21300000, guid: e58424fa4dc9447d0b287cc90c3d2468, type: 3}
     - target: {fileID: 3995595897689680877, guid: 001a210a2d8ff4135b86a0b16d2095f7, type: 3}
       propertyPath: adjacentNodes.Array.size
       value: 6
@@ -16289,7 +16289,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 3
+  ownerPlayerIndex: 1
   numDice: 2
 --- !u!1001 &6062278446300769896
 PrefabInstance:
@@ -16878,7 +16878,7 @@ PrefabInstance:
     - target: {fileID: 3558751682465389638, guid: 001a210a2d8ff4135b86a0b16d2095f7, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: d6843127b3ad548fd8a232845943f082, type: 3}
+      objectReference: {fileID: 21300000, guid: e58424fa4dc9447d0b287cc90c3d2468, type: 3}
     - target: {fileID: 3995595897689680877, guid: 001a210a2d8ff4135b86a0b16d2095f7, type: 3}
       propertyPath: adjacentNodes.Array.size
       value: 6
@@ -17011,7 +17011,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 3
+  ownerPlayerIndex: 1
   numDice: 2
 --- !u!1001 &6354731456382054206
 PrefabInstance:
@@ -17370,7 +17370,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 2
+  ownerPlayerIndex: 2
   numDice: 2
 --- !u!1001 &6382280870214996801
 PrefabInstance:
@@ -17959,7 +17959,7 @@ PrefabInstance:
     - target: {fileID: 3558751682465389638, guid: 001a210a2d8ff4135b86a0b16d2095f7, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: d6843127b3ad548fd8a232845943f082, type: 3}
+      objectReference: {fileID: 21300000, guid: e58424fa4dc9447d0b287cc90c3d2468, type: 3}
     - target: {fileID: 3995595897689680877, guid: 001a210a2d8ff4135b86a0b16d2095f7, type: 3}
       propertyPath: adjacentNodes.Array.size
       value: 6
@@ -18092,7 +18092,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 3
+  ownerPlayerIndex: 1
   numDice: 2
 --- !u!1001 &6549839041315739586
 PrefabInstance:
@@ -18451,7 +18451,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 0
+  ownerPlayerIndex: 0
   numDice: 4
 --- !u!1001 &6601051093056715203
 PrefabInstance:
@@ -18810,7 +18810,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 0
+  ownerPlayerIndex: 0
   numDice: 4
 --- !u!1001 &6652312940969492958
 PrefabInstance:
@@ -18915,7 +18915,7 @@ PrefabInstance:
     - target: {fileID: 3558751682465389638, guid: 001a210a2d8ff4135b86a0b16d2095f7, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: d6843127b3ad548fd8a232845943f082, type: 3}
+      objectReference: {fileID: 21300000, guid: e58424fa4dc9447d0b287cc90c3d2468, type: 3}
     - target: {fileID: 3995595897689680877, guid: 001a210a2d8ff4135b86a0b16d2095f7, type: 3}
       propertyPath: adjacentNodes.Array.size
       value: 4
@@ -19028,7 +19028,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 3
+  ownerPlayerIndex: 1
   numDice: 2
 --- !u!1001 &6664336446775278828
 PrefabInstance:
@@ -19371,7 +19371,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 0
+  ownerPlayerIndex: 0
   numDice: 4
 --- !u!1001 &6743720633344398102
 PrefabInstance:
@@ -19702,7 +19702,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 2
+  ownerPlayerIndex: 2
   numDice: 2
 --- !u!1001 &6897766623512475202
 PrefabInstance:
@@ -20518,7 +20518,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 2
+  ownerPlayerIndex: 2
   numDice: 2
 --- !u!114 &6109960116685633813 stripped
 MonoBehaviour:
@@ -21240,7 +21240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 2
+  ownerPlayerIndex: 2
   numDice: 2
 --- !u!114 &5810389372205267067 stripped
 MonoBehaviour:
@@ -21470,7 +21470,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 0
+  ownerPlayerIndex: 0
   numDice: 1
 --- !u!114 &5801486616034908083 stripped
 MonoBehaviour:
@@ -21602,7 +21602,7 @@ PrefabInstance:
     - target: {fileID: 3558751682465389638, guid: 001a210a2d8ff4135b86a0b16d2095f7, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: d6843127b3ad548fd8a232845943f082, type: 3}
+      objectReference: {fileID: 21300000, guid: e58424fa4dc9447d0b287cc90c3d2468, type: 3}
     - target: {fileID: 3995595897689680877, guid: 001a210a2d8ff4135b86a0b16d2095f7, type: 3}
       propertyPath: adjacentNodes.Array.size
       value: 3
@@ -21672,7 +21672,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 3
+  ownerPlayerIndex: 1
   numDice: 2
 --- !u!114 &6276920817514940493 stripped
 MonoBehaviour:
@@ -21804,7 +21804,7 @@ PrefabInstance:
     - target: {fileID: 3558751682465389638, guid: 001a210a2d8ff4135b86a0b16d2095f7, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: d6843127b3ad548fd8a232845943f082, type: 3}
+      objectReference: {fileID: 21300000, guid: e58424fa4dc9447d0b287cc90c3d2468, type: 3}
     - target: {fileID: 3995595897689680877, guid: 001a210a2d8ff4135b86a0b16d2095f7, type: 3}
       propertyPath: adjacentNodes.Array.size
       value: 6
@@ -21910,7 +21910,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 3
+  ownerPlayerIndex: 1
   numDice: 2
 --- !u!114 &6221128996355754597 stripped
 MonoBehaviour:
@@ -22128,7 +22128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 0
+  ownerPlayerIndex: 0
   numDice: 4
 --- !u!114 &6132867410835560388 stripped
 MonoBehaviour:
@@ -22260,7 +22260,7 @@ PrefabInstance:
     - target: {fileID: 3558751682465389638, guid: 001a210a2d8ff4135b86a0b16d2095f7, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: d6843127b3ad548fd8a232845943f082, type: 3}
+      objectReference: {fileID: 21300000, guid: e58424fa4dc9447d0b287cc90c3d2468, type: 3}
     - target: {fileID: 3995595897689680877, guid: 001a210a2d8ff4135b86a0b16d2095f7, type: 3}
       propertyPath: adjacentNodes.Array.size
       value: 6
@@ -22366,7 +22366,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 3
+  ownerPlayerIndex: 1
   numDice: 2
 --- !u!114 &6150701631605302617 stripped
 MonoBehaviour:
@@ -22982,7 +22982,7 @@ PrefabInstance:
     - target: {fileID: 3558751682465389638, guid: 001a210a2d8ff4135b86a0b16d2095f7, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: d6843127b3ad548fd8a232845943f082, type: 3}
+      objectReference: {fileID: 21300000, guid: e58424fa4dc9447d0b287cc90c3d2468, type: 3}
     - target: {fileID: 3995595897689680877, guid: 001a210a2d8ff4135b86a0b16d2095f7, type: 3}
       propertyPath: adjacentNodes.Array.size
       value: 3
@@ -23056,7 +23056,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 3
+  ownerPlayerIndex: 1
   numDice: 2
 --- !u!114 &5914813532750508875 stripped
 MonoBehaviour:
@@ -23885,7 +23885,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 0
+  ownerPlayerIndex: 0
   numDice: 1
 --- !u!224 &8271569998213210259 stripped
 RectTransform:
@@ -24103,7 +24103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 2
+  ownerPlayerIndex: 2
   numDice: 2
 --- !u!224 &8316196760402081107 stripped
 RectTransform:
@@ -24697,7 +24697,7 @@ PrefabInstance:
     - target: {fileID: 3558751682465389638, guid: 001a210a2d8ff4135b86a0b16d2095f7, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: d6843127b3ad548fd8a232845943f082, type: 3}
+      objectReference: {fileID: 21300000, guid: e58424fa4dc9447d0b287cc90c3d2468, type: 3}
     - target: {fileID: 3995595897689680877, guid: 001a210a2d8ff4135b86a0b16d2095f7, type: 3}
       propertyPath: adjacentNodes.Array.size
       value: 3
@@ -24793,7 +24793,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 3
+  ownerPlayerIndex: 1
   numDice: 2
 --- !u!224 &8694917271221606211 stripped
 RectTransform:
@@ -25031,7 +25031,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 2
+  ownerPlayerIndex: 2
   numDice: 2
 --- !u!224 &8713823315804707977 stripped
 RectTransform:
@@ -25374,7 +25374,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 2
+  ownerPlayerIndex: 2
   numDice: 2
 --- !u!224 &8912040869409454648 stripped
 RectTransform:
@@ -25612,7 +25612,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04d0531689d54ed5ac577e2bff93c2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerPlayerId: 0
+  ownerPlayerIndex: 0
   numDice: 4
 --- !u!224 &9037574037899089835 stripped
 RectTransform:

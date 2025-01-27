@@ -24,7 +24,7 @@ namespace BattleRunner
         protected override void OnInitialize()
         {
             SetState(State.Normal);
-            tempText.SetText("Initialized");
+            tempText.SetText(Territory.NodeIndex.ToString());
         }
 
         public override void ShowNumDice(int numDice, int? ownerPlayerIndex = null)

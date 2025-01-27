@@ -64,8 +64,12 @@ namespace BattleRunner
             }
             
             // Assign territories and initial reinforcements
-            Battle.RandomlyAssignTerritories();
-            Battle.RandomlyAllocateStartingReinforcements(BattleLoader.StartingReinforcements);
+            if (GameplayMap is not GameplayScenario)
+            {
+                Battle.RandomlyAssignTerritories();
+                Battle.RandomlyAllocateStartingReinforcements(BattleLoader.StartingReinforcements);
+            }
+
             BattleInitialized?.Invoke();
             
             // for testing, auto start. In the future, player will start

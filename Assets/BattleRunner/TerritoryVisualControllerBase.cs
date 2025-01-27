@@ -35,7 +35,7 @@ namespace BattleRunner
             if (!Application.isPlaying &&  gameObject.GetComponent<NodeStartStateDefinition>())
             {
                 var startStateDefinition = gameObject.GetComponent<NodeStartStateDefinition>(); 
-                ShowNumDice(startStateDefinition.numDice, startStateDefinition.ownerPlayerId);
+                ShowNumDice(startStateDefinition.numDice, startStateDefinition.ownerPlayerIndex);
             }
         }
 #endif

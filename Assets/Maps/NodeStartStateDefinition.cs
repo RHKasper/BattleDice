@@ -1,12 +1,13 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Maps
 {
     [ExecuteAlways]
     public class NodeStartStateDefinition : MonoBehaviour
     {
-        public int ownerPlayerId;
+        [FormerlySerializedAs("ownerPlayerId")] public int ownerPlayerIndex;
         public int numDice;
     }
 }

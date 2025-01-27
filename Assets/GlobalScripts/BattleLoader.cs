@@ -22,6 +22,13 @@ namespace GlobalScripts
         public static void LoadBattle(GameplayMap map)
         {
             SelectedMapPrefab = map;
+
+            if (map is GameplayScenario scenario)
+            {
+                PlayerCount = scenario.GetPlayerCount();
+                StartingReinforcements = 0;
+            }
+            
             SceneManager.LoadScene("BattleRunner");
         }
 
