@@ -22,7 +22,7 @@ namespace Maps
 
             for (int i = 0; i < nodeDefinitions.Length; i++)
             {
-                nodes[i] = new MapNode(i);
+                nodes[i] = CreateMapNode(nodeDefinitions[i], i);
                 indices[nodeDefinitions[i]] = i;
                 _territoryGameObjects.Add(nodes[i], nodeDefinitions[i].gameObject);
             }

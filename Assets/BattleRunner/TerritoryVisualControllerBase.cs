@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using AYellowpaper.SerializedCollections;
@@ -5,12 +6,14 @@ using BattleDataModel;
 using BattleDataModel.AiPlayerStrategies;
 using GlobalScripts;
 using JetBrains.Annotations;
+using Maps;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 
 namespace BattleRunner
 {
+    [ExecuteAlways]
     public abstract class TerritoryVisualControllerBase : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler, IPointerExitHandler
     {
         [SerializedDictionary("Adjacent Territory", "Edge Object")]
@@ -25,8 +28,18 @@ namespace BattleRunner
         public bool HighlightedToShowLargestContiguousGroupOfTerritories {get; set;}
 
         protected Battle Battle => BattleRunnerController.Battle;
-        
-        
+
+#if UNITY_EDITOR
+        private void Update()
+        {
+            if (!Application.isPlaying &&  gameObject.GetComponent<NodeStartStateDefinition>())
+            {
+                var startStateDefinition = gameObject.GetComponent<NodeStartStateDefinition>(); 
+                ShowNumDice(startStateDefinition.numDice, startStateDefinition.ownerPlayerId);
+            }
+        }
+#endif
+
         public void Initialize(BattleRunnerController battleRunnerController, MapNode territory)
         {
             BattleRunnerController = battleRunnerController;
@@ -134,7 +147,7 @@ namespace BattleRunner
         /// <summary>
         /// Used during the end-of-turn reinforcements visuals to show each die getting assigned to a territory
         /// </summary>
-        public abstract void ShowNumDice(int numDice);
+        public abstract void ShowNumDice(int numDice, int? ownerPlayerIndex = null);
         
         /// <summary>
         /// Update ownership and die count visuals

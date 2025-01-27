@@ -11,6 +11,7 @@ namespace Maps.Helpers
     [ExecuteAlways]
     public class MapCreationHelper : MonoBehaviour
     {
+#if UNITY_EDITOR
         [SerializeField] private GameplayMap activeMap;
         [SerializeField] private Transform edgesParent;
         [SerializeField] private EdgeVisualControllerBase edgeVisualPrefab;
@@ -25,9 +26,10 @@ namespace Maps.Helpers
                 RemoveConnectionsToNull(nodes);
                 EnsureEachConnectionGoesBothWays(nodes);
                 EnsureEachNodesVisualControllerHasAppropriateEdgeVisualControllers(nodes);
+                AddStartStateDefinitionsIfScenario(nodes);
             }
         }
-        
+
         private void EnsureEachNodeHasAVisualController(GameplayMapNodeDefinition[] nodes)
         {
             foreach (GameplayMapNodeDefinition node in nodes)
@@ -40,7 +42,7 @@ namespace Maps.Helpers
                 }
             }
         }
-        
+
         private void RemoveConnectionsToNull(GameplayMapNodeDefinition[] nodes)
         {
             foreach (GameplayMapNodeDefinition node in nodes)
@@ -64,7 +66,7 @@ namespace Maps.Helpers
                 }
             }
         }
-        
+
         private void EnsureEachConnectionGoesBothWays(GameplayMapNodeDefinition[] nodes)
         {
             foreach (GameplayMapNodeDefinition node in nodes)
@@ -74,9 +76,7 @@ namespace Maps.Helpers
                     if (!adjacentNode.adjacentNodes.Contains(node))
                     {
                         adjacentNode.adjacentNodes.Add(node);
-#if UNITY_EDITOR
                         EditorUtility.SetDirty(adjacentNode);
-#endif
                     }
                 }
             }
@@ -84,7 +84,7 @@ namespace Maps.Helpers
 
         private void EnsureEachNodesVisualControllerHasAppropriateEdgeVisualControllers(GameplayMapNodeDefinition[] nodes)
         {
-#if UNITY_EDITOR
+
             foreach (GameplayMapNodeDefinition node in nodes)
             {
                 var visualController = node.GetComponent<TerritoryVisualControllerBase>();
@@ -120,7 +120,18 @@ namespace Maps.Helpers
                     }
                 }
             }
-#endif
         }
+
+        private void AddStartStateDefinitionsIfScenario(GameplayMapNodeDefinition[] nodes)
+        {
+            foreach (GameplayMapNodeDefinition node in nodes)
+            {
+                if (node.gameObject.GetComponent<NodeStartStateDefinition>() == null)
+                {
+                    node.gameObject.AddComponent<NodeStartStateDefinition>().numDice = 1;
+                }
+            }
+        }
+#endif
     }
 }

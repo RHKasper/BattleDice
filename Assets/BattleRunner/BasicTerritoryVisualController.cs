@@ -27,9 +27,9 @@ namespace BattleRunner
             tempText.SetText("Initialized");
         }
 
-        public override void ShowNumDice(int numDice)
+        public override void ShowNumDice(int numDice, int? ownerPlayerIndex = null)
         {
-            diceImage.sprite = Resources.Load<Sprite>(Constants.GetDieStackSpritesPathFromResources(Territory.OwnerPlayerIndex, numDice));
+            diceImage.sprite = Resources.Load<Sprite>(Constants.GetDieStackSpritesPathFromResources(ownerPlayerIndex ?? Territory.OwnerPlayerIndex, numDice));
         }
 
         protected override void UpdateGameData()
