@@ -47,5 +47,10 @@ namespace Maps
         {
             return _territoryGameObjects[territory];
         }
+
+        protected virtual MapNode CreateMapNode(GameplayMapNodeDefinition definition, int index)
+        {
+            return new MapNode(index);
+        }
     }
 }

@@ -17,6 +17,13 @@ namespace BattleDataModel
             NodeIndex = nodeIndex;
             //Debug.Log(NodeId);
         }
+        
+        public MapNode(int nodeIndex, int ownerPlayerIndex, int startingNumDice)
+        {
+            NodeIndex = nodeIndex;
+            OwnerPlayerIndex = ownerPlayerIndex;
+            NumDice = startingNumDice;
+        }
 
         public IReadOnlyCollection<MapNode> AdjacentNodes => AdjacentMapNodes;
 
