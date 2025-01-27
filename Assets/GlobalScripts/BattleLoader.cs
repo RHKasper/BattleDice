@@ -12,6 +12,7 @@ namespace GlobalScripts
     public static class BattleLoader
     {
         private const string GameplayMapsResourcesFolder = "CustomMaps";
+        private const string GameplayScenariosResourcesFolder = "CustomScenarios";
         
         public static GameplayMap SelectedMapPrefab { get; private set; }
         public static int PlayerCount { get; private set; }
@@ -63,6 +64,11 @@ namespace GlobalScripts
         public static List<GameplayMap> GetCustomMaps()
         {
             return Resources.LoadAll<GameplayMap>(GameplayMapsResourcesFolder).ToList();
+        }
+        
+        public static List<GameplayScenario> GetCustomScenarios()
+        {
+            return Resources.LoadAll<GameplayScenario>(GameplayScenariosResourcesFolder).ToList();
         }
     }
 }

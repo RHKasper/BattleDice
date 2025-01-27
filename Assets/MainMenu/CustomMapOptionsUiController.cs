@@ -13,7 +13,7 @@ namespace MainMenu
     public class CustomMapOptionsUiController : MonoBehaviour
     {
         [SerializeField] private GenericListDisplay mapsListDisplay;
-        [SerializeField] private CustomMapListDisplayElement customMapDisplayElementPrefab;
+        [SerializeField] private CustomMapListDisplayElementController customMapDisplayElementPrefab;
         
         void Start()
         {
@@ -27,7 +27,7 @@ namespace MainMenu
 
             if (activeToggle)
             {
-                var selectedMap = activeToggle.GetComponent<CustomMapListDisplayElement>().Data;
+                var selectedMap = activeToggle.GetComponent<CustomMapListDisplayElementController>().Data;
                 StartCustomMapGame(selectedMap);
             }
         }
