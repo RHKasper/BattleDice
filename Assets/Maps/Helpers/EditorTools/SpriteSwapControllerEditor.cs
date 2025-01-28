@@ -2,7 +2,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Maps.EditorTools
+namespace Maps.Helpers.EditorTools
 {
     [CustomEditor(typeof(SpriteSwapController))]
     [CanEditMultipleObjects]
@@ -26,22 +26,35 @@ namespace Maps.EditorTools
             // Show a slider for spriteIndex at the top
             if (spritesProp.arraySize > 0)
             {
-                int newSpriteIndex = Mathf.Clamp(spriteIndexProp.intValue, 0, spritesProp.arraySize - 1);
-                newSpriteIndex = EditorGUILayout.IntSlider("Sprite Index", newSpriteIndex, 0, spritesProp.arraySize - 1);
+                // Get the current value and clamp it for safety
+                int currentSpriteIndex = spriteIndexProp.intValue;
+                int clampedIndex = Mathf.Clamp(currentSpriteIndex, 0, spritesProp.arraySize - 1);
 
-                if (newSpriteIndex != spriteIndexProp.intValue)
+                // Show slider and get the new value
+                int newSpriteIndex = EditorGUILayout.IntSlider("Sprite Index", clampedIndex, 0, spritesProp.arraySize - 1);
+
+                // Check if the index changed
+                if (newSpriteIndex != currentSpriteIndex)
                 {
-                    spriteIndexProp.intValue = newSpriteIndex;
-
-                    // Show the selected sprite in the image component
-                    Image image = (Image)imageProp.objectReferenceValue;
-                    if (image != null && spritesProp.GetArrayElementAtIndex(spriteIndexProp.intValue) != null)
+                    // Update spriteIndex for all selected objects
+                    foreach (Object obj in targets)
                     {
-                        image.sprite = (Sprite)spritesProp.GetArrayElementAtIndex(spriteIndexProp.intValue).objectReferenceValue;
-                        EditorUtility.SetDirty(image); // Mark the image as dirty to update in the editor
-                    }
+                        SpriteSwapController controller = obj as SpriteSwapController;
+                        if (controller != null)
+                        {
+                            Undo.RecordObject(controller, "Change Sprite Index");
+                            controller.spriteIndex = newSpriteIndex;
 
-                    EditorUtility.SetDirty(target); // Mark the target object as dirty only when index changes
+                            // Update the Image component if it exists
+                            if (controller.image != null && controller.sprites != null && newSpriteIndex < controller.sprites.Length)
+                            {
+                                controller.image.sprite = controller.sprites[newSpriteIndex];
+                                EditorUtility.SetDirty(controller.image);
+                            }
+
+                            EditorUtility.SetDirty(controller);
+                        }
+                    }
                 }
             }
             else

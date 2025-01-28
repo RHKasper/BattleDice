@@ -124,11 +124,14 @@ namespace Maps.Helpers
 
         private void AddStartStateDefinitionsIfScenario(GameplayMapNodeDefinition[] nodes)
         {
-            foreach (GameplayMapNodeDefinition node in nodes)
+            if (activeMap is GameplayScenario)
             {
-                if (node.gameObject.GetComponent<NodeStartStateDefinition>() == null)
+                foreach (GameplayMapNodeDefinition node in nodes)
                 {
-                    node.gameObject.AddComponent<NodeStartStateDefinition>().numDice = 1;
+                    if (node.gameObject.GetComponent<NodeStartStateDefinition>() == null)
+                    {
+                        node.gameObject.AddComponent<NodeStartStateDefinition>().numDice = 1;
+                    }
                 }
             }
         }
