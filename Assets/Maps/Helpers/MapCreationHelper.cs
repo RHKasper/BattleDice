@@ -1,6 +1,8 @@
+using System;
 using System.Linq;
 using BattleRunner;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -30,6 +32,28 @@ namespace Maps.Helpers
             }
         }
 
+        [ContextMenu(nameof(RandomlyAssignTerritoriesToTwoPlayers))]
+        public void RandomlyAssignTerritoriesToTwoPlayers()
+        {
+            if (activeMap is GameplayScenario)
+            {
+                var nodes = activeMap.GetNodeDefinitionsInOrder();
+                var randomizedNodes = nodes.OrderBy(_ => Random.Range(0f, 1f));
+
+                int count = 0;
+                foreach (GameplayMapNodeDefinition node in randomizedNodes)
+                {
+                    var startStateDefinition = node.gameObject.GetComponent<NodeStartStateDefinition>();
+                    startStateDefinition.ownerPlayerIndex = count % 2;
+                    count++;
+                }
+            }
+            else
+            {
+                throw new Exception("Territories can only be assigned in scenarios, not maps");
+            }
+        }
+        
         private void EnsureEachNodeHasAVisualController(GameplayMapNodeDefinition[] nodes)
         {
             foreach (GameplayMapNodeDefinition node in nodes)
