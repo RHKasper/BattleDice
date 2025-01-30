@@ -15,7 +15,7 @@ namespace GlobalScripts
         private const string GameplayScenariosResourcesFolder = "CustomScenarios";
         
         public static GameplayMap SelectedMapPrefab { get; private set; }
-        public static int PlayerCount { get; private set; }
+        public static List<Player> Players { get; private set; }
         public static int RandomSeed { get; private set; } = int.MinValue;
         public static int StartingReinforcements { get; private set; } = -1;
 
@@ -25,7 +25,7 @@ namespace GlobalScripts
 
             if (map is GameplayScenario scenario)
             {
-                PlayerCount = scenario.GetPlayerCount();
+                Players = scenario.GetPlayers();
                 StartingReinforcements = 0;
             }
             
@@ -39,9 +39,14 @@ namespace GlobalScripts
                 SelectedMapPrefab = GetCustomMaps().First();
             }
 
-            if (PlayerCount == 0)
+            if (Players == null)
             {
-                PlayerCount = 2;
+                Players = new List<Player> { new(0) };
+            
+                for (int i = 1; i < 3; i++)
+                {
+                    Players.Add(new Player(i, i % 2 == 0 ? new AggressiveAiStrategy() : new DefensiveAiStrategy()));    
+                }
             }
 
             if (RandomSeed == int.MinValue)
@@ -57,15 +62,7 @@ namespace GlobalScripts
 
         public static Battle ConstructBattle(GameplayMap mapInstance)
         {
-            var players = new List<Player> { new(0) };
-            
-            for (int i = 1; i < PlayerCount; i++)
-            {
-                players.Add(new Player(i, i % 2 == 0 ? new AggressiveAiStrategy() : new DefensiveAiStrategy()));    
-            }
-
-            
-            Battle b = new Battle(mapInstance.GenerateMapData(), players, RandomSeed);
+            Battle b = new Battle(mapInstance.GenerateMapData(), Players, RandomSeed);
             return b;
         }
         
