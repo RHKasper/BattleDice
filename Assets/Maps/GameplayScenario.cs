@@ -1,10 +1,15 @@
+using AYellowpaper.SerializedCollections;
 using BattleDataModel;
+using BattleDataModel.AiPlayerStrategies;
 using UnityEngine;
 
 namespace Maps
 {
     public class GameplayScenario : GameplayMap
     {
+        [SerializedDictionary("Player ID, Strategy")] 
+        [SerializeField] private SerializedDictionary<int, AiStrat> aiStrategies;
+        
         public int GetPlayerCount()
         {
             int highestPlayerIndex = -1;

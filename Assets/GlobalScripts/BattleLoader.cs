@@ -63,6 +63,7 @@ namespace GlobalScripts
             {
                 players.Add(new Player(i, i % 2 == 0 ? new AggressiveAiStrategy() : new DefensiveAiStrategy()));    
             }
+
             
             Battle b = new Battle(mapInstance.GenerateMapData(), players, RandomSeed);
             return b;

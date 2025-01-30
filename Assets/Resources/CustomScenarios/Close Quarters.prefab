@@ -1059,6 +1059,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   territoriesParent: {fileID: 8424800544522367129}
+  aiStrategies:
+    _serializedList:
+    - Key: 1
+      Value: 0
 --- !u!1 &8331256884272459081 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6296369223095142325, guid: 2b0983f9b981ffb45b9b0b33f2ee9e6c, type: 3}

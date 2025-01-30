@@ -137,6 +137,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   territoriesParent: {fileID: 7823279187228217709}
+  aiStrategies:
+    _serializedList:
+    - Key: 1
+      Value: 1
+    - Key: 2
+      Value: 0
 --- !u!114 &5736524405662003770
 MonoBehaviour:
   m_ObjectHideFlags: 0

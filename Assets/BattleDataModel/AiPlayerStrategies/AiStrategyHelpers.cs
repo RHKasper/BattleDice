@@ -123,6 +123,16 @@ namespace BattleDataModel.AiPlayerStrategies
             return chains;
         }
 
+        public static AiPlayerStrategyBase GetAiStrategyObject(AiStrat strat)
+        {
+            return strat switch
+            {
+                AiStrat.Aggressive => new AggressiveAiStrategy(),
+                AiStrat.Defensive => new DefensiveAiStrategy(),
+                _ => throw new ArgumentOutOfRangeException(nameof(strat), strat, null)
+            };
+        }
+
         private class AttackChain
         {
             public LinkedList<MapNode> Territories { get; }
