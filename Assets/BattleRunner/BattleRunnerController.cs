@@ -28,6 +28,7 @@ namespace BattleRunner
         private bool _battleStarted;
         private bool _battleEnded;
         
+        public bool IsHumanPlayersTurn => !Battle.ActivePlayer.IsAiPlayer;
         public GameplayMap GameplayMap {get; private set;}
         public Battle Battle {get; private set;}
         public TerritoryVisualControllerBase SelectedTerritory {get; private set;}

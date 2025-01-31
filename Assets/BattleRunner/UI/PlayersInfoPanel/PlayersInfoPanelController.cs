@@ -39,7 +39,7 @@ namespace BattleRunner.UI.PlayersInfoPanel
             foreach (Player player in battleRunnerController.Battle.Players)
             {
                 var box = Instantiate(playerInfoBoxPrefab, playerInfoBoxesParent);
-                box.Initialize(player.PlayerIndex, battleRunnerController.GameplayMap, battleRunnerController.Battle);
+                box.Initialize(player.PlayerIndex, battleRunnerController.GameplayMap, battleRunnerController);
                 _playerInfoBoxes.Add(player.PlayerIndex, box);
             }
         }

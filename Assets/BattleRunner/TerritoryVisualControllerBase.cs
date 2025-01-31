@@ -28,6 +28,7 @@ namespace BattleRunner
         public bool HighlightedToShowLargestContiguousGroupOfTerritories {get; set;}
 
         protected Battle Battle => BattleRunnerController.Battle;
+        
 
 #if UNITY_EDITOR
         private void Update()
@@ -73,7 +74,7 @@ namespace BattleRunner
             {
                 SetState(State.Defending);
             }
-            else if (!IsLocalHumanPlayersTurn())
+            else if (!BattleRunnerController.IsHumanPlayersTurn)
             {
                 SetState(State.Normal);
             }
@@ -125,7 +126,7 @@ namespace BattleRunner
         
         public void OnPointerClick(PointerEventData eventData)
         {
-            if (IsLocalHumanPlayersTurn())
+            if (BattleRunnerController.IsHumanPlayersTurn)
             {
                 if (IsSelected())
                 {
@@ -157,11 +158,6 @@ namespace BattleRunner
         protected abstract void SetState(State state);
         
         protected abstract void OnInitialize();
-
-        private bool IsLocalHumanPlayersTurn()
-        {
-            return !BattleRunnerController.Battle.ActivePlayer.IsAiPlayer;
-        }
         
         private bool IsSelected()
         {
