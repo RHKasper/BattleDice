@@ -7,6 +7,7 @@ using GlobalScripts;
 using Maps;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace BattleRunner
@@ -136,6 +137,13 @@ namespace BattleRunner
         public void OnClickEndTurn()
         {
             Battle.EndTurn();
+        }
+        
+        public void OnClickQuitToMenu()
+        {
+            // todo: add confirmation modal
+            SceneManager.LoadScene("MainMenu");
+            UserCueSequencer.ClearQueuedCues();
         }
 
 #if DEBUG || UNITY_EDITOR
