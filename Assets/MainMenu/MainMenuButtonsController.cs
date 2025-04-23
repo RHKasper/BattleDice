@@ -1,4 +1,3 @@
-using System;
 using LitMotion;
 using LitMotion.Extensions;
 using UnityEngine;
@@ -17,7 +16,8 @@ namespace MainMenu
 
         private MotionHandle _handle;
 
-        private bool _isTweened = false;
+        private TweenState _currentTweenState = TweenState.UnTweened;
+        private TweenState _desiredTweenState = TweenState.UnTweened;
         
         void Start()
         {
@@ -28,23 +28,56 @@ namespace MainMenu
 
         private void Update()
         {
+            // todo: delete this if
             if (!_handle.IsPlaying() && Input.anyKey)
             {
-                if (_isTweened)
+                if (_currentTweenState == TweenState.Tweened)
                 {
-                    _handle = LMotion.Create(tweenedRect.anchorMin, _origAnchorMin, tweenDuration).WithEase(Ease.OutSine).BindToAnchorMin(rectTransform);
-                    LMotion.Create(tweenedRect.anchorMax, _origAnchorMax, tweenDuration).WithEase(Ease.OutSine).BindToAnchorMax(rectTransform);
-                    LMotion.Create(tweenedRect.anchoredPosition, _origAnchoredPos, tweenDuration).WithEase(Ease.OutSine).BindToAnchoredPosition(rectTransform);
-                    _isTweened = false;
+                    SetDesiredTweenState(TweenState.UnTweened);
                 }
                 else
                 {
-                    _handle = LMotion.Create(_origAnchorMin, tweenedRect.anchorMin, tweenDuration).WithEase(Ease.OutSine).BindToAnchorMin(rectTransform);
-                    LMotion.Create(_origAnchorMax, tweenedRect.anchorMax, tweenDuration).WithEase(Ease.OutSine).BindToAnchorMax(rectTransform);
-                    LMotion.Create(_origAnchoredPos, tweenedRect.anchoredPosition, tweenDuration).WithEase(Ease.OutSine).BindToAnchoredPosition(rectTransform);
-                    _isTweened = true;
+                    SetDesiredTweenState(TweenState.Tweened);
                 }
             }
+
+            if (!_handle.IsPlaying() && _desiredTweenState != _currentTweenState)
+            {
+                if (_desiredTweenState == TweenState.UnTweened)
+                {
+                    ExecuteUnTween();
+                }
+                else
+                {
+                    ExecuteTween();
+                }
+            }
+        }
+        
+        public void SetDesiredTweenState(TweenState desiredState)
+        {
+            _desiredTweenState = desiredState;
+        }
+        
+        private void ExecuteTween()
+        {
+            _handle = LMotion.Create(_origAnchorMin, tweenedRect.anchorMin, tweenDuration).WithEase(Ease.OutSine).BindToAnchorMin(rectTransform);
+            LMotion.Create(_origAnchorMax, tweenedRect.anchorMax, tweenDuration).WithEase(Ease.OutSine).BindToAnchorMax(rectTransform);
+            LMotion.Create(_origAnchoredPos, tweenedRect.anchoredPosition, tweenDuration).WithEase(Ease.OutSine).BindToAnchoredPosition(rectTransform);
+            _currentTweenState = TweenState.Tweened;
+        }
+
+        public void ExecuteUnTween()
+        {
+            _handle = LMotion.Create(tweenedRect.anchorMin, _origAnchorMin, tweenDuration).WithEase(Ease.OutSine).BindToAnchorMin(rectTransform);
+            LMotion.Create(tweenedRect.anchorMax, _origAnchorMax, tweenDuration).WithEase(Ease.OutSine).BindToAnchorMax(rectTransform);
+            LMotion.Create(tweenedRect.anchoredPosition, _origAnchoredPos, tweenDuration).WithEase(Ease.OutSine).BindToAnchoredPosition(rectTransform);
+            _currentTweenState = TweenState.UnTweened;
+        }
+        
+        public enum TweenState
+        {
+            Tweened, UnTweened
         }
     }
 }
