@@ -198,6 +198,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2384403273125014053, guid: d40d702148bc3df4c8bedc77bb006e94, type: 3}
       insertIndex: -1
       addedObject: {fileID: -4712162452899869605}
+    - targetCorrespondingSourceObject: {fileID: 2384403273125014053, guid: d40d702148bc3df4c8bedc77bb006e94, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5582728157737734777}
   m_SourcePrefab: {fileID: 100100000, guid: d40d702148bc3df4c8bedc77bb006e94, type: 3}
 --- !u!224 &8373944859483304196 stripped
 RectTransform:
@@ -255,8 +258,34 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5582728157737734777}
+        m_TargetAssemblyTypeName: MainMenu.MainMenuButtonController, MainMenu
+        m_MethodName: OnToggleValueChanged
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
+--- !u!114 &5582728157737734777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8373944859483304199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88e61a497b874a1f9b0977d298c09c18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  manager: {fileID: 0}
+  associatedScreenState: 0
 --- !u!114 &8373944859483304202 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2384403273125014056, guid: d40d702148bc3df4c8bedc77bb006e94, type: 3}

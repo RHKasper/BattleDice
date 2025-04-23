@@ -5,13 +5,14 @@ using UnityEngine.UI;
 
 namespace MainMenu
 {
-    public class MainMenuButtonsController : MonoBehaviour
+    public class MainMenuTweeningManager : MonoBehaviour
     {
         [SerializeField] private float tweenDuration = .5f;
         [SerializeField] private float tweenedSpacing = -20f;
         [SerializeField] private RectTransform rectTransform;
         [SerializeField] private RectTransform tweenedRect;
         [SerializeField] private VerticalLayoutGroup verticalLayoutGroup;
+        [SerializeField] private MapsPanelController mapsPanel;
 
         private Vector2 _origAnchorMin;
         private Vector2 _origAnchorMax;
@@ -21,6 +22,9 @@ namespace MainMenu
         private MotionHandle _handle;
         private TweenState _currentTweenState = TweenState.UnTweened;
         private TweenState _desiredTweenState = TweenState.UnTweened;
+
+        private ScreenState _currentScreenState = ScreenState.Default;
+        private ScreenState _desiredScreenState = ScreenState.Default;
         
         void Start()
         {
@@ -44,15 +48,13 @@ namespace MainMenu
                 }
             }
         }
-        
-        public void SetDesiredTweenState(TweenState desiredState)
-        {
-            _desiredTweenState = desiredState;
-        }
 
-        public void OnButtonToggled(bool value)
+        public void SetDesiredScreenState(ScreenState desiredState)
         {
-            SetDesiredTweenState(value ? TweenState.Tweened : TweenState.UnTweened);
+            _desiredScreenState = desiredState;
+            _desiredTweenState = desiredState == ScreenState.Default ? TweenState.UnTweened : TweenState.Tweened;
+            mapsPanel.gameObject.SetActive(desiredState == ScreenState.Maps);
+
         }
         
         private void ExecuteTween()
@@ -62,6 +64,8 @@ namespace MainMenu
             LMotion.Create(_origAnchoredPos, tweenedRect.anchoredPosition, tweenDuration).WithEase(Ease.OutSine).BindToAnchoredPosition(rectTransform);
             LMotion.Create(_origSpacing, tweenedSpacing, tweenDuration).WithEase(Ease.OutSine).BindToSpacing(verticalLayoutGroup);
             _currentTweenState = TweenState.Tweened;
+            
+            //todo: add screen tween
         }
 
         public void ExecuteUnTween()
@@ -71,11 +75,17 @@ namespace MainMenu
             LMotion.Create(tweenedRect.anchoredPosition, _origAnchoredPos, tweenDuration).WithEase(Ease.OutSine).BindToAnchoredPosition(rectTransform);
             LMotion.Create(verticalLayoutGroup.spacing, _origSpacing, tweenDuration).WithEase(Ease.OutSine).BindToSpacing(verticalLayoutGroup);
             _currentTweenState = TweenState.UnTweened;
+            //todo: add screen tween
         }
         
         public enum TweenState
         {
             Tweened, UnTweened
+        }
+        
+        public enum ScreenState
+        {
+            Default, Maps, Scenarios
         }
     }
 }
