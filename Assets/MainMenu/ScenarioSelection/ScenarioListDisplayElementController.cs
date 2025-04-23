@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace MainMenu
 {
-    public class CustomScenarioListDisplayElementController : GenericListDisplay.ListItemController<GameplayScenario>
+    public class ScenarioListDisplayElementController : GenericListDisplay.ListItemController<GameplayScenario>
     {
         [SerializeField] private TextMeshProUGUI scenarioNameText;
         [SerializeField] private Toggle toggle;

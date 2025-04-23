@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace MainMenu
 {
-    public class CustomMapListDisplayElementController : GenericListDisplay.ListItemController<GameplayMap>
+    public class MapListDisplayElementController : GenericListDisplay.ListItemController<GameplayMap>
     {
         [SerializeField] private TextMeshProUGUI mapNameText;
         [SerializeField] private Toggle toggle;

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2877034528820939021}
   - component: {fileID: 4498548534815134005}
   m_Layer: 5
-  m_Name: Scenario Name Text
+  m_Name: Map Name Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -146,10 +146,10 @@ GameObject:
   m_Component:
   - component: {fileID: 861509356377742187}
   - component: {fileID: 3661160305513881159}
-  - component: {fileID: 5424303714220948450}
+  - component: {fileID: 8279749613601092634}
   - component: {fileID: 6534199605402911674}
   m_Layer: 5
-  m_Name: CustomScenarioListDisplayElement
+  m_Name: MapListDisplayElement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -185,7 +185,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2074886390024137049}
   m_CullTransparentMesh: 1
---- !u!114 &5424303714220948450
+--- !u!114 &8279749613601092634
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -194,10 +194,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2074886390024137049}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e245c36228e8724db450873bf869bf8, type: 3}
+  m_Script: {fileID: 11500000, guid: 2ca45b3ee5ee54c21b6df6f7cf45ddf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scenarioNameText: {fileID: 4498548534815134005}
+  mapNameText: {fileID: 4498548534815134005}
   toggle: {fileID: 6534199605402911674}
 --- !u!114 &6534199605402911674
 MonoBehaviour:

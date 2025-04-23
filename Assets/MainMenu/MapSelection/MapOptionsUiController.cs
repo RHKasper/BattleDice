@@ -6,18 +6,19 @@ using Maps;
 using RKUnityToolkit.UIElements;
 using RKUnityToolkit.UnityExtensions;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace MainMenu
 {
-    public class CustomMapOptionsUiController : MonoBehaviour
+    public class MapOptionsUiController : MonoBehaviour
     {
         [SerializeField] private GenericListDisplay mapsListDisplay;
-        [SerializeField] private CustomMapListDisplayElementController customMapDisplayElementPrefab;
+        [FormerlySerializedAs("customMapDisplayElementPrefab")] [SerializeField] private MapListDisplayElementController mapDisplayElementPrefab;
         
         void Start()
         {
-            mapsListDisplay.DisplayList(BattleLoader.GetCustomMaps(), customMapDisplayElementPrefab);
+            mapsListDisplay.DisplayList(BattleLoader.GetCustomMaps(), mapDisplayElementPrefab);
         }
 
         public void OnClickStartGameButton()
@@ -27,7 +28,7 @@ namespace MainMenu
 
             if (activeToggle)
             {
-                var selectedMap = activeToggle.GetComponent<CustomMapListDisplayElementController>().Data;
+                var selectedMap = activeToggle.GetComponent<MapListDisplayElementController>().Data;
                 StartCustomMapGame(selectedMap);
             }
         }

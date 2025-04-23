@@ -9,14 +9,14 @@ using UnityEngine.UI;
 
 namespace MainMenu
 {
-    public class CustomScenarioOptionsUiController : MonoBehaviour
+    public class ScenarioOptionsUiController : MonoBehaviour
     {
         [SerializeField] private GenericListDisplay scenariosListDisplay;
-        [SerializeField] private CustomScenarioListDisplayElementController customScenarioDisplayElementPrefab;
+        [FormerlySerializedAs("customScenarioDisplayElementPrefab")] [SerializeField] private ScenarioListDisplayElementController scenarioDisplayElementPrefab;
         
         void Start()
         {
-            scenariosListDisplay.DisplayList(BattleLoader.GetCustomScenarios(), customScenarioDisplayElementPrefab);
+            scenariosListDisplay.DisplayList(BattleLoader.GetCustomScenarios(), scenarioDisplayElementPrefab);
         }
 
         public void OnClickStartGameButton()
@@ -26,7 +26,7 @@ namespace MainMenu
 
             if (activeToggle)
             {
-                var selectedMap = activeToggle.GetComponent<CustomScenarioListDisplayElementController>().Data;
+                var selectedMap = activeToggle.GetComponent<ScenarioListDisplayElementController>().Data;
                 StartScenario(selectedMap);
             }
         }
