@@ -113,32 +113,23 @@ namespace MainMenu
         {
             Debug.Assert(screen != ScreenState.Default && screen != ScreenState.TempButtonsTweened);
             _currentTargetState = screen;
-
             RectTransform screenRectTransform = GetScreen(screen);
-            GetScreen(screen).gameObject.SetActive(true);
+            screenRectTransform.gameObject.SetActive(true);
 
-            await LSequence.Create().
-                Join(LMotion.Create(menuScreenInitialTweenRect.anchorMin, menuScreenPartiallyExpandedTweenRect.anchorMin, tweenDuration).WithEase(Ease.OutSine).BindToAnchorMin(screenRectTransform)).
-                Join(LMotion.Create(menuScreenInitialTweenRect.anchorMax, menuScreenPartiallyExpandedTweenRect.anchorMax, tweenDuration).WithEase(Ease.OutSine).BindToAnchorMax(screenRectTransform)).
-                Join(LMotion.Create(menuScreenInitialTweenRect.offsetMin, menuScreenPartiallyExpandedTweenRect.offsetMin, tweenDuration).WithEase(Ease.OutSine).BindToOffsetMin(screenRectTransform)).
-                Join(LMotion.Create(menuScreenInitialTweenRect.offsetMax, menuScreenPartiallyExpandedTweenRect.offsetMax, tweenDuration).WithEase(Ease.OutSine).BindToOffsetMax(screenRectTransform)).
-                
-                Append(LMotion.Create(menuScreenPartiallyExpandedTweenRect.anchorMin, menuScreenFullyExpandedTweenRect.anchorMin, tweenDuration).WithEase(Ease.OutSine).BindToAnchorMin(screenRectTransform)).
-                Join(LMotion.Create(menuScreenPartiallyExpandedTweenRect.anchorMax, menuScreenFullyExpandedTweenRect.anchorMax, tweenDuration).WithEase(Ease.OutSine).BindToAnchorMax(screenRectTransform)).
-                Join(LMotion.Create(menuScreenPartiallyExpandedTweenRect.offsetMin, menuScreenFullyExpandedTweenRect.offsetMin, tweenDuration).WithEase(Ease.OutSine).BindToOffsetMin(screenRectTransform)).
-                Join(LMotion.Create(menuScreenPartiallyExpandedTweenRect.offsetMax, menuScreenFullyExpandedTweenRect.offsetMax, tweenDuration).WithEase(Ease.OutSine).BindToOffsetMax(screenRectTransform)).
-                
-                Run().ToAwaitable();
+            await CreateRectTransformTween(menuScreenInitialTweenRect, menuScreenPartiallyExpandedTweenRect, screenRectTransform).Run().ToAwaitable();
+            await CreateRectTransformTween(menuScreenPartiallyExpandedTweenRect, menuScreenFullyExpandedTweenRect, screenRectTransform).Run().ToAwaitable();
         }
 
         private async Awaitable HideScreen(ScreenState screen)
         {
             Debug.Assert(screen != ScreenState.Default && screen != ScreenState.TempButtonsTweened);
             _currentTargetState = ScreenState.TempButtonsTweened;
+            RectTransform screenRectTransform = GetScreen(screen);
             
+            await CreateRectTransformTween(menuScreenFullyExpandedTweenRect, menuScreenPartiallyExpandedTweenRect, screenRectTransform).Run().ToAwaitable();
+            await CreateRectTransformTween(menuScreenPartiallyExpandedTweenRect, menuScreenInitialTweenRect, screenRectTransform).Run().ToAwaitable();
             
-            GetScreen(screen).gameObject.SetActive(false);
-            await Task.Delay(500);
+            screenRectTransform.gameObject.SetActive(false);
         }
 
         private RectTransform GetScreen(ScreenState screen)
@@ -150,6 +141,15 @@ namespace MainMenu
                 ScreenState.Scenarios => scenariosPanel.GetComponent<RectTransform>(),
                 _ => throw new Exception("Unknown screen " + screen)
             };
+        }
+
+        private MotionSequenceBuilder CreateRectTransformTween(RectTransform start, RectTransform end, RectTransform target)
+        {
+            return LSequence.Create().
+                Join(LMotion.Create(start.anchorMin, end.anchorMin, tweenDuration).WithEase(Ease.OutSine).BindToAnchorMin(target)).
+                Join(LMotion.Create(start.anchorMax, end.anchorMax, tweenDuration).WithEase(Ease.OutSine).BindToAnchorMax(target)).
+                Join(LMotion.Create(start.offsetMin, end.offsetMin, tweenDuration).WithEase(Ease.OutSine).BindToOffsetMin(target)).
+                Join(LMotion.Create(start.offsetMax, end.offsetMax, tweenDuration).WithEase(Ease.OutSine).BindToOffsetMax(target));
         }
         
         public enum ScreenState
