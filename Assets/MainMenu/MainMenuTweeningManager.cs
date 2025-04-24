@@ -1,30 +1,34 @@
+using System;
 using LitMotion;
 using LitMotion.Extensions;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace MainMenu
 {
     public class MainMenuTweeningManager : MonoBehaviour
     {
+        [SerializeField] private RectTransform menuButtonsTweenedRect;
+        [SerializeField] private RectTransform menuScreenInitialTweenRect;
+        [SerializeField] private RectTransform menuScreenPartiallyExpandedTweenRect;
+        
         [SerializeField] private float tweenDuration = .5f;
         [SerializeField] private float tweenedSpacing = -20f;
         [SerializeField] private RectTransform rectTransform;
-        [SerializeField] private RectTransform tweenedRect;
         [SerializeField] private VerticalLayoutGroup verticalLayoutGroup;
         [SerializeField] private MapsPanelController mapsPanel;
+        
 
         private Vector2 _origAnchorMin;
         private Vector2 _origAnchorMax;
         private Vector2 _origAnchoredPos;
         private float _origSpacing;
         
-        private MotionHandle _handle;
-        private TweenState _currentTweenState = TweenState.UnTweened;
-        private TweenState _desiredTweenState = TweenState.UnTweened;
+        private ScreenState _currentTargetState = ScreenState.Default;
+        private ScreenState _desiredState = ScreenState.Default;
 
-        private ScreenState _currentScreenState = ScreenState.Default;
-        private ScreenState _desiredScreenState = ScreenState.Default;
+        private Awaitable _lastTween;
         
         void Start()
         {
@@ -36,56 +40,83 @@ namespace MainMenu
 
         private void Update()
         {
-            if (!_handle.IsPlaying() && _desiredTweenState != _currentTweenState)
+            if (_lastTween == null || _lastTween.IsCompleted)
             {
-                if (_desiredTweenState == TweenState.UnTweened)
+                switch (_currentTargetState)
                 {
-                    ExecuteUnTween();
-                }
-                else
-                {
-                    ExecuteTween();
-                }
+                    case ScreenState.Default:
+                        if (_desiredState != ScreenState.Default)
+                        {
+                            _lastTween = TweenButtons();
+                        }
+                        break;
+                    case ScreenState.TempButtonsTweened:
+                        if (_desiredState == ScreenState.Default)
+                        {
+                            _lastTween = UnTweenButtons();
+                        }
+                        break;
+                    case ScreenState.Maps:
+                    case ScreenState.Scenarios:
+                        if (_desiredState == ScreenState.Default)
+                        {
+                            
+                        }
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }    
             }
         }
 
         public void SetDesiredScreenState(ScreenState desiredState)
         {
-            _desiredScreenState = desiredState;
-            _desiredTweenState = desiredState == ScreenState.Default ? TweenState.UnTweened : TweenState.Tweened;
-            mapsPanel.gameObject.SetActive(desiredState == ScreenState.Maps);
-
-        }
-        
-        private void ExecuteTween()
-        {
-            _handle = LMotion.Create(_origAnchorMin, tweenedRect.anchorMin, tweenDuration).WithEase(Ease.OutSine).BindToAnchorMin(rectTransform);
-            LMotion.Create(_origAnchorMax, tweenedRect.anchorMax, tweenDuration).WithEase(Ease.OutSine).BindToAnchorMax(rectTransform);
-            LMotion.Create(_origAnchoredPos, tweenedRect.anchoredPosition, tweenDuration).WithEase(Ease.OutSine).BindToAnchoredPosition(rectTransform);
-            LMotion.Create(_origSpacing, tweenedSpacing, tweenDuration).WithEase(Ease.OutSine).BindToSpacing(verticalLayoutGroup);
-            _currentTweenState = TweenState.Tweened;
-            
-            //todo: add screen tween
+            _desiredState = desiredState;
         }
 
-        public void ExecuteUnTween()
+        private async Awaitable TweenButtons()
         {
-            _handle = LMotion.Create(tweenedRect.anchorMin, _origAnchorMin, tweenDuration).WithEase(Ease.OutSine).BindToAnchorMin(rectTransform);
-            LMotion.Create(tweenedRect.anchorMax, _origAnchorMax, tweenDuration).WithEase(Ease.OutSine).BindToAnchorMax(rectTransform);
-            LMotion.Create(tweenedRect.anchoredPosition, _origAnchoredPos, tweenDuration).WithEase(Ease.OutSine).BindToAnchoredPosition(rectTransform);
-            LMotion.Create(verticalLayoutGroup.spacing, _origSpacing, tweenDuration).WithEase(Ease.OutSine).BindToSpacing(verticalLayoutGroup);
-            _currentTweenState = TweenState.UnTweened;
-            //todo: add screen tween
+            _currentTargetState = ScreenState.TempButtonsTweened;
+            await LSequence.Create().
+                Join(LMotion.Create(_origAnchorMin, menuButtonsTweenedRect.anchorMin, tweenDuration).WithEase(Ease.OutSine).BindToAnchorMin(rectTransform)).
+                Join(LMotion.Create(_origAnchorMax, menuButtonsTweenedRect.anchorMax, tweenDuration).WithEase(Ease.OutSine).BindToAnchorMax(rectTransform)).
+                Join(LMotion.Create(_origAnchoredPos, menuButtonsTweenedRect.anchoredPosition, tweenDuration).WithEase(Ease.OutSine).BindToAnchoredPosition(rectTransform)).
+                Join(LMotion.Create(_origSpacing, tweenedSpacing, tweenDuration).WithEase(Ease.OutSine).BindToSpacing(verticalLayoutGroup)).
+                Run().ToAwaitable();
+        }
+
+        private async Awaitable UnTweenButtons()
+        {
+            _currentTargetState = ScreenState.Default;
+            await LSequence.Create().
+                Join(LMotion.Create(menuButtonsTweenedRect.anchorMin, _origAnchorMin, tweenDuration).WithEase(Ease.OutSine).BindToAnchorMin(rectTransform)).
+                Join(LMotion.Create(menuButtonsTweenedRect.anchorMax, _origAnchorMax, tweenDuration).WithEase(Ease.OutSine).BindToAnchorMax(rectTransform)).
+                Join(LMotion.Create(menuButtonsTweenedRect.anchoredPosition, _origAnchoredPos, tweenDuration).WithEase(Ease.OutSine).BindToAnchoredPosition(rectTransform)).
+                Join(LMotion.Create(verticalLayoutGroup.spacing, _origSpacing, tweenDuration).WithEase(Ease.OutSine).BindToSpacing(verticalLayoutGroup)).
+                Run().ToAwaitable();
+        }
+
+        private async Awaitable ShowScreen(ScreenState screen)
+        {
+            Debug.Assert(screen != ScreenState.Default && screen != ScreenState.TempButtonsTweened);
+            await LSequence.Create().
+                Join(LMotion.Create(menuButtonsTweenedRect.anchorMin, _origAnchorMin, tweenDuration).WithEase(Ease.OutSine).BindToAnchorMin(rectTransform)).
+                Join(LMotion.Create(menuButtonsTweenedRect.anchorMax, _origAnchorMax, tweenDuration).WithEase(Ease.OutSine).BindToAnchorMax(rectTransform)).
+                Join(LMotion.Create(menuButtonsTweenedRect.anchoredPosition, _origAnchoredPos, tweenDuration).WithEase(Ease.OutSine).BindToAnchoredPosition(rectTransform)).
+                Join(LMotion.Create(verticalLayoutGroup.spacing, _origSpacing, tweenDuration).WithEase(Ease.OutSine).BindToSpacing(verticalLayoutGroup)).
+                Run().ToAwaitable();
+        }
+
+        private async Awaitable HideScreen(ScreenState screen)
+        {
+            Debug.Assert(screen != ScreenState.Default && screen != ScreenState.TempButtonsTweened);
         }
         
-        public enum TweenState
-        {
-            Tweened, UnTweened
-        }
+        
         
         public enum ScreenState
         {
-            Default, Maps, Scenarios
+            Default, TempButtonsTweened, Maps, Scenarios
         }
     }
 }
