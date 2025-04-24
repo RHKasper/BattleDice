@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using LitMotion;
 using LitMotion.Extensions;
 using UnityEngine;
@@ -12,12 +13,14 @@ namespace MainMenu
         [SerializeField] private RectTransform menuButtonsTweenedRect;
         [SerializeField] private RectTransform menuScreenInitialTweenRect;
         [SerializeField] private RectTransform menuScreenPartiallyExpandedTweenRect;
+        [SerializeField] private RectTransform menuScreenFullyExpandedTweenRect;
         
         [SerializeField] private float tweenDuration = .5f;
         [SerializeField] private float tweenedSpacing = -20f;
         [SerializeField] private RectTransform rectTransform;
         [SerializeField] private VerticalLayoutGroup verticalLayoutGroup;
         [SerializeField] private MapsPanelController mapsPanel;
+        [SerializeField] private GameObject scenariosPanel;
         
 
         private Vector2 _origAnchorMin;
@@ -51,16 +54,26 @@ namespace MainMenu
                         }
                         break;
                     case ScreenState.TempButtonsTweened:
-                        if (_desiredState == ScreenState.Default)
+                        switch (_desiredState)
                         {
-                            _lastTween = UnTweenButtons();
+                            case ScreenState.Default:
+                                _lastTween = UnTweenButtons();
+                                break;
+                            case ScreenState.TempButtonsTweened:
+                                break;
+                            case ScreenState.Maps:
+                            case ScreenState.Scenarios:
+                                _lastTween = ShowScreen(_desiredState);
+                                break;
+                            default:
+                                throw new ArgumentOutOfRangeException();
                         }
                         break;
                     case ScreenState.Maps:
                     case ScreenState.Scenarios:
-                        if (_desiredState == ScreenState.Default)
+                        if (_desiredState != _currentTargetState)
                         {
-                            
+                            _lastTween = HideScreen(_currentTargetState);
                         }
                         break;
                     default:
@@ -99,20 +112,45 @@ namespace MainMenu
         private async Awaitable ShowScreen(ScreenState screen)
         {
             Debug.Assert(screen != ScreenState.Default && screen != ScreenState.TempButtonsTweened);
+            _currentTargetState = screen;
+
+            RectTransform screenRectTransform = GetScreen(screen);
+            GetScreen(screen).gameObject.SetActive(true);
+
             await LSequence.Create().
-                Join(LMotion.Create(menuButtonsTweenedRect.anchorMin, _origAnchorMin, tweenDuration).WithEase(Ease.OutSine).BindToAnchorMin(rectTransform)).
-                Join(LMotion.Create(menuButtonsTweenedRect.anchorMax, _origAnchorMax, tweenDuration).WithEase(Ease.OutSine).BindToAnchorMax(rectTransform)).
-                Join(LMotion.Create(menuButtonsTweenedRect.anchoredPosition, _origAnchoredPos, tweenDuration).WithEase(Ease.OutSine).BindToAnchoredPosition(rectTransform)).
-                Join(LMotion.Create(verticalLayoutGroup.spacing, _origSpacing, tweenDuration).WithEase(Ease.OutSine).BindToSpacing(verticalLayoutGroup)).
+                Join(LMotion.Create(menuScreenInitialTweenRect.anchorMin, menuScreenPartiallyExpandedTweenRect.anchorMin, tweenDuration).WithEase(Ease.OutSine).BindToAnchorMin(screenRectTransform)).
+                Join(LMotion.Create(menuScreenInitialTweenRect.anchorMax, menuScreenPartiallyExpandedTweenRect.anchorMax, tweenDuration).WithEase(Ease.OutSine).BindToAnchorMax(screenRectTransform)).
+                Join(LMotion.Create(menuScreenInitialTweenRect.offsetMin, menuScreenPartiallyExpandedTweenRect.offsetMin, tweenDuration).WithEase(Ease.OutSine).BindToOffsetMin(screenRectTransform)).
+                Join(LMotion.Create(menuScreenInitialTweenRect.offsetMax, menuScreenPartiallyExpandedTweenRect.offsetMax, tweenDuration).WithEase(Ease.OutSine).BindToOffsetMax(screenRectTransform)).
+                
+                Append(LMotion.Create(menuScreenPartiallyExpandedTweenRect.anchorMin, menuScreenFullyExpandedTweenRect.anchorMin, tweenDuration).WithEase(Ease.OutSine).BindToAnchorMin(screenRectTransform)).
+                Join(LMotion.Create(menuScreenPartiallyExpandedTweenRect.anchorMax, menuScreenFullyExpandedTweenRect.anchorMax, tweenDuration).WithEase(Ease.OutSine).BindToAnchorMax(screenRectTransform)).
+                Join(LMotion.Create(menuScreenPartiallyExpandedTweenRect.offsetMin, menuScreenFullyExpandedTweenRect.offsetMin, tweenDuration).WithEase(Ease.OutSine).BindToOffsetMin(screenRectTransform)).
+                Join(LMotion.Create(menuScreenPartiallyExpandedTweenRect.offsetMax, menuScreenFullyExpandedTweenRect.offsetMax, tweenDuration).WithEase(Ease.OutSine).BindToOffsetMax(screenRectTransform)).
+                
                 Run().ToAwaitable();
         }
 
         private async Awaitable HideScreen(ScreenState screen)
         {
             Debug.Assert(screen != ScreenState.Default && screen != ScreenState.TempButtonsTweened);
+            _currentTargetState = ScreenState.TempButtonsTweened;
+            
+            
+            GetScreen(screen).gameObject.SetActive(false);
+            await Task.Delay(500);
         }
-        
-        
+
+        private RectTransform GetScreen(ScreenState screen)
+        {
+            Debug.Assert(screen != ScreenState.Default && screen != ScreenState.TempButtonsTweened);
+            return screen switch
+            {
+                ScreenState.Maps => mapsPanel.gameObject.GetComponent<RectTransform>(),
+                ScreenState.Scenarios => scenariosPanel.GetComponent<RectTransform>(),
+                _ => throw new Exception("Unknown screen " + screen)
+            };
+        }
         
         public enum ScreenState
         {
