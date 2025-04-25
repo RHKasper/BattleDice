@@ -149,7 +149,8 @@ namespace MainMenu
                 Join(LMotion.Create(start.anchorMin, end.anchorMin, tweenDuration).WithEase(Ease.OutSine).BindToAnchorMin(target)).
                 Join(LMotion.Create(start.anchorMax, end.anchorMax, tweenDuration).WithEase(Ease.OutSine).BindToAnchorMax(target)).
                 Join(LMotion.Create(start.offsetMin, end.offsetMin, tweenDuration).WithEase(Ease.OutSine).BindToOffsetMin(target)).
-                Join(LMotion.Create(start.offsetMax, end.offsetMax, tweenDuration).WithEase(Ease.OutSine).BindToOffsetMax(target));
+                Join(LMotion.Create(start.offsetMax, end.offsetMax, tweenDuration).WithEase(Ease.OutSine).BindToOffsetMax(target)).
+                Join(LMotion.Create(start.localScale, end.localScale, tweenDuration).WithEase(Ease.OutSine).BindToLocalScale(target));
         }
         
         public enum ScreenState
