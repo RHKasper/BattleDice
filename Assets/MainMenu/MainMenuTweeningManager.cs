@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using LitMotion;
 using LitMotion.Extensions;
+using MainMenu.MapsScreen;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -19,7 +20,7 @@ namespace MainMenu
         [SerializeField] private float tweenedSpacing = -20f;
         [SerializeField] private RectTransform rectTransform;
         [SerializeField] private VerticalLayoutGroup verticalLayoutGroup;
-        [SerializeField] private MapsPanelController mapsPanel;
+        [SerializeField] private MapsScreenController mapsScreen;
         [SerializeField] private GameObject scenariosPanel;
         
 
@@ -29,7 +30,7 @@ namespace MainMenu
         private float _origSpacing;
         
         private ScreenState _currentTargetState = ScreenState.Default;
-        private ScreenState _desiredState = ScreenState.Default;
+        private ScreenState _desiredState = ScreenState.Maps;
 
         private Awaitable _lastTween;
         
@@ -137,7 +138,7 @@ namespace MainMenu
             Debug.Assert(screen != ScreenState.Default && screen != ScreenState.TempButtonsTweened);
             return screen switch
             {
-                ScreenState.Maps => mapsPanel.gameObject.GetComponent<RectTransform>(),
+                ScreenState.Maps => mapsScreen.gameObject.GetComponent<RectTransform>(),
                 ScreenState.Scenarios => scenariosPanel.GetComponent<RectTransform>(),
                 _ => throw new Exception("Unknown screen " + screen)
             };

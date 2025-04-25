@@ -825,6 +825,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 247c6f4efc034707ad6687515c262528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mapsListDisplay: {fileID: 0}
+  mapDisplayElementPrefab: {fileID: 0}
+  mapsListScrollRect: {fileID: 0}
+  selectedMapTitleText: {fileID: 0}
 --- !u!114 &169283173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1224,7 +1228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fafe2cfe61f6974895a912c3755e8f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_AllowSwitchOff: 1
+  m_AllowSwitchOff: 0
 --- !u!1 &294226974
 GameObject:
   m_ObjectHideFlags: 0
@@ -1785,6 +1789,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 247c6f4efc034707ad6687515c262528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mapsListDisplay: {fileID: 1607057318}
+  mapDisplayElementPrefab: {fileID: 8279749613601092634, guid: cc5230719f5bf4db386c83eaf0c65432, type: 3}
+  mapsListScrollRect: {fileID: 1607057315}
+  selectedMapTitleText: {fileID: 1780550117}
 --- !u!1001 &462825046
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3391,7 +3399,6 @@ RectTransform:
   - {fileID: 1438237591}
   - {fileID: 1801984367}
   - {fileID: 1905384938}
-  - {fileID: 1843023782}
   m_Father: {fileID: 434562725}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -4332,6 +4339,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5742393317470965294, guid: 43072a01996957b4e8fa236be17103a0, type: 3}
   m_PrefabInstance: {fileID: 7695522960173226686}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1607057315 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9126851057293318283, guid: 43072a01996957b4e8fa236be17103a0, type: 3}
+  m_PrefabInstance: {fileID: 7695522960173226686}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1607057313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1607057318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4345,20 +4363,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   listObjectsParent: {fileID: 285662010}
---- !u!114 &1607057319
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1607057313}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35d8b3e6078b64a6094d17a83728e343, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mapsListDisplay: {fileID: 1607057318}
-  mapDisplayElementPrefab: {fileID: 8279749613601092634, guid: cc5230719f5bf4db386c83eaf0c65432, type: 3}
 --- !u!1 &1612940925
 GameObject:
   m_ObjectHideFlags: 0
@@ -4465,7 +4469,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tweeningManager: {fileID: 1625719671}
-  mapsPanelController: {fileID: 434562728}
+  mapsScreenController: {fileID: 434562728}
 --- !u!4 &1625719670
 Transform:
   m_ObjectHideFlags: 0
@@ -4501,7 +4505,7 @@ MonoBehaviour:
   tweenedSpacing: -20
   rectTransform: {fileID: 1057441080}
   verticalLayoutGroup: {fileID: 1057441083}
-  mapsPanel: {fileID: 434562728}
+  mapsScreen: {fileID: 434562728}
   scenariosPanel: {fileID: 169283170}
 --- !u!1 &1639954536
 GameObject:
@@ -5307,6 +5311,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapsListDisplay: {fileID: 1018734397}
   mapDisplayElementPrefab: {fileID: 8279749613601092634, guid: cc5230719f5bf4db386c83eaf0c65432, type: 3}
+  selectedMapTitleText: {fileID: 0}
 --- !u!1 &1780550115
 GameObject:
   m_ObjectHideFlags: 0
@@ -5724,7 +5729,6 @@ GameObject:
   - component: {fileID: 1843023782}
   - component: {fileID: 1843023785}
   - component: {fileID: 1843023784}
-  - component: {fileID: 1843023783}
   m_Layer: 5
   m_Name: Image (2)
   m_TagString: Untagged
@@ -5739,62 +5743,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1843023781}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1042818937}
+  m_Father: {fileID: 1905384938}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -318.76}
-  m_SizeDelta: {x: 206.2994, y: 44.24}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0.000030517578}
+  m_SizeDelta: {x: -37.700607, y: -45.76}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1843023783
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1843023781}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 1843023784}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &1843023784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5846,7 +5806,7 @@ GameObject:
   - component: {fileID: 1905384940}
   - component: {fileID: 1905384939}
   m_Layer: 5
-  m_Name: Image (1)
+  m_Name: Temp Start Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5863,7 +5823,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1843023782}
   m_Father: {fileID: 1042818937}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -5914,7 +5875,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1905384940}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 434562728}
+        m_TargetAssemblyTypeName: MainMenu.MapsScreen.MapsScreenController, MainMenu
+        m_MethodName: OnClickStartGameButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1905384940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7425,6 +7398,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapsListDisplay: {fileID: 2246163950729405828}
   mapDisplayElementPrefab: {fileID: 8279749613601092634, guid: cc5230719f5bf4db386c83eaf0c65432, type: 3}
+  selectedMapTitleText: {fileID: 0}
 --- !u!222 &5724316899122017483
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7581,7 +7555,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4622208902961117017, guid: 43072a01996957b4e8fa236be17103a0, type: 3}
       propertyPath: m_Name
-      value: Scroll View
+      value: Maps List Scroll View
       objectReference: {fileID: 0}
     - target: {fileID: 5325612698083532146, guid: 43072a01996957b4e8fa236be17103a0, type: 3}
       propertyPath: m_AnchorMax.x
@@ -7691,13 +7665,18 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9126851057293318283, guid: 43072a01996957b4e8fa236be17103a0, type: 3}
+      propertyPath: m_Inertia
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9126851057293318283, guid: 43072a01996957b4e8fa236be17103a0, type: 3}
+      propertyPath: m_MovementType
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4622208902961117017, guid: 43072a01996957b4e8fa236be17103a0, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1607057319}
     - targetCorrespondingSourceObject: {fileID: 4622208902961117017, guid: 43072a01996957b4e8fa236be17103a0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1607057318}

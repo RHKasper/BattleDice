@@ -1,4 +1,5 @@
 using System;
+using MainMenu.MapsScreen;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -7,12 +8,12 @@ namespace MainMenu
     public class MainMenuController : MonoBehaviour
     {
         [SerializeField] private MainMenuTweeningManager tweeningManager;
-        [SerializeField] private MapsPanelController mapsPanelController;
+        [SerializeField] private MapsScreenController mapsScreenController;
 
         private void Awake()
         {
             tweeningManager.gameObject.SetActive(true);
-            mapsPanelController.gameObject.SetActive(false);
+            mapsScreenController.gameObject.SetActive(false);
         }
     }
 }

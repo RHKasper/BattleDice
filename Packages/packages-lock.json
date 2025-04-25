@@ -12,11 +12,10 @@
       "hash": "b651c5866fe0e3fba065ce2e56dfdfcd59d3d109"
     },
     "com.rhkasper.rk-unity-toolkit": {
-      "version": "https://github.com/RHKasper/com.rhkasper.rk-unity-toolkit.git",
+      "version": "file:C:/repos/com.rhkasper.rk-unity-toolkit",
       "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "3ba6eea635284cc7c776c962ee920fe07ad296f1"
+      "source": "local",
+      "dependencies": {}
     },
     "com.unity.2d.sprite": {
       "version": "1.0.0",

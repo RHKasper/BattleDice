@@ -11,6 +11,7 @@ namespace Maps
         [SerializeField] private Transform territoriesParent;
 
         public RectTransform RectTransform => GetComponent<RectTransform>();
+        public string MapName => gameObject.name;
 
         private Dictionary<MapNode, GameObject> _territoryGameObjects = new();
 
