@@ -784,7 +784,6 @@ GameObject:
   - component: {fileID: 169283171}
   - component: {fileID: 169283174}
   - component: {fileID: 169283173}
-  - component: {fileID: 169283172}
   m_Layer: 5
   m_Name: Scenarios Screen
   m_TagString: Untagged
@@ -813,22 +812,6 @@ RectTransform:
   m_AnchoredPosition: {x: 11.732056, y: -78.76752}
   m_SizeDelta: {x: 1247.8643, y: 757.701}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &169283172
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 169283170}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 247c6f4efc034707ad6687515c262528, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mapsListDisplay: {fileID: 0}
-  mapDisplayElementPrefab: {fileID: 0}
-  mapsListScrollRect: {fileID: 0}
-  selectedMapTitleText: {fileID: 0}
 --- !u!114 &169283173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1075,7 +1058,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &253581067
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5178,7 +5161,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1729763358
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5498,7 +5481,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.5019608}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
