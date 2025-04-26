@@ -9,11 +9,16 @@ namespace Maps
     public class GameplayMap : MonoBehaviour
     {
         [SerializeField] private Transform territoriesParent;
-
-        public RectTransform RectTransform => GetComponent<RectTransform>();
-        public string MapName => gameObject.name;
+        [SerializeField] private string mapName;
+        [SerializeField] private string mapDescription;
+        [SerializeField] private Sprite mapPreviewImage;
 
         private Dictionary<MapNode, GameObject> _territoryGameObjects = new();
+        
+        public RectTransform RectTransform => GetComponent<RectTransform>();
+        public string MapName => string.IsNullOrWhiteSpace(mapName) ? gameObject.name : mapName;
+        public string MapDescription => string.IsNullOrWhiteSpace(mapDescription) ? "<no description>" : mapDescription;
+        public Sprite MapPreviewImage => mapPreviewImage;
 
         public Map GenerateMapData()
         {

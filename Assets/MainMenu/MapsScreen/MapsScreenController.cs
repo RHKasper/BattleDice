@@ -3,11 +3,9 @@ using System.Linq;
 using GlobalScripts;
 using Maps;
 using RKUnityToolkit.UIElements;
-using RKUnityToolkit.UnityExtensions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Toggle = UnityEngine.UI.Toggle;
 
 namespace MainMenu.MapsScreen
 {
@@ -17,6 +15,8 @@ namespace MainMenu.MapsScreen
         [SerializeField] private MapListDisplayElementController mapDisplayElementPrefab;
         [SerializeField] private ScrollRect mapsListScrollRect;
         [SerializeField] private TextMeshProUGUI selectedMapTitleText;
+        [SerializeField] private TextMeshProUGUI selectedMapDescriptionText;
+        [SerializeField] private Image selectedMapPreviewImage;
 
         IEnumerator Start()
         {
@@ -33,14 +33,16 @@ namespace MainMenu.MapsScreen
             StartCustomMapGame(selectedMap);
         }
 
-        private void StartCustomMapGame(GameplayMap gameplayMap)
-        {
-            BattleLoader.LoadBattle(gameplayMap);
-        }
-
         public void OnMapToggleActivated(MapListDisplayElementController mapToggle)
         {
             selectedMapTitleText.SetText(mapToggle.Data.MapName);
+            selectedMapDescriptionText.SetText(mapToggle.Data.MapDescription);
+            selectedMapPreviewImage.sprite = mapToggle.Data.MapPreviewImage;
+        }
+
+        private void StartCustomMapGame(GameplayMap gameplayMap)
+        {
+            BattleLoader.LoadBattle(gameplayMap);
         }
     }
 }

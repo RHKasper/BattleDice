@@ -2,11 +2,12 @@ using Maps;
 using RKUnityToolkit.UIElements;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace MainMenu.MapsScreen
 {
-    public class MapListDisplayElementController : GenericListDisplay.ListItemController<GameplayMap>
+    public class MapListDisplayElementController : GenericListDisplay.ListItemController<GameplayMap>, ISelectHandler
     {
         [SerializeField] private TextMeshProUGUI mapNameText;
         [SerializeField] private Toggle toggle;
@@ -40,6 +41,11 @@ namespace MainMenu.MapsScreen
         public override void Init(object initData)
         {
             _owner = (MapsScreenController)initData;
+        }
+
+        public void OnSelect(BaseEventData eventData)
+        {
+            toggle.isOn = true;
         }
     }
 }
