@@ -35,7 +35,7 @@ namespace MainMenu.MapsScreen
         
         protected override void OnDataSet(GameplayMap data)
         {
-            mapNameText.text = data.gameObject.name;
+            mapNameText.text = data.MapName;
         }
 
         public override void Init(object initData)

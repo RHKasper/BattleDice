@@ -137,9 +137,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   territoriesParent: {fileID: 7823279187228217709}
-  mapName: 
-  mapDescription: sfasfhkwhfakwjfawf
-  mapPreviewImage: {fileID: 0}
+  mapName: Valoria's Heart
+  mapDescription: 'Legend speaks of Valoria, a realm born of love and torn by endless
+    war. The heart-shaped lands offer bold strategies: fierce central clashes and
+    treacherous flanking routes along the edges.'
+  mapPreviewImage: {fileID: 21300000, guid: c4aadd8af2498440cafae749604b3dcf, type: 3}
 --- !u!114 &5736524405662003770
 MonoBehaviour:
   m_ObjectHideFlags: 0

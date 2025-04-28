@@ -6910,6 +6910,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   territoriesParent: {fileID: 735962334774364398}
+  mapName: The Shattered Coast
+  mapDescription: "A wide, fractured land split by lakes and rivers. Waterways slow
+    movement and force creative tactics \u2014 use them to defend your forces or
+    trap your enemies.  "
+  mapPreviewImage: {fileID: 21300000, guid: 22d03df86559b4efdb8971d59ccd20e1, type: 3}
 --- !u!114 &5736524405662003770
 MonoBehaviour:
   m_ObjectHideFlags: 0
