@@ -39,7 +39,7 @@ namespace MainMenu.MapsScreen
 
         private void ShowNumber(int number)
         {
-            numPlayersImage.sprite = NumberSpritesSo.instance.GetSprite(number);
+            numPlayersImage.sprite = NumberSpritesSo.Instance.GetSprite(number);
         }
     }
 }

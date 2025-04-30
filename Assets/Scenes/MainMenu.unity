@@ -2215,6 +2215,7 @@ MonoBehaviour:
   selectedMapTitleText: {fileID: 1780550117}
   selectedMapDescriptionText: {fileID: 1438237592}
   selectedMapPreviewImage: {fileID: 354480093}
+  playersSetupUIController: {fileID: 0}
 --- !u!1001 &462825046
 PrefabInstance:
   m_ObjectHideFlags: 0
