@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Linq;
 using GlobalScripts;
 using Maps;
+using RKUnityToolkit.Coroutines;
 using RKUnityToolkit.UIElements;
 using TMPro;
 using UnityEngine;
@@ -17,13 +19,17 @@ namespace MainMenu.MapsScreen
         [SerializeField] private TextMeshProUGUI selectedMapTitleText;
         [SerializeField] private TextMeshProUGUI selectedMapDescriptionText;
         [SerializeField] private Image selectedMapPreviewImage;
+        [SerializeField] private PlayersSetupUIController playersSetupUIController;
 
-        IEnumerator Start()
+        void Start()
         {
             mapsListDisplay.DisplayList(BattleLoader.GetCustomMaps(), mapDisplayElementPrefab, this);
             mapsListDisplay.GetActiveListItems<MapListDisplayElementController>().First().ToggleOn();
-            yield return null;
-            mapsListScrollRect.content.anchoredPosition = Vector2.zero; // fix scroll rect starting scrolled to the right
+        }
+
+        private void OnEnable()
+        {
+            StartCoroutine(GenericCoroutines.DoNextFrame(() => mapsListScrollRect.content.anchoredPosition = Vector2.zero)); // fix scroll rect starting scrolled to the right
         }
 
         public void OnClickStartGameButton()
