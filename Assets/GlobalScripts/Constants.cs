@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace GlobalScripts
 {
+    // todo: give this a better name since it's got stuff loaded from resources
     public static class Constants
     {
         public static readonly List<Color> Colors = new()
