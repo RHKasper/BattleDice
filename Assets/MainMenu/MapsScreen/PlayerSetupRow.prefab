@@ -9,8 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3176314399834384884}
+  - component: {fileID: 8435420936706132395}
   m_Layer: 5
-  m_Name: AI Player Row
+  m_Name: PlayerSetupRow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37,6 +38,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -13.701477}
   m_SizeDelta: {x: 200, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &8435420936706132395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3961498632282921201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cb6abb49ceb61e4e95d5a5744a89242, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  numberImage: {fileID: 1842808696612441417}
+  numberBackground: {fileID: 6024606400042860477}
+  dropdown: {fileID: 7023281420112738181}
+  playerIndex: 0
 --- !u!1 &4720427253083150466
 GameObject:
   m_ObjectHideFlags: 0
@@ -124,7 +141,7 @@ GameObject:
   - component: {fileID: 8807669116374857745}
   - component: {fileID: 6024606400042860477}
   m_Layer: 5
-  m_Name: Number Slot
+  m_Name: Number Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -322,3 +339,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1042764628431943108, guid: c917b7ad08a104fbca5d13f2c59e850a, type: 3}
   m_PrefabInstance: {fileID: 3371908316366525147}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7023281420112738181 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5745706378050004318, guid: c917b7ad08a104fbca5d13f2c59e850a, type: 3}
+  m_PrefabInstance: {fileID: 3371908316366525147}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b743370ac3e4ec2a1668f5455a8ef8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
