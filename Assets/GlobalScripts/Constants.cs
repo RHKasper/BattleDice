@@ -7,6 +7,9 @@ namespace GlobalScripts
     // todo: give this a better name since it's got stuff loaded from resources
     public static class Constants
     {
+        public const int MinPlayers = 1;
+        public const int MaxPlayers = 12;
+
         public static readonly List<Color> Colors = new()
         {
             new Color(31/255f, 120/255f, 180/255f),

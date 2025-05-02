@@ -21,23 +21,24 @@ namespace MainMenu.MapsScreen
 
         public void OnClickAddPlayer()
         {
-            NumPlayers++;
+            NumPlayers = Mathf.Clamp(NumPlayers + 1, Constants.MinPlayers, Constants.MaxPlayers);
             ShowNumber(NumPlayers);
-            // validate player count change
-            // change player count
-            // activate/deactive buttons
-            
+            SetPlayerCountButtonsInteractability();
         }
 
         public void OnClickRemovePlayer()
         {
-            NumPlayers--;
+            NumPlayers = Mathf.Clamp(NumPlayers - 1, Constants.MinPlayers, Constants.MaxPlayers);
             ShowNumber(NumPlayers);
-            // validate player count change
-            // change player count
-            // activate/deactive buttons
+            SetPlayerCountButtonsInteractability();
         }
 
+        private void SetPlayerCountButtonsInteractability()
+        {
+            addPlayerButton.interactable = NumPlayers < Constants.MaxPlayers;
+            removePlayerButton.interactable = NumPlayers > Constants.MinPlayers;
+        }
+        
         private void ShowNumber(int number)
         {
             numPlayersImage.sprite = NumberSpritesSo.Instance.GetSprite(number);
