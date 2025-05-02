@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using BattleDataModel.AiPlayerStrategies;
 using GlobalScripts;
 using LitMotion;
 using LitMotion.Extensions;
@@ -13,7 +15,8 @@ namespace MainMenu.MapsScreen
     public class PlayerSetupRowController : MonoBehaviour
     {
         private const float TweenDuration = .2f;
-        
+
+        [SerializeField] private bool humanPlayer;
         [SerializeField] private Image numberImage;
         [SerializeField] private Image numberBackground;
         [SerializeField] private TMP_Dropdown dropdown;
@@ -23,15 +26,16 @@ namespace MainMenu.MapsScreen
         private MotionHandle _latestMotionHandle;
         
         private void Awake()
-        {
+        { 
             numberImage.sprite = NumberSpritesSo.Instance.GetSprite(playerIndex + 1);
             numberBackground.color = Constants.Colors[playerIndex];
-            dropdown.options = new List<TMP_Dropdown.OptionData>
+
+            if (!humanPlayer)
             {
-                new("Strategy 1"),
-                new("Strategy 2")
-            };
-            dropdown.value = 0;
+                var strategies = Enum.GetNames(typeof(AiStrat));
+                dropdown.options = strategies.Select(s => new TMP_Dropdown.OptionData(s)).ToList();
+                dropdown.value = 0;
+            }
         }
         
 
