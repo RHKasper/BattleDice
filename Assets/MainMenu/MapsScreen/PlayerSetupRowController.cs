@@ -12,12 +12,15 @@ namespace MainMenu.MapsScreen
 {
     public class PlayerSetupRowController : MonoBehaviour
     {
+        private const float TweenDuration = .2f;
+        
         [SerializeField] private Image numberImage;
         [SerializeField] private Image numberBackground;
         [SerializeField] private TMP_Dropdown dropdown;
         [SerializeField] private int playerIndex;
-        
-        private const float TweenDuration = .2f;
+
+        private bool _targetActivationState = true;
+        private MotionHandle _latestMotionHandle;
         
         private void Awake()
         {
@@ -32,20 +35,28 @@ namespace MainMenu.MapsScreen
         }
         
 
-        public async Task SetActiveWithTweening(bool active)
+        public async Task SetActiveWithTweening(bool desiredActiveState)
         {
-            if (active && !gameObject.activeSelf)
+            if (_targetActivationState == desiredActiveState)
             {
-                gameObject.SetActive(true);
-                await LSequence.Create()
-                    .Join(LMotion.Create(0f, 1f, TweenDuration).WithEase(Ease.OutSine).BindToLocalScaleX(transform))
-                    .Run().ToAwaitable();
+                // if target state is correct, do nothing
             }
-            else if (!active && gameObject.activeSelf)
+            else if(desiredActiveState)
             {
-                await LSequence.Create()
-                    .Join(LMotion.Create(1f, 0f, TweenDuration).WithEase(Ease.OutSine).BindToLocalScaleX(transform))
-                    .Run().ToAwaitable();
+                _latestMotionHandle.TryComplete();
+                
+                _targetActivationState = true;
+                gameObject.SetActive(true);
+                _latestMotionHandle = LSequence.Create().Join(LMotion.Create(0f, 1f, TweenDuration).WithEase(Ease.OutSine).BindToLocalScaleX(transform)).Run();
+                await _latestMotionHandle.ToAwaitable(); 
+            }
+            else
+            {
+                _latestMotionHandle.TryComplete();
+                
+                _targetActivationState = false;
+                _latestMotionHandle = LSequence.Create().Join(LMotion.Create(1f, 0f, TweenDuration).WithEase(Ease.OutSine).BindToLocalScaleX(transform)).Run();
+                await _latestMotionHandle.ToAwaitable();
                 gameObject.SetActive(false);
             }
         }
