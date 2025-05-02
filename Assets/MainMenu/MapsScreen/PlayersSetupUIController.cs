@@ -10,6 +10,7 @@ namespace MainMenu.MapsScreen
         [SerializeField] private Button addPlayerButton;
         [SerializeField] private Button removePlayerButton;
         [SerializeField] private Image numPlayersImage;
+        [SerializeField] private PlayerSetupRowController[] playerSetupRows;
 
         public int NumPlayers { get; private set; } = 2;
 
@@ -40,6 +41,10 @@ namespace MainMenu.MapsScreen
         private void ShowNumber(int number)
         {
             numPlayersImage.sprite = NumberSpritesSo.Instance.GetSprite(number);
+            for (int i = 0; i < playerSetupRows.Length; i++)
+            {
+                playerSetupRows[i].SetActiveWithTweening(i < number);
+            }
         }
     }
 }
