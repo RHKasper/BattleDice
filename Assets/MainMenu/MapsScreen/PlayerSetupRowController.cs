@@ -64,5 +64,11 @@ namespace MainMenu.MapsScreen
                 gameObject.SetActive(false);
             }
         }
+
+        public AiStrat GetAiStrategy()
+        {
+            Enum.TryParse(dropdown.options[dropdown.value].text, out AiStrat strat);
+            return strat;
+        }
     }
 }

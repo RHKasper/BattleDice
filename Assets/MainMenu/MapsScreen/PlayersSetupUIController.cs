@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using BattleDataModel;
+using BattleDataModel.AiPlayerStrategies;
 using GlobalScripts;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,7 +14,6 @@ namespace MainMenu.MapsScreen
         [SerializeField] private Button removePlayerButton;
         [SerializeField] private Image numPlayersImage;
         [SerializeField] private PlayerSetupRowController[] playerSetupRows;
-        
 
         public int NumPlayers { get; private set; } = 2;
 
@@ -32,6 +34,19 @@ namespace MainMenu.MapsScreen
             NumPlayers = Mathf.Clamp(NumPlayers - 1, Constants.MinPlayers, Constants.MaxPlayers);
             ShowNumber(NumPlayers);
             SetPlayerCountButtonsInteractability();
+        }
+
+        public List<Player> GetPlayers()
+        {
+            var players = new List<Player> { BattleLoader.GetHumanPlayer() };
+            
+            for (int i = 1; i < NumPlayers; i++)
+            {
+                AiStrat strat = playerSetupRows[i].GetAiStrategy();
+                players.Add(new Player(i, AiStrategyHelpers.GetAiStrategyObject(strat)));    
+            }
+
+            return players;
         }
 
         private void SetPlayerCountButtonsInteractability()

@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using BattleDataModel;
 using GlobalScripts;
 using Maps;
 using RKUnityToolkit.Coroutines;
@@ -53,7 +55,7 @@ namespace MainMenu.MapsScreen
 
         private void StartCustomMapGame(GameplayMap gameplayMap)
         {
-            BattleLoader.LoadBattle(gameplayMap);
+            BattleLoader.LoadCustomBattle(gameplayMap, playersSetupUIController.GetPlayers());
         }
     }
 }

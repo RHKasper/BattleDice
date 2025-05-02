@@ -19,6 +19,13 @@ namespace GlobalScripts
         public static int RandomSeed { get; private set; } = int.MinValue;
         public static int StartingReinforcements { get; private set; } = -1;
 
+        public static void LoadCustomBattle(GameplayMap map, List<Player> players)
+        {
+            SelectedMapPrefab = map;
+            Players = players;
+            SceneManager.LoadScene("BattleRunner");
+        }
+        
         public static void LoadBattle(GameplayMap map)
         {
             SelectedMapPrefab = map;
@@ -41,7 +48,7 @@ namespace GlobalScripts
 
             if (Players == null)
             {
-                Players = new List<Player> { new(0) };
+                Players = new List<Player> { GetHumanPlayer() };
             
                 for (int i = 1; i < 3; i++)
                 {
@@ -74,6 +81,11 @@ namespace GlobalScripts
         public static List<GameplayScenario> GetCustomScenarios()
         {
             return Resources.LoadAll<GameplayScenario>(GameplayScenariosResourcesFolder).ToList();
+        }
+
+        public static Player GetHumanPlayer()
+        {
+            return new Player(0);
         }
     }
 }
