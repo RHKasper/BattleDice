@@ -38,7 +38,7 @@ namespace MainMenu.MapsScreen
         {
             MapListDisplayElementController activeToggle = mapsListDisplay.GetActiveListItems<MapListDisplayElementController>().First(e => e.IsToggledOn);
             GameplayMap selectedMap = activeToggle.GetComponent<MapListDisplayElementController>().Data;
-            StartCustomMapGame(selectedMap);
+            StartBattle(selectedMap);
         }
 
         public void OnMapToggleActivated(MapListDisplayElementController mapToggle)
@@ -48,9 +48,16 @@ namespace MainMenu.MapsScreen
             selectedMapPreviewImage.sprite = mapToggle.Data.MapPreviewImage;
         }
 
-        private void StartCustomMapGame(GameplayMap gameplayMap)
+        private void StartBattle(GameplayMap gameplayMap)
         {
-            BattleLoader.LoadCustomBattle(gameplayMap, playersSetupUIController.GetPlayers());
+            if (gameplayMap is GameplayScenario scenario)
+            {
+                BattleLoader.LoadCustomBattle(scenario, scenario.GetPlayers());
+            }
+            else
+            {
+                BattleLoader.LoadCustomBattle(gameplayMap, playersSetupUIController.GetPlayers());
+            }
         }
     }
 }
