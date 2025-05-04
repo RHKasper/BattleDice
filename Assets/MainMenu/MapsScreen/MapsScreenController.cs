@@ -15,8 +15,6 @@ namespace MainMenu.MapsScreen
 {
     public class MapsScreenController : MonoBehaviour
     {
-        [SerializeField] private bool quickInit = true;
-        
         [SerializeField] private GenericListDisplay mapsListDisplay;
         [SerializeField] private MapListDisplayElementController mapDisplayElementPrefab;
         [SerializeField] private ScrollRect mapsListScrollRect;
@@ -28,10 +26,7 @@ namespace MainMenu.MapsScreen
         void Start()
         {
             mapsListDisplay.DisplayList(BattleLoader.GetCustomMaps(), mapDisplayElementPrefab, this);
-            if (quickInit)
-            {
-                mapsListDisplay.GetActiveListItems<MapListDisplayElementController>().First().ToggleOn();
-            }
+            mapsListDisplay.GetActiveListItems<MapListDisplayElementController>().First().ToggleOn();
         }
 
         private void OnEnable()
