@@ -21,7 +21,7 @@ namespace MainMenu
         [SerializeField] private RectTransform rectTransform;
         [SerializeField] private VerticalLayoutGroup verticalLayoutGroup;
         [SerializeField] private MapsScreenController mapsScreen;
-        [SerializeField] private GameObject scenariosPanel;
+        [SerializeField] private MapsScreenController scenariosScreen;
         
 
         private Vector2 _origAnchorMin;
@@ -138,8 +138,8 @@ namespace MainMenu
             Debug.Assert(screen != ScreenState.Default && screen != ScreenState.TempButtonsTweened);
             return screen switch
             {
-                ScreenState.Maps => mapsScreen.gameObject.GetComponent<RectTransform>(),
-                ScreenState.Scenarios => scenariosPanel.GetComponent<RectTransform>(),
+                ScreenState.Maps => mapsScreen.GetComponent<RectTransform>(),
+                ScreenState.Scenarios => scenariosScreen.GetComponent<RectTransform>(),
                 _ => throw new Exception("Unknown screen " + screen)
             };
         }

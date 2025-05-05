@@ -7,12 +7,12 @@ namespace MainMenu
 {
     public class MainMenuController : MonoBehaviour
     {
-        [SerializeField] private MainMenuTweeningManager tweeningManager;
         [SerializeField] private MapsScreenController mapsScreenController;
+        [SerializeField] private MapsScreenController scenariosScreenController;
 
         private void Awake()
         {
-            tweeningManager.gameObject.SetActive(true);
+            scenariosScreenController.gameObject.SetActive(false);
             mapsScreenController.gameObject.SetActive(false);
         }
     }

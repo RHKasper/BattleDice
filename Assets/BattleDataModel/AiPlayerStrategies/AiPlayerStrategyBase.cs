@@ -5,6 +5,8 @@ namespace BattleDataModel.AiPlayerStrategies
 {
     public abstract class AiPlayerStrategyBase
     {
+        public abstract AiStrat GetAiStratEnum();
+        
         public void PlayNextMove(Battle battle, Player player)
         {
             List<MapNode> myTerritories = battle.Map.GetTerritoriesOwnedByPlayer(player.PlayerIndex);

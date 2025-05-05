@@ -49,6 +49,22 @@ namespace MainMenu.MapsScreen
             return players;
         }
 
+        public void SetPlayers(List<Player> players)
+        {
+            NumPlayers = players.Count;
+            ShowNumber(NumPlayers);
+            SetPlayerCountButtonsInteractability();
+
+            for (var i = 0; i < players.Count; i++)
+            {
+                var player = players[i];
+                if (player.AiStrategy != null)
+                {
+                    playerSetupRows[i].SetAiStrategy(player.AiStrategy.GetAiStratEnum());
+                }
+            }
+        }
+
         private void SetPlayerCountButtonsInteractability()
         {
             addPlayerButton.interactable = NumPlayers < Constants.MaxPlayers;

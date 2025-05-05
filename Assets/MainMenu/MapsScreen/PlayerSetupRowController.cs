@@ -70,5 +70,10 @@ namespace MainMenu.MapsScreen
             Enum.TryParse(dropdown.options[dropdown.value].text, out AiStrat strat);
             return strat;
         }
+        
+        public void SetAiStrategy(AiStrat strat)
+        {
+            dropdown.value = dropdown.options.FindIndex(o => o.text == strat.ToString());
+        }
     }
 }

@@ -6,6 +6,8 @@ namespace BattleDataModel.AiPlayerStrategies
 {
     public class AggressiveAiStrategy : AiPlayerStrategyBase
     {
+        public override AiStrat GetAiStratEnum() => AiStrat.Aggressive;
+
         /// <summary>
         /// Calculates a score for how desirable a particular attack would be. Values less than or equal to 0 are a "no".
         /// The highest scoring attack above 0 will be chosen 

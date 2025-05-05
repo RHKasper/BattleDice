@@ -47,6 +47,11 @@ namespace MainMenu.MapsScreen
             selectedMapTitleText.SetText(mapToggle.Data.MapName);
             selectedMapDescriptionText.SetText(mapToggle.Data.MapDescription);
             selectedMapPreviewImage.sprite = mapToggle.Data.MapPreviewImage;
+
+            if (mapToggle.Data is GameplayScenario scenario)
+            {
+                playersSetupUIController.SetPlayers(scenario.GetPlayers());
+            }
         }
 
         private void StartBattle(GameplayMap gameplayMap)

@@ -3,8 +3,10 @@ using System.Linq;
 
 namespace BattleDataModel.AiPlayerStrategies
 {
-    public class DefensiveAiStrategy : AiPlayerStrategyBase 
+    public class DefensiveAiStrategy : AiPlayerStrategyBase
     {
+        public override AiStrat GetAiStratEnum() => AiStrat.Defensive;
+
         protected override float GetDesirabilityScoreForPotentialAttack(MapNode attackingTerritory, MapNode defendingTerritory, Battle battle, HashSet<MapNode> myReinforcementTerritories)
         {
             float score = 1;
