@@ -2228,7 +2228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 247c6f4efc034707ad6687515c262528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  quickInit: 1
+  mapSource: 1
   mapsListDisplay: {fileID: 1607057318}
   mapDisplayElementPrefab: {fileID: 8279749613601092634, guid: cc5230719f5bf4db386c83eaf0c65432, type: 3}
   mapsListScrollRect: {fileID: 1607057315}

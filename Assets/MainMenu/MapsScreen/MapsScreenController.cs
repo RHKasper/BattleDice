@@ -15,6 +15,7 @@ namespace MainMenu.MapsScreen
 {
     public class MapsScreenController : MonoBehaviour
     {
+        [SerializeField] private MapSource mapSource;
         [SerializeField] private GenericListDisplay mapsListDisplay;
         [SerializeField] private MapListDisplayElementController mapDisplayElementPrefab;
         [SerializeField] private ScrollRect mapsListScrollRect;
@@ -25,7 +26,7 @@ namespace MainMenu.MapsScreen
 
         void Start()
         {
-            mapsListDisplay.DisplayList(BattleLoader.GetCustomMaps(), mapDisplayElementPrefab, this);
+            mapsListDisplay.DisplayList(GetMaps(), mapDisplayElementPrefab, this);
             mapsListDisplay.GetActiveListItems<MapListDisplayElementController>().First().ToggleOn();
         }
 
@@ -58,6 +59,18 @@ namespace MainMenu.MapsScreen
             {
                 BattleLoader.LoadCustomBattle(gameplayMap, playersSetupUIController.GetPlayers());
             }
+        }
+
+        private List<GameplayMap> GetMaps()
+        {
+            return mapSource == MapSource.Maps
+                ? BattleLoader.GetCustomMaps()
+                : BattleLoader.GetCustomScenarios().Cast<GameplayMap>().ToList();
+        }
+        
+        private enum MapSource
+        {
+            Maps, Scenarios
         }
     }
 }
