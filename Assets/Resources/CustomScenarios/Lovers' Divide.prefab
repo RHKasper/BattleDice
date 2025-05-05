@@ -137,6 +137,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   territoriesParent: {fileID: 7823279187228217709}
+  mapName: 
+  mapDescription: 
+  mapPreviewImage: {fileID: 21300000, guid: 8ce6264282d2c4d46a1ca876cb42d664, type: 3}
   aiStrategies:
     _serializedList:
     - Key: 1
