@@ -26,6 +26,9 @@ namespace BattleRunner
         
         [Header("Color Tint Graphics")]
         [SerializeField] List<Graphic> colorTintGraphics;
+        [SerializeField] List<Graphic> twoThirdsColorTintGraphics;
+        
+        
         
         protected override void OnInitialize()
         {
@@ -47,6 +50,12 @@ namespace BattleRunner
             {
                 graphic.color = Constants.Colors[Territory.OwnerPlayerIndex].WithAlpha(graphic.color.a);
             }
+
+            foreach (Graphic graphic in twoThirdsColorTintGraphics)
+            {
+                graphic.color = (Constants.Colors[Territory.OwnerPlayerIndex] * .66f).WithAlpha(graphic.color.a);
+            }
+            
         }
 
         protected override void SetState(State state)
@@ -73,7 +82,7 @@ namespace BattleRunner
                     selectHover.SetActive(true);
                     break;
                 case State.HoverAttackable:
-                case State.Attacking:
+                case State.Defending:
                     attackable.SetActive(true);
                     attackableHover.SetActive(true);
                     break;
@@ -81,13 +90,11 @@ namespace BattleRunner
                     selectable.SetActive(true);
                     break;
                 case State.Selected:
+                case State.Attacking:
                     selected.SetActive(true);
                     break;
                 case State.Attackable:
                     attackable.SetActive(true);
-                    break;
-                case State.Defending:
-                    attackableHover.SetActive(true);
                     break;
                 case State.HighlightedToShowLargestContiguousGroupOfTerritories:
                     contiguousTerritoriesHighlight.SetActive(true);
