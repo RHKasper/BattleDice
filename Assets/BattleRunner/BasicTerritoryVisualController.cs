@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using ColorExtensions;
 using GlobalScripts;
 using GraphicExtensions;
@@ -13,13 +14,18 @@ namespace BattleRunner
     {
         [Header("UI Elements")]
         [SerializeField] private TextMeshProUGUI tempText;
-        [SerializeField] private Image ownerPlayerImage;
         [SerializeField] private Image diceImage;
         
-        [Header("UI Highlights")]
-        [SerializeField] private Image selectionHighlight;
-        [SerializeField] private Image attackableHighlight;
-        [SerializeField] private Image contiguousTerritoriesHighlight;
+        [Header("UI States")]
+        [SerializeField] private GameObject selected;
+        [SerializeField] private GameObject selectable;
+        [SerializeField] private GameObject selectHover;
+        [SerializeField] private GameObject attackable;
+        [SerializeField] private GameObject attackableHover;
+        [SerializeField] private GameObject contiguousTerritoriesHighlight;
+        
+        [Header("Color Tint Graphics")]
+        [SerializeField] List<Graphic> colorTintGraphics;
         
         protected override void OnInitialize()
         {
@@ -35,8 +41,12 @@ namespace BattleRunner
         protected override void UpdateGameData()
         {
             tempText.SetText(Territory.NodeIndex.ToString());
-            ownerPlayerImage.color = Constants.Colors[Territory.OwnerPlayerIndex];
             ShowNumDice(Territory.NumDice);
+
+            foreach (Graphic graphic in colorTintGraphics)
+            {
+                graphic.color = Constants.Colors[Territory.OwnerPlayerIndex].WithAlpha(graphic.color.a);
+            }
         }
 
         protected override void SetState(State state)
@@ -47,48 +57,40 @@ namespace BattleRunner
                 SetState(State.Normal);
             }
             
+            selected.SetActive(false);
+            selectHover.SetActive(false);
+            selectable.SetActive(false);
+            attackable.SetActive(false);
+            attackableHover.SetActive(false);
+            contiguousTerritoriesHighlight.SetActive(false);
+            
             switch (state)
             {
                 case State.Normal:
-                    selectionHighlight.gameObject.SetActive(false);
-                    attackableHighlight.gameObject.SetActive(false);
-                    contiguousTerritoriesHighlight.gameObject.SetActive(false);
                     break;
                 case State.HoverSelectable:
-                    selectionHighlight.gameObject.SetActive(true);
-                    selectionHighlight.SetAlpha(.75f);
-                    break;
                 case State.HoverDeselectable:
-                    selectionHighlight.gameObject.SetActive(true);
-                    selectionHighlight.SetAlpha(.5f);
+                    selectHover.SetActive(true);
                     break;
                 case State.HoverAttackable:
-                    attackableHighlight.gameObject.SetActive(true);
-                    attackableHighlight.SetAlpha(1);
+                case State.Attacking:
+                    attackable.SetActive(true);
+                    attackableHover.SetActive(true);
                     break;
                 case State.Selectable:
-                    selectionHighlight.gameObject.SetActive(true);
-                    selectionHighlight.SetAlpha(.5f);
+                    selectable.SetActive(true);
                     break;
                 case State.Selected:
-                    selectionHighlight.gameObject.SetActive(true);
-                    selectionHighlight.SetAlpha(1);
+                    selected.SetActive(true);
                     break;
                 case State.Attackable:
-                    attackableHighlight.gameObject.SetActive(true);
-                    attackableHighlight.SetAlpha(.5f);
-                    break;
-                case State.Attacking:
-                    selectionHighlight.gameObject.SetActive(true);
-                    selectionHighlight.SetAlpha(1);
+                    attackable.SetActive(true);
                     break;
                 case State.Defending:
-                    attackableHighlight.gameObject.SetActive(true);
-                    attackableHighlight.SetAlpha(1f);
+                    attackableHover.SetActive(true);
                     break;
                 case State.HighlightedToShowLargestContiguousGroupOfTerritories:
-                    contiguousTerritoriesHighlight.gameObject.SetActive(true);
-                    contiguousTerritoriesHighlight.color = Constants.Colors[Territory.OwnerPlayerIndex].WithAlpha(.75f);
+                    contiguousTerritoriesHighlight.SetActive(true);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(state), state, null);
