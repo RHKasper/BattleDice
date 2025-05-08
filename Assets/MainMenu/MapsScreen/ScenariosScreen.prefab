@@ -140,6 +140,18 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6769890306464312486, guid: 4949dc54385c5334393d92b4c0926ad9, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.977241
+      objectReference: {fileID: 0}
+    - target: {fileID: 6769890306464312486, guid: 4949dc54385c5334393d92b4c0926ad9, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.25278404
+      objectReference: {fileID: 0}
+    - target: {fileID: 6769890306464312486, guid: 4949dc54385c5334393d92b4c0926ad9, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6982008344621556587, guid: 4949dc54385c5334393d92b4c0926ad9, type: 3}
       propertyPath: m_IsActive
       value: 0
