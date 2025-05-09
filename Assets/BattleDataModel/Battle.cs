@@ -65,9 +65,12 @@ namespace BattleDataModel
             StartingTerritoriesAssigned?.Invoke(this, new BattleEvents.StartingTerritoriesAssignedArgs(this));
         }
 
-        public void RandomlyAllocateStartingReinforcements(int startingReinforcements)
+        public void RandomlyAllocateStartingDice(float startingDicePercentage)
         {
-            ValidateNumStartingReinforcements(startingReinforcements);
+            if (startingDicePercentage > 1 || startingDicePercentage < 0)
+            {
+                throw new Exception("Invalid starting dice percentage: " + startingDicePercentage * 100 + "%");
+            }
             if (Map.Territories.Values.Any(n => n.OwnerPlayerIndex == -1))
             {
                 throw new Exception("All map territories (nodes) must belong to a player before starting reinforcements are applied");
@@ -89,8 +92,9 @@ namespace BattleDataModel
             foreach (Player player in _players)
             {
                 var nodes = playerNodes[player.PlayerIndex];
+                int numDice = (int) (7 * nodes.Count * startingDicePercentage);
                 
-                for (int i = 0; i < startingReinforcements; i++)
+                for (int i = 0; i < numDice; i++)
                 {
                     MapNode territoryToReinforce = playerNodes[player.PlayerIndex][Rng.Next(0, nodes.Count)]; 
                     territoryToReinforce.NumDice++;
@@ -268,17 +272,6 @@ namespace BattleDataModel
         {
             // todo record game over? Might not need to since players' Eliminated variable contains that info
             GameEnded?.Invoke(this, new BattleEvents.GameEndedArgs(winningPlayerIndex, lastOpponentStandingIndex));
-        }
-        
-        private void ValidateNumStartingReinforcements(int startingReinforcements)
-        {
-            int leastNumTerritories = _players.Min(p => Map.GetNumTerritoriesOwnedByPlayer(p.PlayerIndex));
-            int leastRoomForReinforcements = leastNumTerritories * (DataModelConstants.MaxDiceInTerritory - 1);
-
-            if (startingReinforcements > leastRoomForReinforcements)
-            {
-                throw new Exception("Not enough room for starting reinforcements. " + leastNumTerritories + " only have room for " + leastRoomForReinforcements + " reinforcements, but " + startingReinforcements + " are being assigned");
-            }
         }
     }
 }

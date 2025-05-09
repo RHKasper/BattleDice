@@ -69,7 +69,7 @@ namespace BattleRunner
             if (GameplayMap is not GameplayScenario)
             {
                 Battle.RandomlyAssignTerritories();
-                Battle.RandomlyAllocateStartingReinforcements(BattleLoader.StartingReinforcements);
+                Battle.RandomlyAllocateStartingDice(BattleLoader.StartingDicePercentage);
             }
 
             BattleInitialized?.Invoke();

@@ -23,7 +23,11 @@ namespace MainMenu.MapsScreen
         [SerializeField] private TextMeshProUGUI selectedMapDescriptionText;
         [SerializeField] private Image selectedMapPreviewImage;
         [SerializeField] private PlayersSetupUIController playersSetupUIController;
+        [SerializeField] private Slider startingDiceSlider;
 
+
+        private float StartingDicePercentage => startingDiceSlider.value / startingDiceSlider.maxValue;
+        
         void Start()
         {
             mapsListDisplay.DisplayList(GetMaps(), mapDisplayElementPrefab, this);
@@ -62,7 +66,8 @@ namespace MainMenu.MapsScreen
             }
             else
             {
-                BattleLoader.LoadCustomBattle(gameplayMap, playersSetupUIController.GetPlayers());
+                Debug.Log(StartingDicePercentage);
+                BattleLoader.LoadCustomBattle(gameplayMap, playersSetupUIController.GetPlayers(), StartingDicePercentage);
             }
         }
 

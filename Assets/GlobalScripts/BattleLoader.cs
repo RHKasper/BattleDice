@@ -17,12 +17,13 @@ namespace GlobalScripts
         public static GameplayMap SelectedMapPrefab { get; private set; }
         public static List<Player> Players { get; private set; }
         public static int RandomSeed { get; private set; } = int.MinValue;
-        public static int StartingReinforcements { get; private set; } = -1;
+        public static float StartingDicePercentage { get; private set; } = .25f;
 
-        public static void LoadCustomBattle(GameplayMap map, List<Player> players)
+        public static void LoadCustomBattle(GameplayMap map, List<Player> players, float startingDicePercentage = .25f)
         {
             SelectedMapPrefab = map;
             Players = players;
+            StartingDicePercentage = startingDicePercentage;
             SceneManager.LoadScene("BattleRunner");
         }
         
@@ -33,7 +34,7 @@ namespace GlobalScripts
             if (map is GameplayScenario scenario)
             {
                 Players = scenario.GetPlayers();
-                StartingReinforcements = 0;
+                StartingDicePercentage = 0;
             }
             
             SceneManager.LoadScene("BattleRunner");
@@ -59,11 +60,6 @@ namespace GlobalScripts
             if (RandomSeed == int.MinValue)
             {
                 RandomSeed = DateTime.Now.Millisecond;
-            }
-
-            if (StartingReinforcements == -1)
-            {
-                StartingReinforcements = 12;
             }
         }
 

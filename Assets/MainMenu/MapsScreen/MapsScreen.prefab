@@ -4589,7 +4589,7 @@ GameObject:
   - component: {fileID: 2314797016664677056}
   - component: {fileID: 7858955856061370396}
   m_Layer: 5
-  m_Name: Image (2)
+  m_Name: Start Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8299,7 +8299,7 @@ GameObject:
   - component: {fileID: 883630073886431916}
   - component: {fileID: 2522880873151898543}
   m_Layer: 5
-  m_Name: Temp Start Button
+  m_Name: Start Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11527,6 +11527,7 @@ MonoBehaviour:
   selectedMapDescriptionText: {fileID: 4059818129347333392}
   selectedMapPreviewImage: {fileID: 6323999378748855351}
   playersSetupUIController: {fileID: 1856391157921875927}
+  startingDiceSlider: {fileID: 2283471500785669427}
 --- !u!1 &5031773651880995980
 GameObject:
   m_ObjectHideFlags: 0
@@ -16480,7 +16481,7 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 5731276195660660914}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: -0.000005074975, y: 0.5654513}
+  m_AnchorMin: {x: -0.000005074975, y: 0.5892341}
   m_AnchorMax: {x: 0.48265234, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
@@ -19616,7 +19617,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8698172793619214, guid: 0171f337056145243b80f418418da45b, type: 3}
       propertyPath: m_Name
-      value: Slider
+      value: Starting Dice Slider
       objectReference: {fileID: 0}
     - target: {fileID: 3966903836876042846, guid: 0171f337056145243b80f418418da45b, type: 3}
       propertyPath: m_Pivot.x
@@ -19698,6 +19699,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5443867045582165882, guid: 0171f337056145243b80f418418da45b, type: 3}
+      propertyPath: m_MaxValue
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5443867045582165882, guid: 0171f337056145243b80f418418da45b, type: 3}
+      propertyPath: m_MinValue
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5842429174449445750, guid: 0171f337056145243b80f418418da45b, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -19723,6 +19732,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0171f337056145243b80f418418da45b, type: 3}
+--- !u!114 &2283471500785669427 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5443867045582165882, guid: 0171f337056145243b80f418418da45b, type: 3}
+  m_PrefabInstance: {fileID: 6069731927482401353}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &7147567763178844183 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3966903836876042846, guid: 0171f337056145243b80f418418da45b, type: 3}
