@@ -3012,10 +3012,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2593495255088660679, guid: 001a210a2d8ff4135b86a0b16d2095f7, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2947361968819108682, guid: 001a210a2d8ff4135b86a0b16d2095f7, type: 3}
       propertyPath: m_Name
       value: Attackable State
