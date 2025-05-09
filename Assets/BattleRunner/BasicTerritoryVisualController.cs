@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using ColorExtensions;
 using GlobalScripts;
 using GraphicExtensions;
+using RKUnityToolkit.ColorExtensions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -17,16 +17,17 @@ namespace BattleRunner
         [SerializeField] private Image diceImage;
         
         [Header("UI States")]
-        [SerializeField] private GameObject selected;
+        [SerializeField] private GameObject defaultState;
         [SerializeField] private GameObject selectable;
         [SerializeField] private GameObject selectHover;
+        [SerializeField] private GameObject selected;
         [SerializeField] private GameObject attackable;
         [SerializeField] private GameObject attackableHover;
         [SerializeField] private GameObject contiguousTerritoriesHighlight;
         
         [Header("Color Tint Graphics")]
         [SerializeField] List<Graphic> colorTintGraphics;
-        [SerializeField] List<Graphic> twoThirdsColorTintGraphics;
+        [SerializeField] List<Graphic> darkColorTintGraphics;
         
         
         
@@ -51,11 +52,10 @@ namespace BattleRunner
                 graphic.color = Constants.Colors[Territory.OwnerPlayerIndex].WithAlpha(graphic.color.a);
             }
 
-            foreach (Graphic graphic in twoThirdsColorTintGraphics)
+            foreach (Graphic graphic in darkColorTintGraphics)
             {
                 graphic.color = (Constants.Colors[Territory.OwnerPlayerIndex] * .66f).WithAlpha(graphic.color.a);
             }
-            
         }
 
         protected override void SetState(State state)
@@ -65,7 +65,8 @@ namespace BattleRunner
             {
                 SetState(State.Normal);
             }
-            
+
+            defaultState.SetActive(false);
             selected.SetActive(false);
             selectHover.SetActive(false);
             selectable.SetActive(false);
@@ -76,6 +77,7 @@ namespace BattleRunner
             switch (state)
             {
                 case State.Normal:
+                    defaultState.SetActive(true);
                     break;
                 case State.HoverSelectable:
                 case State.HoverDeselectable:
@@ -83,7 +85,6 @@ namespace BattleRunner
                     break;
                 case State.HoverAttackable:
                 case State.Defending:
-                    attackable.SetActive(true);
                     attackableHover.SetActive(true);
                     break;
                 case State.Selectable:

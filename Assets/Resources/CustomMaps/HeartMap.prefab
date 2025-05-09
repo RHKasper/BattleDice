@@ -22673,6 +22673,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1438767399519312360, guid: 001a210a2d8ff4135b86a0b16d2095f7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2449152528469205794, guid: 001a210a2d8ff4135b86a0b16d2095f7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2947361968819108682, guid: 001a210a2d8ff4135b86a0b16d2095f7, type: 3}
       propertyPath: m_Name
       value: BasicTerritoryVisual
@@ -22721,6 +22729,10 @@ PrefabInstance:
       propertyPath: edges._serializedList.Array.data[2].Value
       value: 
       objectReference: {fileID: 6994442385034540246}
+    - target: {fileID: 7360487353898494522, guid: 001a210a2d8ff4135b86a0b16d2095f7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
