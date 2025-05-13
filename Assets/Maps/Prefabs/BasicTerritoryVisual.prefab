@@ -491,8 +491,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 15224235845488253}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.19051015, y: 0.19051015}
-  m_AnchorMax: {x: 0.8094898, y: 0.8094898}
+  m_AnchorMin: {x: 0.06401115, y: 0.06401065}
+  m_AnchorMax: {x: 0.9359888, y: 0.9359893}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -779,6 +779,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 15224235845488253}
     m_Modifications:
+    - target: {fileID: 2708038073687632215, guid: aecd9de59610a5b42a6cd0ea03b712c3, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 98fb0a7bf7482b0489917d2d59f28028, type: 3}
     - target: {fileID: 4885861038786582335, guid: aecd9de59610a5b42a6cd0ea03b712c3, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
