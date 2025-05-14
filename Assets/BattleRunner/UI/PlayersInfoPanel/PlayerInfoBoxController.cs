@@ -14,11 +14,14 @@ namespace BattleRunner.UI.PlayersInfoPanel
 {
     public class PlayerInfoBoxController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
-        [SerializeField] private ProceduralImage border;
+        [SerializeField] private Sprite backgroundDefaultSprite;
+        [SerializeField] private Sprite backgroundActivePlayerSprite;
         [SerializeField] private Image background;
+        [SerializeField] private Image playerColoredStripe;
         [SerializeField] private Image dieImage;
-        [SerializeField] private GameObject winnerVisuals;
-        [SerializeField] private TextMeshProUGUI text;
+        [SerializeField] private TextMeshProUGUI diceText;
+        [SerializeField] private TextMeshProUGUI territoriesText;
+        [SerializeField] private TextMeshProUGUI largestRegionText;
 
         private int _playerIndex;
         private GameplayMap _gameplayMap;
@@ -47,10 +50,13 @@ namespace BattleRunner.UI.PlayersInfoPanel
             int reinforcementCount = _battleRunnerController.Battle.Map.GetLargestContiguousGroupOfTerritories(_playerIndex).Count;
             bool isActivePlayer = _battleRunnerController.Battle.ActivePlayer.PlayerIndex == _playerIndex;
             
+            background.sprite = isActivePlayer ? backgroundActivePlayerSprite : backgroundDefaultSprite;
+            playerColoredStripe.color = Constants.Colors[_playerIndex];
             dieImage.sprite = Resources.Load<Sprite>(Constants.GetThreeQuartersDieSpritesPathFromResources(_playerIndex));
-            border.color = isActivePlayer ? Color.white : Constants.Colors[_playerIndex];
-            background.color = isActivePlayer ? Constants.Colors[_playerIndex] : Color.white;
-            text.text = territories.Sum(t => t.NumDice) + " | " + territories.Count + " | " + reinforcementCount;
+
+            diceText.text = territories.Sum(t => t.NumDice).ToString();
+            territoriesText.text = territories.Count.ToString();
+            largestRegionText.text = reinforcementCount.ToString();
 
             gameObject.SetActive(!_battleRunnerController.Battle.GetPlayer(_playerIndex).Eliminated);
         }
