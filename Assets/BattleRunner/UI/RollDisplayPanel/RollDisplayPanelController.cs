@@ -2,6 +2,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GenericsExtensions;
 using GlobalScripts;
+using ReusableUi;
 using TMPro;
 using UnityEngine;
 
@@ -10,12 +11,12 @@ namespace BattleRunner.UI.RollDisplayPanel
     public class RollDisplayPanelController : MonoBehaviour
     {
         [SerializeField] private DieRollUiController[] dieRollUiControllers;
-        [SerializeField] private TextMeshProUGUI resultsText;
+        [SerializeField] private TwoDigitNumberDisplay resultsDisplay;
 
         public async Task ShowDiceRoll(int[] diceRoll, int playerIndex)
         {
             gameObject.SetActive(true);
-            resultsText.SetText("");
+            resultsDisplay.gameObject.SetActive(false);
             
             var dieFaceSprites = new[]
             {
@@ -33,7 +34,7 @@ namespace BattleRunner.UI.RollDisplayPanel
             }
             
             float endTime = Time.time + .001f * UserCueSequencer.DefaultCueDelayMs * 5;
-            float pipChangeTimeInterval = UserCueSequencer.DefaultCueDelayMs / 10.0f;
+            float pipChangeTimeIntervalMs = UserCueSequencer.DefaultCueDelayMs / 10.0f;
             
             while (Time.time < endTime)
             {
@@ -42,7 +43,7 @@ namespace BattleRunner.UI.RollDisplayPanel
                     dieRollUiControllers[i].ShowPips(dieFaceSprites.GetRandom());
                 }
 
-                await WebGlUtil.WebGlSafeDelay(pipChangeTimeInterval);
+                await WebGlUtil.WebGlSafeDelay(pipChangeTimeIntervalMs);
             }
             
             for (int i = 0; i < diceRoll.Length; i++)
@@ -51,8 +52,9 @@ namespace BattleRunner.UI.RollDisplayPanel
                 dieRollUiControllers[i].ShowPips(sprite);
             }
 
-            await WebGlUtil.WebGlSafeDelay(UserCueSequencer.DefaultCueDelayMs);
-            resultsText.text = diceRoll.Sum().ToString();
+            await WebGlUtil.WebGlSafeDelay(UserCueSequencer.DefaultCueDelayMs * 2.5f);
+            resultsDisplay.ShowNumber(diceRoll.Sum());
+            resultsDisplay.gameObject.SetActive(true);
         }
     }
 }

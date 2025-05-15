@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: NumberSprites
   m_EditorClassIdentifier: 
   sprites:
-  - {fileID: 21300000, guid: e40df3356a5c14b7d932395e80680251, type: 3}
-  - {fileID: 21300000, guid: a921e348d4a414f849062ab90fd7c0a9, type: 3}
-  - {fileID: 21300000, guid: fce29a98035f94379b8666aa7961a920, type: 3}
+  - {fileID: 21300000, guid: 27904b10d9987fc458590b54fae9f691, type: 3}
+  - {fileID: 21300000, guid: f9d25efb18bd4754aa149d4b01e4b45d, type: 3}
+  - {fileID: 21300000, guid: 17b5c039e60ae3d4bb5730b7b3751b8e, type: 3}
   - {fileID: 21300000, guid: ec764970f3b10fa4b85f00c24a77be3a, type: 3}
   - {fileID: 21300000, guid: dc055a2a6e897464eba6a831f52ed434, type: 3}
   - {fileID: 21300000, guid: 8bcd0a39b4c2bb14c8de59ac41a2d7fe, type: 3}
