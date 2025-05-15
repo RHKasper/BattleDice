@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
 using GlobalScripts;
-using GraphicExtensions;
 using RKUnityToolkit.ColorExtensions;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace BattleRunner
