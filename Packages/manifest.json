@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "com.annulusgames.lit-motion": "https://github.com/annulusgames/LitMotion.git?path=src/LitMotion/Assets/LitMotion",
-    "com.rhkasper.rk-unity-toolkit": "file:C:/repos/com.rhkasper.rk-unity-toolkit",
+    "com.rhkasper.rk-unity-toolkit": "https://github.com/RHKasper/com.rhkasper.rk-unity-toolkit.git",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.ai.navigation": "2.0.5",
     "com.unity.collab-proxy": "2.6.0",
