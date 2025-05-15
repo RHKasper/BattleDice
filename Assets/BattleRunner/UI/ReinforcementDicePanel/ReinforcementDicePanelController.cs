@@ -8,22 +8,26 @@ namespace BattleRunner.UI.ReinforcementDicePanel
 {
     public class ReinforcementDicePanelController : MonoBehaviour
     {
-        [SerializeField] private RectTransform rectTransform;
+        [SerializeField] private RectTransform diceImagesParent;
+        [SerializeField] private GridLayoutGroup gridLayoutGroup;
         [SerializeField] private Image dieImagePrefab;
 
         private List<Image> _images = new();
+        private int _minDiceAcross = 4;
         
         public void ShowReinforcementDice(int diceCount, int playerIndex)
         {
             Sprite dieSprite = Resources.Load<Sprite>(Constants.GetThreeQuartersDieSpritesPathFromResources(playerIndex));
             int maxIndex = Mathf.Max(diceCount, _images.Count);
+            float diceImagesRectArea = diceImagesParent.rect.height * diceImagesParent.rect.width;
+            float cellSize = Mathf.Min(Mathf.Sqrt(diceImagesRectArea / maxIndex), diceImagesParent.rect.width / _minDiceAcross);
+            gridLayoutGroup.cellSize = new Vector2(cellSize, cellSize);
 
             for (int i = 0; i < maxIndex; i++)
             {
                 if (i >= _images.Count)
                 {
-                    _images.Add(Instantiate(dieImagePrefab, transform));
-                    _images[i].rectTransform.sizeDelta = new Vector2(rectTransform.rect.size.y, rectTransform.rect.size.y);
+                    _images.Add(Instantiate(dieImagePrefab, diceImagesParent));
                 }
                 
                 if (i < diceCount)

@@ -40,6 +40,7 @@ namespace BattleRunner
             startGameButton.gameObject.SetActive(true);
             endTurnButton.gameObject.SetActive(false);
             attackRollsPanel.gameObject.SetActive(false);
+            reinforcementDicePanel.gameObject.SetActive(false);
             gameOverUi.gameObject.SetActive(false);
             
             // todo: maybe remove this?
@@ -54,6 +55,7 @@ namespace BattleRunner
             Battle.RollingAttack += OnRollingAttack;
             Battle.ApplyingReinforcements += OnApplyingReinforcements;
             Battle.AppliedReinforcementDie += OnAppliedReinforcementDie;
+            Battle.TurnEnded += OnTurnEnded;
             Battle.GameEnded += OnGameEnded;
             
             // Link nodes to node visuals
@@ -204,6 +206,7 @@ namespace BattleRunner
         {
             UserCueSequencer.EnqueueCueWithDelayAfter(() =>
             {
+                reinforcementDicePanel.gameObject.SetActive(true);
                 reinforcementDicePanel.ShowReinforcementDice(e.NumReinforcements, e.PlayerIndex);
             }, nameof(BattleRunnerController) + "." + nameof(OnApplyingReinforcements));
         }
@@ -218,6 +221,11 @@ namespace BattleRunner
             }, nameof(BattleRunnerController) + "." + nameof(OnAppliedReinforcementDie));
         }
 
+        private void OnTurnEnded(object sender, BattleEvents.TurnEndedArgs e)
+        {
+            UserCueSequencer.EnqueueCueWithNoDelay(() => reinforcementDicePanel.gameObject.SetActive(false), "Hide reinforcements panel");
+        }
+        
         private void OnGameEnded(object sender, BattleEvents.GameEndedArgs e)
         {
             UserCueSequencer.EnqueueCueWithDelayBefore(() =>
