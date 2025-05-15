@@ -15,13 +15,18 @@ namespace BattleRunner.UI.ReinforcementDicePanel
         private List<Image> _images = new();
         private int _minDiceAcross = 4;
         
-        public void ShowReinforcementDice(int diceCount, int playerIndex)
+        public void ShowReinforcementDice(int diceCount, int playerIndex, bool leaveCellSizeUnchanged = false)
         {
             Sprite dieSprite = Resources.Load<Sprite>(Constants.GetThreeQuartersDieSpritesPathFromResources(playerIndex));
             int maxIndex = Mathf.Max(diceCount, _images.Count);
-            float diceImagesRectArea = diceImagesParent.rect.height * diceImagesParent.rect.width;
-            float cellSize = Mathf.Min(Mathf.Sqrt((int)(diceImagesRectArea * .85f / diceCount)), diceImagesParent.rect.width / _minDiceAcross);
-            gridLayoutGroup.cellSize = new Vector2(cellSize, cellSize);
+            
+            gridLayoutGroup.enabled = !leaveCellSizeUnchanged;
+            if (!leaveCellSizeUnchanged)
+            {
+                float diceImagesRectArea = diceImagesParent.rect.height * diceImagesParent.rect.width;
+                float cellSize = Mathf.Min(Mathf.Sqrt((int)(diceImagesRectArea * .85f / diceCount)), diceImagesParent.rect.width / _minDiceAcross);
+                gridLayoutGroup.cellSize = new Vector2(cellSize, cellSize);
+            }
 
             for (int i = 0; i < maxIndex; i++)
             {
