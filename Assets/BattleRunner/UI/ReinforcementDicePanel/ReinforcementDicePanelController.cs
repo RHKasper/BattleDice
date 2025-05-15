@@ -20,7 +20,7 @@ namespace BattleRunner.UI.ReinforcementDicePanel
             Sprite dieSprite = Resources.Load<Sprite>(Constants.GetThreeQuartersDieSpritesPathFromResources(playerIndex));
             int maxIndex = Mathf.Max(diceCount, _images.Count);
             float diceImagesRectArea = diceImagesParent.rect.height * diceImagesParent.rect.width;
-            float cellSize = Mathf.Min(Mathf.Sqrt(diceImagesRectArea / maxIndex), diceImagesParent.rect.width / _minDiceAcross);
+            float cellSize = Mathf.Min(Mathf.Sqrt((int)(diceImagesRectArea * .85f / diceCount)), diceImagesParent.rect.width / _minDiceAcross);
             gridLayoutGroup.cellSize = new Vector2(cellSize, cellSize);
 
             for (int i = 0; i < maxIndex; i++)
@@ -41,5 +41,20 @@ namespace BattleRunner.UI.ReinforcementDicePanel
                 }
             }
         }
+
+        [ContextMenu("Test25")]
+        private void Test25() => ShowReinforcementDice(25, 0);
+        
+        [ContextMenu("Test50")]
+        private void Test50() => ShowReinforcementDice(50, 0);
+        
+        [ContextMenu("Test75")]
+        private void Test75() => ShowReinforcementDice(75, 0);
+        
+        [ContextMenu("Test100")]
+        private void Test100() => ShowReinforcementDice(100, 0);
+        
+        [ContextMenu("Test125")]
+        private void Test125() => ShowReinforcementDice(125, 0);
     }
 }
