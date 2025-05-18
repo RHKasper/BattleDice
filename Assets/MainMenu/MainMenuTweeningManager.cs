@@ -11,6 +11,8 @@ namespace MainMenu
 {
     public class MainMenuTweeningManager : MonoBehaviour
     {
+        [SerializeField] private bool quickStart;
+        
         [SerializeField] private RectTransform menuButtonsTweenedRect;
         [SerializeField] private RectTransform menuScreenInitialTweenRect;
         [SerializeField] private RectTransform menuScreenPartiallyExpandedTweenRect;
@@ -30,7 +32,7 @@ namespace MainMenu
         private float _origSpacing;
         
         private ScreenState _currentTargetState = ScreenState.Default;
-        private ScreenState _desiredState = ScreenState.Maps;
+        private ScreenState _desiredState = ScreenState.Default;
 
         private Awaitable _lastTween;
         
@@ -40,6 +42,11 @@ namespace MainMenu
             _origAnchorMax = rectTransform.anchorMax;
             _origAnchoredPos = rectTransform.anchoredPosition;
             _origSpacing = verticalLayoutGroup.spacing;
+
+            if (quickStart)
+            {
+                SetDesiredScreenState(ScreenState.Maps);
+            }
         }
 
         private void Update()
