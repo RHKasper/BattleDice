@@ -82,7 +82,7 @@ namespace GlobalScripts.EditorTools.DiceImageGenerator
                 var playerColor = Constants.Colors[playerIndex];
                 threeQuartersD6.ApplyBodyColor(playerColor);
                 yield return null;
-                CaptureImage(threeQuartersCamera, ImageResolution, ImageResolution, Constants.GetThreeQuartersSpriteFilePath(playerIndex));
+                threeQuartersCamera.CaptureImage(ImageResolution, ImageResolution, Constants.GetThreeQuartersSpriteFilePath(playerIndex));
             }
 
             threeQuartersCamera.gameObject.SetActive(false);
@@ -103,7 +103,7 @@ namespace GlobalScripts.EditorTools.DiceImageGenerator
                     FaceObjects[faceIndex].ApplyBodyColor(playerColor);
                     yield return null;
 
-                    CaptureImage(orthoFacesCamera, ImageResolution, ImageResolution, Constants.GetFaceSpriteFilePath(playerIndex, faceIndex + 1));
+                    orthoFacesCamera.CaptureImage(ImageResolution, ImageResolution, Constants.GetFaceSpriteFilePath(playerIndex, faceIndex + 1));
 
                     FaceObjects[faceIndex].gameObject.SetActive(false);
                 }
@@ -128,7 +128,7 @@ namespace GlobalScripts.EditorTools.DiceImageGenerator
                         stackDice[j].ApplyBodyColor(playerColor);
                         stackDice[j].gameObject.SetActive(j < i + 1);
                         yield return null;
-                        CaptureImage(dieStacksCamera, ImageResolution, ImageResolution, Constants.GetDieStackSpriteFilePath(playerIndex, i + 1));
+                        dieStacksCamera.CaptureImage(ImageResolution, ImageResolution, Constants.GetDieStackSpriteFilePath(playerIndex, i + 1));
                     }
                 }
             }
@@ -140,45 +140,6 @@ namespace GlobalScripts.EditorTools.DiceImageGenerator
             }
             
             AssetDatabase.Refresh();
-        }
-        
-        public static void CaptureImage(Camera camera, int width, int height, string filePath)
-        {
-            // Set the camera's clear flags and background color
-            camera.clearFlags = CameraClearFlags.SolidColor;
-            camera.backgroundColor = new Color(0, 0, 0, 0); // Fully transparent
-
-            // Create a RenderTexture with the desired resolution and support for transparency
-            RenderTexture renderTexture = new RenderTexture(width, height, 24, RenderTextureFormat.ARGB32);
-
-            // Assign the RenderTexture to the camera
-            RenderTexture originalTexture = camera.targetTexture;
-            camera.targetTexture = renderTexture;
-
-            // Render the camera's output to the RenderTexture
-            camera.Render();
-
-            // Create a new Texture2D to store the rendered image
-            Texture2D screenshot = new Texture2D(width, height, TextureFormat.RGBA32, false);
-
-            // Read the RenderTexture into the Texture2D
-            RenderTexture.active = renderTexture;
-            screenshot.ReadPixels(new Rect(0, 0, width, height), 0, 0);
-            screenshot.Apply();
-
-            // Reset the RenderTexture
-            RenderTexture.active = null;
-            camera.targetTexture = originalTexture;
-
-            // Encode the Texture2D to a PNG
-            byte[] pngData = screenshot.EncodeToPNG();
-
-            // Save the PNG file to the specified path
-            File.WriteAllBytes(filePath, pngData);
-
-            // Cleanup
-            Destroy(renderTexture);
-            Destroy(screenshot);
         }
     }
 }
