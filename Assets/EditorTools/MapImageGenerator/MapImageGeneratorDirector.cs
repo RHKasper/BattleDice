@@ -2,12 +2,10 @@
 
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using GlobalScripts;
 using GlobalScripts.EditorTools;
-using GlobalScripts.EditorTools.DiceImageGenerator;
 using Maps;
 using UnityEditor;
 using UnityEngine;
@@ -16,8 +14,6 @@ namespace EditorTools.MapImageGenerator
 {
     public class MapImageGeneratorDirector : MonoBehaviour
     {
-        private const int ImageResolution = 256;
-
         [SerializeField] private Camera camera;
         [SerializeField] private Canvas canvas;
 
@@ -36,6 +32,7 @@ namespace EditorTools.MapImageGenerator
             #if UNITY_EDITOR
             yield return CaptureMapImages(false);
             yield return CaptureMapImages(true);
+            AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
             #endif
         }
@@ -43,15 +40,24 @@ namespace EditorTools.MapImageGenerator
         private IEnumerator CaptureMapImages(bool scenarios = false)
         {
             var maps = scenarios ? BattleLoader.GetCustomScenarios().Cast<GameplayMap>() : BattleLoader.GetCustomMaps();
-
+            string dirPath = Path.Combine("Assets", "Resources", scenarios ? "ScenarioImages" : "MapImages");
+            
+            if (!Directory.Exists(dirPath))
+            {
+                Directory.CreateDirectory(dirPath);   
+            }
+            
             foreach (GameplayMap gameplayMap in maps)
             {
                 var assetPath = AssetDatabase.GetAssetPath(gameplayMap);
+                string generatedImagePath = Path.Combine(dirPath, Path.GetFileNameWithoutExtension(assetPath) + ".png");
                 var instance = Instantiate(gameplayMap, canvas.transform);
                 yield return null;
-                camera.CaptureImage(ImageResolution, ImageResolution, Path.Combine("Assets", "Resources", scenarios ? "CustomScenarios" : "CustomMaps", Path.GetFileNameWithoutExtension(assetPath) + ".png"));
-                DestroyImmediate(instance);
-                yield return null;
+                camera.CaptureImage(1920, 1080, generatedImagePath);
+                DestroyImmediate(instance.gameObject);
+                
+                gameplayMap.SetMapPreviewImage(AssetDatabase.LoadAssetAtPath<Sprite>(generatedImagePath));
+                EditorUtility.SetDirty(gameplayMap);
             }
         }
     }

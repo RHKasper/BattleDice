@@ -139,7 +139,7 @@ MonoBehaviour:
   territoriesParent: {fileID: 7823279187228217709}
   mapName: 
   mapDescription: 
-  mapPreviewImage: {fileID: 21300000, guid: 4f3cb160d148b2f43b00e1b9e92c4a63, type: 3}
+  mapPreviewImage: {fileID: 21300000, guid: 6da3407a1019f9b4eab4b39038a26dd0, type: 3}
   aiStrategies:
     _serializedList:
     - Key: 1

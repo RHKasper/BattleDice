@@ -6914,7 +6914,7 @@ MonoBehaviour:
   mapDescription: "A wide, fractured land split by lakes and rivers. Waterways slow
     movement and force creative tactics \u2014 use them to defend your forces or
     trap your enemies.  "
-  mapPreviewImage: {fileID: 21300000, guid: 22d03df86559b4efdb8971d59ccd20e1, type: 3}
+  mapPreviewImage: {fileID: 21300000, guid: e7d7ad1dd252ed24ba40f7ea34bf38b0, type: 3}
 --- !u!114 &5736524405662003770
 MonoBehaviour:
   m_ObjectHideFlags: 0

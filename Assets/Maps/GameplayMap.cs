@@ -54,6 +54,13 @@ namespace Maps
             return _territoryGameObjects[territory];
         }
 
+#if UNITY_EDITOR
+        public void SetMapPreviewImage(Sprite image)
+        {
+            mapPreviewImage = image;
+        }
+#endif
+        
         protected virtual MapNode CreateMapNode(GameplayMapNodeDefinition definition, int index)
         {
             return new MapNode(index);
