@@ -37,6 +37,7 @@ namespace BattleRunner
 
         public override void ShowNumDice(int numDice, int? ownerPlayerIndex = null)
         {
+            diceImage.gameObject.SetActive(numDice > 0);
             diceImage.sprite = Resources.Load<Sprite>(Constants.GetDieStackSpritesPathFromResources(ownerPlayerIndex ?? Territory.OwnerPlayerIndex, numDice));
         }
 
