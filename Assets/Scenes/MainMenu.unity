@@ -1169,6 +1169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0fdbb9336d046a42bca0bc7a3c28a5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  quickStart: 0
   menuButtonsTweenedRect: {fileID: 161026604}
   menuScreenInitialTweenRect: {fileID: 705394505}
   menuScreenPartiallyExpandedTweenRect: {fileID: 822622569}
