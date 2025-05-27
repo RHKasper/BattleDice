@@ -184,6 +184,7 @@ namespace BattleRunner
             
             UserCueSequencer.EnqueueCueWithNoDelay(attackRollsPanel.ShowBlank, "Show attack roll display");
             UserCueSequencer.EnqueueCueWithDelayAfter(gameObject, async () => await attackRollsPanel.RunAttackRoll(e.AttackRoll, e.AttackingPlayerId), "show attacker roll");
+            UserCueSequencer.Wait(UserCueSequencer.DefaultCueDelayMs * 3 * .001f);
             UserCueSequencer.EnqueueCueWithDelayAfter(gameObject, async () => await attackRollsPanel.RunDefenseRoll(e.DefenseRoll, e.DefendingPlayerId), "show defender roll");
             UserCueSequencer.Wait(UserCueSequencer.DefaultCueDelayMs * 3 * .001f);
             UserCueSequencer.EnqueueCueWithNoDelay(attackRollsPanel.Hide, "Hide attack roll display");

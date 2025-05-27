@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GenericsExtensions;
@@ -12,49 +13,83 @@ namespace BattleRunner.UI.RollDisplayPanel
     {
         [SerializeField] private DieRollUiController[] dieRollUiControllers;
         [SerializeField] private TwoDigitNumberDisplay resultsDisplay;
+        [SerializeField] private AudioSource audioSource;
 
+        private readonly Dictionary<int, Sprite[]> _playerIndexToDieFaceSprites = new();
+
+        private float PipChangeTimeIntervalMs => UserCueSequencer.DefaultCueDelayMs * .1f;
+        private float NumberShowDelayMs => UserCueSequencer.DefaultCueDelayMs * 2.5f;
+        
         public async Task ShowDiceRoll(int[] diceRoll, int playerIndex)
         {
-            gameObject.SetActive(true);
-            resultsDisplay.gameObject.SetActive(false);
-            
-            var dieFaceSprites = new[]
+            SetRollStartState(playerIndex, diceRoll.Length);
+            _ = PlayDieRollSounds(diceRoll.Length, GetDieRollDurationMs(diceRoll.Length) + NumberShowDelayMs);
+            await AnimateDiceRoll(diceRoll, playerIndex);
+            await DisplayDieRollResults(diceRoll, playerIndex);
+        }
+
+        private async Task DisplayDieRollResults(int[] diceRoll, int playerIndex)
+        {
+            for (int i = 0; i < diceRoll.Length; i++)
             {
-                Resources.Load<Sprite>(Constants.GetDieFaceSpritesPathFromResources(playerIndex, 1)),
-                Resources.Load<Sprite>(Constants.GetDieFaceSpritesPathFromResources(playerIndex, 2)),
-                Resources.Load<Sprite>(Constants.GetDieFaceSpritesPathFromResources(playerIndex, 3)),
-                Resources.Load<Sprite>(Constants.GetDieFaceSpritesPathFromResources(playerIndex, 4)),
-                Resources.Load<Sprite>(Constants.GetDieFaceSpritesPathFromResources(playerIndex, 5)),
-                Resources.Load<Sprite>(Constants.GetDieFaceSpritesPathFromResources(playerIndex, 6)),
-            };
-            
-            for (int i = 0; i < dieRollUiControllers.Length; i++)
-            {
-                dieRollUiControllers[i].gameObject.SetActive(i < diceRoll.Length);
+                var sprite = _playerIndexToDieFaceSprites[playerIndex][diceRoll[i] - 1];
+                dieRollUiControllers[i].ShowPips(sprite);
             }
             
-            float endTime = Time.time + .001f * UserCueSequencer.DefaultCueDelayMs * 5;
-            float pipChangeTimeIntervalMs = UserCueSequencer.DefaultCueDelayMs / 10.0f;
+            await WebGlUtil.WebGlSafeDelay(NumberShowDelayMs);
             
+            resultsDisplay.ShowNumber(diceRoll.Sum());
+            resultsDisplay.gameObject.SetActive(true);
+        }
+
+        private async Task AnimateDiceRoll(int[] diceRoll, int playerIndex)
+        {
+            float endTime = Time.time + GetDieRollDurationMs(diceRoll.Length) * .001f;
             while (Time.time < endTime)
             {
                 for (int i = 0; i < diceRoll.Length; i++)
                 {
-                    dieRollUiControllers[i].ShowPips(dieFaceSprites.GetRandom());
+                    dieRollUiControllers[i].ShowPips(_playerIndexToDieFaceSprites[playerIndex].GetRandom());
                 }
+                
+                await WebGlUtil.WebGlSafeDelay(PipChangeTimeIntervalMs);
+            }
+        }
 
-                await WebGlUtil.WebGlSafeDelay(pipChangeTimeIntervalMs);
+        private void SetRollStartState(int playerIndex, int numDice)
+        {
+            gameObject.SetActive(true);
+            resultsDisplay.gameObject.SetActive(false);
+
+            if (!_playerIndexToDieFaceSprites.ContainsKey(playerIndex))
+            {
+                _playerIndexToDieFaceSprites[playerIndex] = new[]
+                {
+                    Resources.Load<Sprite>(Constants.GetDieFaceSpritesPathFromResources(playerIndex, 1)),
+                    Resources.Load<Sprite>(Constants.GetDieFaceSpritesPathFromResources(playerIndex, 2)),
+                    Resources.Load<Sprite>(Constants.GetDieFaceSpritesPathFromResources(playerIndex, 3)),
+                    Resources.Load<Sprite>(Constants.GetDieFaceSpritesPathFromResources(playerIndex, 4)),
+                    Resources.Load<Sprite>(Constants.GetDieFaceSpritesPathFromResources(playerIndex, 5)),
+                    Resources.Load<Sprite>(Constants.GetDieFaceSpritesPathFromResources(playerIndex, 6)),
+                };
             }
             
-            for (int i = 0; i < diceRoll.Length; i++)
+            for (int i = 0; i < dieRollUiControllers.Length; i++)
             {
-                var sprite = dieFaceSprites[diceRoll[i] - 1];
-                dieRollUiControllers[i].ShowPips(sprite);
+                dieRollUiControllers[i].gameObject.SetActive(i < numDice);
             }
-
-            await WebGlUtil.WebGlSafeDelay(UserCueSequencer.DefaultCueDelayMs * 2.5f);
-            resultsDisplay.ShowNumber(diceRoll.Sum());
-            resultsDisplay.gameObject.SetActive(true);
         }
+        
+        private async Task PlayDieRollSounds(int numDiceRolled, float desiredDurationMs)
+        {
+            Debug.Log("desired duration: " + desiredDurationMs + "ms | clip length: " + audioSource.clip.length * 1000 + " ms");
+            for (int i = 0; i < numDiceRolled; i++)
+            {
+                audioSource.Play();
+                await WebGlUtil.WebGlSafeDelay(audioSource.clip.length * 1000);
+            }
+        }
+
+        private float GetDieRollDurationMs(int numDice) => audioSource.clip.length * 1000 * numDice - NumberShowDelayMs;
     }
 }
