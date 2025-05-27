@@ -25,6 +25,7 @@ namespace BattleRunner
         [SerializeField] private Button endTurnButton;
         [SerializeField] private AttackRollsPanelController attackRollsPanel;
         [SerializeField] private ReinforcementDicePanelController reinforcementDicePanel;
+        [SerializeField] private BattleRunnerSoundsManager soundsManager;
         
         private bool _battleStarted;
         private bool _battleEnded;
@@ -199,6 +200,15 @@ namespace BattleRunner
                 
                 defendingTerritoryVisualController.BeingAttacked = false;
                 defendingTerritoryVisualController.UpdateState();
+
+                if (defendingTerritoryVisualController.Territory.OwnerPlayerIndex == e.AttackingPlayerId)
+                {
+                    soundsManager.PlayAttackSucceededSound();
+                }
+                else
+                {
+                    soundsManager.PlayAttackFailedSound();
+                }
                 
             }, "Show Attack Results");
         }
