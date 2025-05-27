@@ -208,11 +208,30 @@ namespace BattleRunner
 
                 if (defendingTerritoryVisualController.Territory.OwnerPlayerIndex == e.AttackingPlayerId)
                 {
-                    soundsManager.PlayAttackSucceededSound();
+                    if (Battle.Map.GetNumTerritoriesOwnedByPlayer(e.DefendingPlayerId) == 0)
+                    {
+                        soundsManager.PlayEnemyEliminatedSound();
+                        if (Battle.ActivePlayer.IsAiPlayer)
+                        {
+                            UserCueSequencer.Wait(soundsManager.GetEnemyEliminatedLengthSeconds());
+                        }
+                    }
+                    else
+                    {
+                        soundsManager.PlayAttackSucceededSound();
+                        if (Battle.ActivePlayer.IsAiPlayer)
+                        {
+                            UserCueSequencer.Wait(soundsManager.GetAttackSucceededLengthSeconds());
+                        }
+                    }
                 }
                 else
                 {
                     soundsManager.PlayAttackFailedSound();
+                    if (Battle.ActivePlayer.IsAiPlayer)
+                    {
+                        UserCueSequencer.Wait(soundsManager.GetAttackFailedLengthSeconds());
+                    }
                 }
                 
             }, "Show Attack Results");
