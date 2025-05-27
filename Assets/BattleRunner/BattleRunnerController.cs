@@ -104,20 +104,25 @@ namespace BattleRunner
         {
             if (SelectedTerritory != null)
             {
-                DeselectTerritory();
+                DeselectTerritory(true);
             }
             
             SelectedTerritory = territory;
             territory.UpdateState();
+            soundsManager.PlaySelectSound();
             SelectedTerritoryChanged?.Invoke();
         }
         
-        public void DeselectTerritory()
+        public void DeselectTerritory(bool dontPlaySound = false)
         {
             if (SelectedTerritory)
             {
                 SelectedTerritory.UpdateState();
                 SelectedTerritory = null;
+                if (!dontPlaySound)
+                {
+                    soundsManager.PlayDeselectSound();
+                }
                 SelectedTerritoryChanged?.Invoke();
             }
         }
@@ -192,7 +197,7 @@ namespace BattleRunner
             
             UserCueSequencer.EnqueueCueWithNoDelay(() =>
             {
-                DeselectTerritory();
+                DeselectTerritory(true);
                 attackRollsPanel.Hide();
                 
                 attackingTerritoryVisualController.Attacking = false;

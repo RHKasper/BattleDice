@@ -28,7 +28,6 @@ namespace BattleRunner
         [SerializeField] List<Graphic> darkColorTintGraphics;
         
         
-        
         protected override void OnInitialize()
         {
             SetState(State.Normal);
