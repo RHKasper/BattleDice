@@ -13,7 +13,7 @@ namespace BattleRunner.UI.RollDisplayPanel
     {
         [SerializeField] private DieRollUiController[] dieRollUiControllers;
         [SerializeField] private TwoDigitNumberDisplay resultsDisplay;
-        [SerializeField] private AudioSource audioSource;
+        [SerializeField] private BattleRunnerSoundsManager soundsManager;
 
         private readonly Dictionary<int, Sprite[]> _playerIndexToDieFaceSprites = new();
 
@@ -82,14 +82,13 @@ namespace BattleRunner.UI.RollDisplayPanel
         
         private async Task PlayDieRollSounds(int numDiceRolled, float desiredDurationMs)
         {
-            Debug.Log("desired duration: " + desiredDurationMs + "ms | clip length: " + audioSource.clip.length * 1000 + " ms");
             for (int i = 0; i < numDiceRolled; i++)
             {
-                audioSource.Play();
-                await WebGlUtil.WebGlSafeDelay(audioSource.clip.length * 1000);
+                soundsManager.PlayDieRollSound();
+                await WebGlUtil.WebGlSafeDelay(soundsManager.GetDieRollLengthSeconds() * 1000);
             }
         }
 
-        private float GetDieRollDurationMs(int numDice) => audioSource.clip.length * 1000 * numDice - NumberShowDelayMs;
+        private float GetDieRollDurationMs(int numDice) => soundsManager.GetDieRollLengthSeconds() * 1000 * numDice - NumberShowDelayMs;
     }
 }
