@@ -5,6 +5,7 @@ namespace BattleRunner
     public class BattleRunnerSoundsManager : MonoBehaviour
     {
         [SerializeField] private AudioSource dieRoll;
+        [SerializeField] private AudioSource reinforcementDie;
         [SerializeField] private AudioSource attackSucceeded;
         [SerializeField] private AudioSource attackFailed;
         [SerializeField] private AudioSource select;
@@ -12,6 +13,7 @@ namespace BattleRunner
         [SerializeField] private AudioSource enemyEliminatedSound;
 
         public void PlayDieRollSound() => dieRoll.Play();
+        public void PlayReinforcementDieSound() => reinforcementDie.Play();
         public void PlayAttackSucceededSound() => attackSucceeded.Play();
         public void PlayAttackFailedSound() => attackFailed.Play();
         public void PlaySelectSound() => select.Play();
@@ -19,6 +21,7 @@ namespace BattleRunner
         public void PlayEnemyEliminatedSound() => enemyEliminatedSound.Play();
 
         public float GetDieRollLengthSeconds() => dieRoll.clip.length;
+        public float GetReinforcementDieLengthSeconds() => reinforcementDie.clip.length;
         public float GetAttackSucceededLengthSeconds() => attackSucceeded.clip.length;
         public float GetAttackFailedLengthSeconds() => attackFailed.clip.length;
         public float GetEnemyEliminatedLengthSeconds() => enemyEliminatedSound.clip.length;

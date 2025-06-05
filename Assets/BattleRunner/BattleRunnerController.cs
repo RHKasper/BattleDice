@@ -252,6 +252,7 @@ namespace BattleRunner
             {
                 var territoryVisualController = GameplayMap.GetTerritoryGameObject(e.Territory).GetComponent<TerritoryVisualControllerBase>();
                 territoryVisualController.ShowNumDice(e.CurrentNumDice);
+                soundsManager.PlayReinforcementDieSound();
                 reinforcementDicePanel.ShowReinforcementDice(e.NumReinforcementsLeftUnapplied, e.Territory.OwnerPlayerIndex, true);
             }, nameof(BattleRunnerController) + "." + nameof(OnAppliedReinforcementDie));
         }
