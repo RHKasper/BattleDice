@@ -54,6 +54,7 @@ namespace BattleRunner
             // Construct data model battle
             Battle = BattleLoader.ConstructBattle(GameplayMap);
             Battle.RollingAttack += OnRollingAttack;
+            Battle.PlayerEliminated += OnPlayerEliminated;
             Battle.ApplyingReinforcements += OnApplyingReinforcements;
             Battle.AppliedReinforcementDie += OnAppliedReinforcementDie;
             Battle.TurnEnded += OnTurnEnded;
@@ -175,6 +176,21 @@ namespace BattleRunner
             }
         }
         
+        private void OnPlayerEliminated(object sender, BattleEvents.PlayerEliminatedArgs e)
+        {
+            UserCueSequencer.EnqueueCueWithNoDelay(() =>
+            {
+                if (Battle.Players[e.EliminatedPlayerIndex].IsLocalHumanPlayer)
+                {
+                    soundsManager.PlayDefeatSound();
+                }
+                else
+                {
+                    soundsManager.PlayEnemyEliminatedSound();
+                }
+            }, "Play player elimination sounds (if necessary)");
+        }
+        
         private void OnRollingAttack(object sender, BattleEvents.RollingAttackArgs e)
         {
             var attackingTerritoryVisualController = GameplayMap.GetTerritoryVisualController(e.AttackingTerritory);
@@ -260,6 +276,13 @@ namespace BattleRunner
         private void OnTurnEnded(object sender, BattleEvents.TurnEndedArgs e)
         {
             UserCueSequencer.EnqueueCueWithNoDelay(() => reinforcementDicePanel.gameObject.SetActive(false), "Hide reinforcements panel");
+            UserCueSequencer.EnqueueCueWithDelayBefore(() =>
+            {
+                if (Battle.Players[e.NewActivePlayerIndex].IsLocalHumanPlayer)
+                {
+                    soundsManager.PlayPlayerTurnStartSound();
+                }
+            }, "play local human player turn start sound");
         }
         
         private void OnGameEnded(object sender, BattleEvents.GameEndedArgs e)
@@ -270,7 +293,12 @@ namespace BattleRunner
                 endTurnButton.gameObject.SetActive(false);
                 Debug.Log("Game won by " + e.WinningPlayerIndex);
                 gameOverUi.SetActive(true);
-                gameOverUi.GetComponentInChildren<TextMeshProUGUI>().SetText("Game won by " + e.WinningPlayerIndex);    
+                gameOverUi.GetComponentInChildren<TextMeshProUGUI>().SetText("Game won by " + e.WinningPlayerIndex);
+
+                if (Battle.Players[e.WinningPlayerIndex].IsLocalHumanPlayer)
+                {
+                    soundsManager.PlayVictorySound();
+                }
             }, "Handle Game End");
             
         }

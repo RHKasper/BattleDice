@@ -9,6 +9,7 @@ namespace BattleDataModel
         public bool Eliminated { get; internal set; }
         [CanBeNull] public AiPlayerStrategyBase AiStrategy { get; }
         public bool IsAiPlayer => AiStrategy != null;
+        public bool IsLocalHumanPlayer => !IsAiPlayer;
 
         public Player(int playerIndex, [CanBeNull] AiPlayerStrategyBase aiStrategy = null)
         {
