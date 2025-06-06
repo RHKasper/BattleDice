@@ -224,15 +224,7 @@ namespace BattleRunner
 
                 if (defendingTerritoryVisualController.Territory.OwnerPlayerIndex == e.AttackingPlayerId)
                 {
-                    if (Battle.Map.GetNumTerritoriesOwnedByPlayer(e.DefendingPlayerId) == 0)
-                    {
-                        soundsManager.PlayEnemyEliminatedSound();
-                        if (Battle.ActivePlayer.IsAiPlayer)
-                        {
-                            UserCueSequencer.Wait(soundsManager.GetEnemyEliminatedLengthSeconds());
-                        }
-                    }
-                    else
+                    if (Battle.Map.GetNumTerritoriesOwnedByPlayer(e.DefendingPlayerId) > 0)
                     {
                         soundsManager.PlayAttackSucceededSound();
                         if (Battle.ActivePlayer.IsAiPlayer)
