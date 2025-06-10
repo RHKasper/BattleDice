@@ -285,7 +285,6 @@ namespace BattleRunner
                 endTurnButton.gameObject.SetActive(false);
                 Debug.Log("Game won by " + e.WinningPlayerIndex);
                 gameOverUi.SetActive(true);
-                gameOverUi.GetComponentInChildren<TextMeshProUGUI>().SetText("Game won by " + e.WinningPlayerIndex);
 
                 if (Battle.Players[e.WinningPlayerIndex].IsLocalHumanPlayer)
                 {

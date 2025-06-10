@@ -543,7 +543,7 @@ PrefabInstance:
     - target: {fileID: 5684995899572412601, guid: 2b0983f9b981ffb45b9b0b33f2ee9e6c, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 55f9c17ac358a4c119fcda6e5be80a15, type: 3}
+      objectReference: {fileID: 21300000, guid: 5a538472bc4774c64b48cbeb930692ac, type: 3}
     - target: {fileID: 5736524405662003770, guid: 2b0983f9b981ffb45b9b0b33f2ee9e6c, type: 3}
       propertyPath: activeMap
       value: 
@@ -707,7 +707,7 @@ PrefabInstance:
     - target: {fileID: 8334670623084939786, guid: 2b0983f9b981ffb45b9b0b33f2ee9e6c, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 316c76574b3b44eceb0d10178ecd96a3, type: 3}
+      objectReference: {fileID: 21300000, guid: c679f919d090e4d89baa671beb9bf173, type: 3}
     - target: {fileID: 8615176796913064302, guid: 2b0983f9b981ffb45b9b0b33f2ee9e6c, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -977,7 +977,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ownerPlayerIndex: 0
-  numDice: 4
+  numDice: 8
 --- !u!1 &5740946883449017986 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7733898038007233662, guid: 2b0983f9b981ffb45b9b0b33f2ee9e6c, type: 3}
@@ -1196,7 +1196,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ownerPlayerIndex: 3
-  numDice: 1
+  numDice: 4
 --- !u!224 &8424800544522367129 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5770594334942059109, guid: 2b0983f9b981ffb45b9b0b33f2ee9e6c, type: 3}
