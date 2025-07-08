@@ -16,9 +16,25 @@ namespace Maps
         private Dictionary<MapNode, GameObject> _territoryGameObjects = new();
         
         public RectTransform RectTransform => GetComponent<RectTransform>();
-        public string MapName => string.IsNullOrWhiteSpace(mapName) ? gameObject.name : mapName;
         public string MapDescription => string.IsNullOrWhiteSpace(mapDescription) ? "<no description>" : mapDescription;
         public Sprite MapPreviewImage => mapPreviewImage;
+        public string MapName
+        {
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(mapName))
+                {
+                    return mapName;
+                }
+                
+                if (this is GameplayScenario scenario)
+                {
+                    throw new Exception("GameplayScenario must have explicit name for saving progress");
+                }
+
+                return gameObject.name;
+            }
+        }
 
         public Map GenerateMapData()
         {

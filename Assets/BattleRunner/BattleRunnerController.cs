@@ -289,6 +289,10 @@ namespace BattleRunner
                 if (Battle.Players[e.WinningPlayerIndex].IsLocalHumanPlayer)
                 {
                     soundsManager.PlayVictorySound();
+                    if (GameplayMap is GameplayScenario scenario)
+                    {
+                        ScenarioSequenceSo.TrackScenarioBeaten(scenario);
+                    }
                 }
             }, "Handle Game End");
             

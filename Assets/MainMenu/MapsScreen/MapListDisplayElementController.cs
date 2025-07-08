@@ -37,7 +37,6 @@ namespace MainMenu.MapsScreen
         
         protected override void OnDataSet(GameplayMap data)
         {
-            var instance = ScenarioSequenceSo.Instance.ScenariosInOrder;
             mapNameText.text = data.MapName;
             lockImage.enabled = data is GameplayScenario scenario && !ScenarioSequenceSo.Instance.IsUnlocked(scenario);
             toggle.interactable = !lockImage.enabled;

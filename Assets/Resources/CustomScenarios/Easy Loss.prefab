@@ -1167,7 +1167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   territoriesParent: {fileID: 8424800544522367129}
-  mapName: 
+  mapName: Easy Loss
   mapDescription: 
   mapPreviewImage: {fileID: 21300000, guid: 7e936803edf72984dbcfdbf56f8e5817, type: 3}
   aiStrategies:
