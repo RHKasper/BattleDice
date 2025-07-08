@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2d484f2ac2f4d569f5aadede8308e87, type: 3}
+  m_Name: ScenarioSequenceSo
+  m_EditorClassIdentifier: 
+  scenariosInOrder:
+  - {fileID: 5406545169933622890, guid: 9f1f88bafa06cff4db09da594f8f20b1, type: 3}
+  - {fileID: 5406545169933622890, guid: b2d25dfcf79f6c648b6e4a44d093a7dd, type: 3}
+  - {fileID: 2855792996356344029, guid: e8352011f0e57a040a30335a72a5c352, type: 3}
+  - {fileID: 5406545169933622890, guid: b251cdb34e5642442be1bae65fa476d8, type: 3}
+  - {fileID: 2855792996356344029, guid: 7951a96aec9c829409a7f749d4240ac9, type: 3}

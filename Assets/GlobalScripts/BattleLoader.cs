@@ -76,7 +76,7 @@ namespace GlobalScripts
         
         public static List<GameplayScenario> GetCustomScenarios()
         {
-            return Resources.LoadAll<GameplayScenario>(GameplayScenariosResourcesFolder).ToList();
+            return ScenarioSequenceSo.Instance.ScenariosInOrder.ToList();
         }
 
         public static Player GetHumanPlayer()
