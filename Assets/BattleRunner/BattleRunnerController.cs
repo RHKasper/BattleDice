@@ -49,7 +49,7 @@ namespace BattleRunner
             
             // Instantiate selected map
             GameplayMap = Instantiate(BattleLoader.SelectedMapPrefab, mapRoot.transform);
-            GameplayMap.RectTransform.anchoredPosition = Vector2.zero;
+            GameplayMap.RectTransform.anchoredPosition = new Vector2(0, 50);
             
             // Construct data model battle
             Battle = BattleLoader.ConstructBattle(GameplayMap);
